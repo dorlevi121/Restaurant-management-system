@@ -1,14 +1,22 @@
 import React, {Component} from "react";
 import orderStyle from './Order.module.scss';
+import Dishes from "../../../components/Dishes/Dishes";
+
 
 class Order extends Component {
 
-    render () {
+    render() {
 
-        return(
-            <div>
-
+        return (
+            <div className={orderStyle.order}>
+                <div className={orderStyle.order_dishes}>
+                    <div className={orderStyle.order_dishes_dish}>
+                    </div>
+                    <Dishes/>
+                </div>
             </div>
         );
     }
 }
+
+export default Order;

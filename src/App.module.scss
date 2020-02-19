@@ -1,4 +1,56 @@
 .app {
-  background-color: aqua;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+
+  .header {
+    height: 10%;
+    display: flex;
+    align-items: center;
+
+
+    &_logo {
+
+      & img {
+        height: 30%;
+        width: 30%;
+      }
+    }
+
+
+  &_pageName {
+
+  }
 
 }
+
+.appBody {
+  display: flex;
+  margin: 10px;
+  padding-right: 30px;
+
+  border-style: solid;
+  border-width: 2px;
+
+  &_navigation {
+    margin: 5px;
+    padding: 10px;
+
+
+    &_item {
+
+    }
+  }
+
+  &_mainContent {
+    margin: 0 auto;
+    width: 80%;
+    height: 60vh;
+    padding: 5px;
+
+  }
+}
+
+}
+

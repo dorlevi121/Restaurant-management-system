@@ -1,0 +1,20 @@
+.dishes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &_arrow {
+    align-self: auto;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: .5;
+    order: unset;
+    transition: all .3s;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &_content {
+
+  }
+}

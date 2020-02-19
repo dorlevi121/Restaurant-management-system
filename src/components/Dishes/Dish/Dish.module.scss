@@ -1,0 +1,11 @@
+.dish {
+
+  & img {
+    width: 250px;
+  }
+
+  &_content {
+    border-style: solid;
+    border-width: 1px;
+  }
+}
