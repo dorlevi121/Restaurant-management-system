@@ -1,4 +1,4 @@
-import Ingredients from "../../components/Ingredients";
+import IngredientsModel from "../../models/system/Ingredients.model";
 import burgerImg from '../dishesImg/burger.png';
 import pizzaImg from '../dishesImg/pizza.png';
 

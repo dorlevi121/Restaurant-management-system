@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import orderStyle from './Order.module.scss';
-import Dishes from "../../../components/Dishes/Dishes";
+import Dishes from "../../shared/Dishes/Dishes";
 
 
 class Order extends Component {

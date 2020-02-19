@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import allDishes from '../../assets/dishes/allDishes';
+import allDishes from '../../../assets/dishes/allDishes';
 import dishesStyle from './Dishes.module.scss';
 import Dish from "./Dish/Dish";
 

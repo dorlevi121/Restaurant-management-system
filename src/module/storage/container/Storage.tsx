@@ -12,3 +12,5 @@ class Storage extends Component {
         );
     }
 }
+
+export default Storage;

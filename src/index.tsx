@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 //redux
 import {createStore} from "redux";
 import {Provider} from 'react-redux';
-import dashboard from './store/Dashboard/reducers/DashboardReducer';
+import dashboard from './store/Dashboard/reducer/dashboard.reducer';
 
 //const store = createStore(dashboard);
 
