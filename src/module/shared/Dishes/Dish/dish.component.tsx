@@ -8,7 +8,6 @@ interface Props {
 }
 
 const DishComponent: React.FC<Props> = (props) => {
-
     return (
         <div className={dishStyle.dish}>
             <div>

@@ -3,5 +3,5 @@ import {OrderState} from "../Order/order.types";
 
 export const addNewOrderToQueue = (state: sharedState, newOrder: OrderState) => {
     return {...state,
-        ordersInQueue: [...state.ordersInQueue, newOrder], newOrder: state.ordersNumber+1}
+        ordersInQueue: [...state.ordersInQueue, newOrder], ordersNumber: state.ordersNumber+1}
 }

@@ -14,7 +14,6 @@ class Order extends Component <PropsFromRedux>{
 
     addNewOrderToQueue = (dishId:number):void => {
         const dish = menu[dishId];
-
         const order: OrderState = {
             id: this.props.ordersNumber,
             dish: dish,
