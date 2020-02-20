@@ -1,43 +1,54 @@
-import React from "react";
+import React, {useState} from "react";
 import queueStyle from './queue.module.scss';
 
-import {DashboardState} from "../../../../store/Dashboard/dashboard.types";
-import {Dispatch} from "redux";
 import {OrderState} from "../../../../store/Order/order.types";
-import {addOrderToQueue} from "../../../../store/Dashboard/dashboard.dispatch";
-import {connect, ConnectedProps} from "react-redux";
-import Modal from "../../../../models/UI/modal/modal";
+import {numberOfDashboards} from "../../../../config/config";
+
 
 interface Props {
-    queueNumber?: number
+    ordersList: OrderState[],
+    orderId: (id: number) => void
 }
 
-const queue: React.FC<PropsFromRedux & Props> = (props) => {
+const Queue: React.FC<Props> = (props) => {
+
+    const [queues, initQueues] = useState(orderedQueue(props.ordersList));
     return (
         <div className={queueStyle.queue}>
-            <Modal/>
-            <div className={queueStyle.name}>Queue number {props.queueNumber}:</div>
-            {/*{props.ordersInQueue.map(order => {*/}
-            {/*    return(*/}
-            {/*        <div className={queueStyle.circle}>{order.id}</div>*/}
-            {/*    )*/}
-            {/*})}*/}
+            {queues.map((queue: OrderState[], index: number) => {
+                return (
+                    <div key={index}>
+                        <div  className={queueStyle.name}>Queue number {index} :</div>
+                        {queue.map((order: OrderState, index: number) => {
+                            return (
+                                <div onClick={() => props.orderId(order.id)} key={index} className={queueStyle.circle}>{order.id}</div>
+                            )
+                        })}
+                    </div>
+                )
+            })}
         </div>
     );
 }
 
-const mapStateToProps = (state: DashboardState) => {
-    return {
+
+
+const orderedQueue = (orders: OrderState[]) => {
+    let queues = Array(numberOfDashboards).fill(Array(0)); //Array of arrays
+    let count = 0; //Represent queue number
+    let indexInArray = 0; //Represent the position in the queue
+    for (let i = 0; i < orders.length; i++) {
+        if (count === numberOfDashboards) {
+            count = 0;
+            indexInArray++;
+        }
+        let copyAllArr = [...queues];
+        let copyInnerArr = [...copyAllArr[count]];
+        copyInnerArr[indexInArray] = orders[i];
+        copyAllArr[count++] = copyInnerArr;
+        queues = copyAllArr;
     }
+    return queues;
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        addOrderToQueue: (order: OrderState) => addOrderToQueue(order, dispatch)
-    }
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-export default connector(queue);
+export default Queue;

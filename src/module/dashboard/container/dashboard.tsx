@@ -1,23 +1,29 @@
 import React, {Component} from "react";
-import dashboardStyle from './Dashboard.module.scss';
 import {connect, ConnectedProps} from "react-redux";
-
-import {DashboardState} from "../../../store/Dashboard/dashboard.types";
 import {ordersInQueue} from "../../../store/shared/shared.selectors";
 import {OrderState} from "../../../store/Order/order.types";
 import {Dispatch} from "redux";
 import {addOrderToQueue} from "../../../store/Dashboard/dashboard.dispatch";
-import Queue from '../component/queue/queue';
-import Modal from '../../../models/UI/modal/modal';
 import {sharedState} from "../../../store/shared/shared.types";
+import Queue from '../component/queue/queue';
+import Modal from "../../../models/UI/modal/modal";
 
-class Dashboard extends Component<PropsFromRedux > {
+
+class Dashboard extends Component<PropsFromRedux> {
+
+    state = {
+        showModal: false
+    }
+    orderInfo = (orderId: number) => {
+        console.log(orderId)
+    }
+
 
     render() {
-        console.log(this.props.ordersInQueue)
         return (
-            <div >
-                <Queue queueNumber={1}/>
+            <div>
+                <Modal/>
+                <Queue ordersList={this.props.ordersInQueue} orderId={this.orderInfo}/>
             </div>
         );
     }
@@ -31,7 +37,7 @@ const mapStateToProps = (state: sharedState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        addOrderToQueue: (order:OrderState) => addOrderToQueue(order, dispatch)
+        addOrderToQueue: (order: OrderState) => addOrderToQueue(order, dispatch)
     }
 }
 

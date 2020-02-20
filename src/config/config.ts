@@ -1,1 +1,1 @@
-export const numberOfDashboards = 3;
+export const numberOfDashboards:number = 3;

@@ -8,7 +8,6 @@ interface Props {
 const modal: React.FC <Props> = (props) => {
     return(
         <div id="myModal" className="modal">
-
             <div className={modalStyle.modal}>
                 <div className={modalStyle.header}>
                     <span className={modalStyle.close}>&times;</span>

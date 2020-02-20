@@ -1,9 +1,10 @@
 .queue {
-  display: flex;
+  position: relative;
   margin: 10px;
   background-color: aliceblue;
 
   .name {
+    display: inline-block;
     color: red;
     margin-right: 20px;
   }
@@ -11,9 +12,11 @@
   .circle {
     height: 25px;
     width: 25px;
+    margin: 8px;
     background-color: aqua;
     border-radius: 50%;
     display: inline-block;
+    cursor: pointer;
   }
 }
 
