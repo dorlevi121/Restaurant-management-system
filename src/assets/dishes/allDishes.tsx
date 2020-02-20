@@ -1,14 +1,15 @@
 import IngredientsModel from "../../models/system/Ingredients.model";
 import burgerImg from '../dishesImg/burger.png';
 import pizzaImg from '../dishesImg/pizza.png';
+import {Dish} from "../../models/system/dish.model";
 
-const Dishes = [
-    {name: 'Burger', Ingredients:['Tomato', 'Meat', 'Cucumber'],
-    time: 60, image: burgerImg },
+const menu: Dish[] = [
+    {title: 'Burger', ingredients:['Tomato', 'Meat', 'Cucumber'],
+    duration: 60, image: burgerImg, id:0, price:10},
 
-    {name: 'Pizza', Ingredients:['Tomato', 'Cucumber'],
-        time: 60, image: pizzaImg }
+    {title: 'Pizza', ingredients:['Tomato', 'Cucumber'],
+        duration: 60, image: pizzaImg, id:1, price: 5 }
 ];
 
 
-export default Dishes;
+export default menu;

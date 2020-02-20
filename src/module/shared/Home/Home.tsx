@@ -4,12 +4,14 @@ import logo from "../../../assets/logo/logo.png";
 import {Link} from "react-router-dom";
 import {OrderState} from "../../../store/Order/order.types";
 import Dashboard from "../../dashboard/container/dashboard";
+import Dishes from "../../../assets/dishes/allDishes";
+import Order from "../../order/container/Order";
 
 class Home extends Component {
     newOrder: OrderState = {
         id: 0,
         userType: 'VIP',
-        dish: {duration: 60, id: 1, ingredients: ['meat'], title: 'burger'}
+        dish: Dishes[0]
     }
 
     render() {
@@ -35,7 +37,7 @@ class Home extends Component {
                     </div>
 
                     <div className={homeStyles.appBody_mainContent}>
-                        <Dashboard order={this.newOrder}/>
+                        <Order />
                     </div>
                 </div>
 

@@ -11,6 +11,6 @@ import {rootReducer} from "./store";
 
 const store = createStore(rootReducer);
 
-ReactDOM.render(<Provider store={store}>  <BrowserRouter> <App/></BrowserRouter> </Provider>
+ReactDOM.render(<Provider store={store}><BrowserRouter> <App/> </BrowserRouter></Provider>
     , document.getElementById('root'));
 serviceWorker.unregister();

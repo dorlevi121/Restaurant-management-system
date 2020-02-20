@@ -2,5 +2,7 @@ export type Dish = {
     id: number,
     title: string,
     ingredients: string [],
-    duration: number
+    duration: number,
+    price: number,
+    image: string
 }

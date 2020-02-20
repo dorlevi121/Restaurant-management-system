@@ -1,0 +1,19 @@
+.queue {
+  display: flex;
+  margin: 10px;
+  background-color: aliceblue;
+
+  .name {
+    color: red;
+    margin-right: 20px;
+  }
+
+  .circle {
+    height: 25px;
+    width: 25px;
+    background-color: aqua;
+    border-radius: 50%;
+    display: inline-block;
+  }
+}
+

@@ -1,13 +1,18 @@
 import React, {useState} from "react";
-import allDishes from '../../../assets/dishes/allDishes';
+import menu from '../../../assets/dishes/allDishes';
 import dishesStyle from './Dishes.module.scss';
-import Dish from "./Dish/Dish";
+import DishComponent from "./Dish/dish.component";
+import {Dish} from "../../../models/system/dish.model";
 
-const Dishes = () => {
+interface Props {
+    addToQueue: (id: number) => void
+}
+
+const Dishes: React.FC<Props> = (props) => {
     const [countImg, setCountImg] = useState(0);
 
-    const dishes = allDishes.map((dish, index) => {
-        return (<Dish name={dish.name} ingredients={dish.Ingredients} image={dish.image} time={dish.time}/>)
+    const dishes = menu.map((dish:Dish, index:number) => {
+        return (<DishComponent key={dish.id} dish={dish} addToQueue={props.addToQueue}/>)
     });
 
     return (
