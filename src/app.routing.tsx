@@ -1,6 +1,6 @@
 import {Route, Switch} from "react-router";
 import Home from "./module/shared/Home/Home";
-import Dashboard from "./module/dashboard/container/Dashboard";
+import Dashboard from "./module/dashboard/container/dashboard";
 import Storage from "./module/storage/container/Storage";
 import React from "react";
 

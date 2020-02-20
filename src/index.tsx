@@ -7,10 +7,10 @@ import { BrowserRouter } from 'react-router-dom';
 //redux
 import {createStore} from "redux";
 import {Provider} from 'react-redux';
-import dashboard from './store/Dashboard/reducer/dashboard.reducer';
+import {rootReducer} from "./store";
 
-//const store = createStore(dashboard);
+const store = createStore(rootReducer);
 
-ReactDOM.render( <BrowserRouter> <App/></BrowserRouter>
+ReactDOM.render(<Provider store={store}>  <BrowserRouter> <App/></BrowserRouter> </Provider>
     , document.getElementById('root'));
 serviceWorker.unregister();

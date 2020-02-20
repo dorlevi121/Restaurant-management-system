@@ -9,7 +9,9 @@ class Dashboard extends Component {
             <div className={dashboardStyle.Dashboard}>
                 <div className={dashboardStyle.DashboardQueues}>
                     <div className={dashboardStyle.DashboardQueuesQueue}>
-                        <div className={dashboardStyle.DashboardQueuesQueueDish}></div>
+                        <div className={dashboardStyle.DashboardQueuesQueueDish}>
+
+                        </div>
                     </div>
                 </div>
             </div>
