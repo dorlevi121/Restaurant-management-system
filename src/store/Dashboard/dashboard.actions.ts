@@ -1,1 +1,1 @@
-export const ADD_ORDER = 'ADD_ORDER';
+export const ADD_ORDER_TO_QUEUE = 'ADD_ORDER_TO_QUEUE';

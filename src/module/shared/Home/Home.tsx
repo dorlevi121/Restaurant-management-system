@@ -2,10 +2,16 @@ import React, {Component} from 'react';
 import homeStyles from "./Home.module.scss";
 import logo from "../../../assets/logo/logo.png";
 import {Link} from "react-router-dom";
-import Order from "../../order/container/Order";
-import {Route, Switch} from "react-router";
+import {OrderState} from "../../../store/Order/order.types";
+import Dashboard from "../../dashboard/container/dashboard";
 
 class Home extends Component {
+    newOrder: OrderState = {
+        id: 0,
+        userType: 'VIP',
+        dish: {duration: 60, id: 1, ingredients: ['meat'], title: 'burger'}
+    }
+
     render() {
         return (
             <div className={homeStyles.app}>
@@ -29,7 +35,7 @@ class Home extends Component {
                     </div>
 
                     <div className={homeStyles.appBody_mainContent}>
-                        <Order/>
+                        <Dashboard order={this.newOrder}/>
                     </div>
                 </div>
 
