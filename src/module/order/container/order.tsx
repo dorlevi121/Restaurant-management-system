@@ -1,13 +1,15 @@
 import React, {Component} from "react";
-import orderStyle from './Order.module.scss';
+
+import orderStyle from './order.module.scss';
 import Dishes from "../../shared/dishes/dishes";
-import {sharedState} from "../../../store/shared/shared.types";
+import menu from "../../../assets/dishes/allDishes";
 import * as getFromState from "../../../store/shared/shared.selectors";
+
+import {sharedState} from "../../../store/shared/shared.types";
 import {Dispatch} from "redux";
 import {OrderState} from "../../../store/Order/order.types";
 import {addOrderToQueue} from "../../../store/Dashboard/dashboard.dispatch";
 import {connect, ConnectedProps} from "react-redux";
-import menu from "../../../assets/dishes/allDishes";
 import {dashboardActionTypes} from "../../../store/Dashboard/dashboard.actions";
 
 class Order extends Component <PropsFromRedux>{

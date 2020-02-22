@@ -1,7 +1,9 @@
 import React, {useState} from "react";
+
 import menu from '../../../assets/dishes/allDishes';
-import dishesStyle from './Dishes.module.scss';
+import dishesStyle from './dishes.module.scss';
 import DishComponent from "./dish/dish.component";
+
 import {Dish} from "../../../models/system/dish.model";
 
 interface Props {
