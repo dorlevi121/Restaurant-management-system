@@ -8,22 +8,50 @@ import {sharedState} from "../../../store/shared/shared.types";
 import Queue from '../component/queue/queue';
 import Modal from "../../../models/UI/modal/modal";
 
+interface dashboardState {
+    showModal: boolean,
+    orderForModal: OrderState | null,
+    newOrder: OrderState | null
+}
 
 class Dashboard extends Component<PropsFromRedux> {
 
-    state = {
-        showModal: false
-    }
-    orderInfo = (orderId: number) => {
-        console.log(orderId)
+    state: dashboardState = {
+        showModal: false,
+        orderForModal: null,
+        newOrder: null
     }
 
+    orderInfo = (orderId: number) => {
+        const found = this.props.ordersInQueue.find((order: OrderState) => order.id === orderId);
+        this.setState({
+            showModal:true,
+            orderForModal: found
+        });
+    }
+
+    closeModal = ():void => {
+        this.setState({
+            showModal: false
+        })
+    }
+
+    shouldComponentUpdate(nextProps: PropsFromRedux, nextState: dashboardState){
+       if(this.props.ordersInQueue !== nextProps.ordersInQueue){
+           this.setState({
+               newOrder: nextProps.ordersInQueue[nextProps.ordersInQueue.length-1]
+           })
+           return true;
+       }        
+       else if( this.state.showModal !== nextState.showModal) return true;
+        return false;
+    }
 
     render() {
         return (
             <div>
-                <Modal/>
-                <Queue ordersList={this.props.ordersInQueue} orderId={this.orderInfo}/>
+                <Modal show={this.state.showModal} order={this.state.orderForModal} closeModal={this.closeModal}/>
+                <Queue orderId={this.orderInfo} ordersList={this.props.ordersInQueue}/>
             </div>
         );
     }

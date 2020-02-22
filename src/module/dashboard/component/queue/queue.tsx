@@ -11,8 +11,8 @@ interface Props {
 }
 
 const Queue: React.FC<Props> = (props) => {
+      const [queues, initQueues] = useState(orderedQueue(props.ordersList));
 
-    const [queues, initQueues] = useState(orderedQueue(props.ordersList));
     return (
         <div className={queueStyle.queue}>
             {queues.map((queue: OrderState[], index: number) => {
@@ -29,6 +29,7 @@ const Queue: React.FC<Props> = (props) => {
             })}
         </div>
     );
+
 }
 
 
