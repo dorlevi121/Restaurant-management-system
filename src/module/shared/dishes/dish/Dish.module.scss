@@ -1,11 +1,12 @@
-.dish {
+.Dish {
 
   & img {
     width: 250px;
   }
 
-  &_content {
+  .Content {
     border-style: solid;
     border-width: 1px;
   }
 }
+

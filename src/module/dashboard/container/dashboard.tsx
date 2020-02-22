@@ -5,13 +5,12 @@ import {OrderState} from "../../../store/Order/order.types";
 import {Dispatch} from "redux";
 import {addOrderToQueue} from "../../../store/Dashboard/dashboard.dispatch";
 import {sharedState} from "../../../store/shared/shared.types";
-import Queue from '../component/queue/queue';
+import Queue from '../component/queue/queue.dashboard';
 import Modal from "../../../models/UI/modal/modal";
 
 interface dashboardState {
     showModal: boolean,
-    orderForModal: OrderState | null,
-    newOrder: OrderState | null
+    orderForModal: OrderState | null
 }
 
 class Dashboard extends Component<PropsFromRedux> {
@@ -19,7 +18,6 @@ class Dashboard extends Component<PropsFromRedux> {
     state: dashboardState = {
         showModal: false,
         orderForModal: null,
-        newOrder: null
     }
 
     orderInfo = (orderId: number) => {

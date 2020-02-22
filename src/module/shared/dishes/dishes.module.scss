@@ -1,8 +1,9 @@
-.dishes {
+.Dishes {
   display: flex;
   align-items: center;
   justify-content: center;
-  &_arrow {
+  
+  .Arrow {
     align-self: auto;
     font-size: 30px;
     cursor: pointer;
@@ -14,7 +15,7 @@
     }
   }
 
-  &_content {
+  .Content {
 
   }
 }

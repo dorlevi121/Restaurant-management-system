@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import menu from '../../../assets/dishes/allDishes';
 import dishesStyle from './Dishes.module.scss';
-import DishComponent from "./Dish/dish.component";
+import DishComponent from "./dish/dish.component";
 import {Dish} from "../../../models/system/dish.model";
 
 interface Props {
@@ -16,10 +16,10 @@ const Dishes: React.FC<Props> = (props) => {
     });
 
     return (
-        <div className={dishesStyle.dishes}>
-            <p className={dishesStyle.dishes_arrow} onClick={() => setCountImg(countImg + 1)}>&#10094;</p>
+        <div className={dishesStyle.Dishes}>
+            <p className={dishesStyle.Arrow} onClick={() => setCountImg(countImg + 1)}>&#10094;</p>
             {dishes[countImg]}
-            <p className={dishesStyle.dishes_arrow} onClick={() => setCountImg(countImg - 1)}>&#x276f;</p>
+            <p className={dishesStyle.Arrow} onClick={() => setCountImg(countImg - 1)}>&#x276f;</p>
         </div>
     )
 }

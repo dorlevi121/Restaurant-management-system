@@ -14,14 +14,14 @@ const Queue: React.FC<Props> = (props) => {
       const [queues, initQueues] = useState(orderedQueue(props.ordersList));
 
     return (
-        <div className={queueStyle.queue}>
+        <div className={queueStyle.Queue}>
             {queues.map((queue: OrderState[], index: number) => {
                 return (
                     <div key={index}>
-                        <div  className={queueStyle.name}>Queue number {index} :</div>
+                        <div  className={queueStyle.Name}>Queue number {index} :</div>
                         {queue.map((order: OrderState, index: number) => {
                             return (
-                                <div onClick={() => props.orderId(order.id)} key={index} className={queueStyle.circle}>{order.id}</div>
+                                <div onClick={() => props.orderId(order.id)} key={index} className={queueStyle.Circle}>{order.id}</div>
                             )
                         })}
                     </div>

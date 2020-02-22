@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import orderStyle from './Order.module.scss';
-import Dishes from "../../shared/Dishes/Dishes";
+import Dishes from "../../shared/dishes/dishes";
 import {sharedState} from "../../../store/shared/shared.types";
 import * as getFromState from "../../../store/shared/shared.selectors";
 import {Dispatch} from "redux";
@@ -24,11 +24,11 @@ class Order extends Component <PropsFromRedux>{
 
     render() {
         return (
-            <div className={orderStyle.order}>
-                <div className={orderStyle.order_dishes}>
-                    <div className={orderStyle.order_dishes_dish}>
-                    </div>
+            <div className={orderStyle.Order}>
+                <div className={orderStyle.Dishes}>
+                    <div className={orderStyle.Dish}>
                     <Dishes addToQueue={this.addNewOrderToQueue}/>
+                    </div>
                 </div>
             </div>
         );

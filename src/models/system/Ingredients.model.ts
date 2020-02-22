@@ -1,8 +1,8 @@
-enum IngredientsModel {
+enum Ingredients {
     Meat,
     Tomato,
     Cucumber,
     egg
 }
 
-export default IngredientsModel;
+export default Ingredients;

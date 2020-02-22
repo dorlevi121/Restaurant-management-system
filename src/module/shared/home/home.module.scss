@@ -1,16 +1,16 @@
-.app {
+.App {
   text-align: center;
   display: flex;
   flex-direction: column;
 
 
-  .header {
+  .Header {
     height: 10%;
     display: flex;
     align-items: center;
 
 
-    &_logo {
+    .Logo {
 
       & img {
         height: 30%;
@@ -19,13 +19,13 @@
     }
 
 
-    &_pageName {
+    .PageName {
 
     }
 
   }
 
-  .appBody {
+  .AppBody {
     display: flex;
     margin: 10px;
     padding-right: 30px;
@@ -33,17 +33,17 @@
     border-style: solid;
     border-width: 2px;
 
-    &_navigation {
+    .Navigation {
       margin: 5px;
       padding: 10px;
 
 
-      &_item {
+      .Item {
 
       }
     }
 
-    &_mainContent {
+    .MainContent {
       margin: 0 auto;
       width: 80%;
       height: 60vh;
