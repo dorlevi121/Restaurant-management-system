@@ -5,7 +5,7 @@ import {Dish} from "../../models/system/dish.model";
 
 const menu: Dish[] = [
     {title: 'Burger', ingredients:['Tomato', 'Meat', 'Cucumber'],
-    duration: 60, image: burgerImg, id:0, price:10},
+    duration: 100, image: burgerImg, id:0, price:10},
 
     {title: 'Pizza', ingredients:['Tomato', 'Cucumber'],
         duration: 60, image: pizzaImg, id:1, price: 5 }

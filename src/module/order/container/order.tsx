@@ -8,9 +8,8 @@ import * as getFromState from "../../../store/shared/shared.selectors";
 import {sharedState} from "../../../store/shared/shared.types";
 import {Dispatch} from "redux";
 import {OrderState} from "../../../store/Order/order.types";
-import {addOrderToQueue} from "../../../store/Dashboard/dashboard.dispatch";
+import {addOrderToQueue} from "../../../store/shared/shared.dispatch";
 import {connect, ConnectedProps} from "react-redux";
-import {dashboardActionTypes} from "../../../store/Dashboard/dashboard.actions";
 
 class Order extends Component <PropsFromRedux>{
 
@@ -19,7 +18,7 @@ class Order extends Component <PropsFromRedux>{
         const order: OrderState = {
             id: this.props.ordersNumber,
             dish: dish,
-            userType: 'regular'
+            userType: this.props.ordersNumber === 1 ? 'Regular':(this.props.ordersNumber%2===0? 'VIP': 'Member')
         }
         this.props.addOrderToQueue(order);
     }
@@ -39,7 +38,7 @@ class Order extends Component <PropsFromRedux>{
 
 const mapStateToProps = (state: sharedState) => {
     return {
-        ordersInQueue: getFromState.ordersInQueue(state),
+        ordersInQueue: getFromState.getOrdersInQueue(state),
         ordersNumber: getFromState.ordersNumber(state)
     }
 }

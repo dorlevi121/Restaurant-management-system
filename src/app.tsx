@@ -1,11 +1,10 @@
 import React from 'react';
-import Routing from './app.routing'
+import Home from "./module/shared/home/home";
+
 
 function App() {
     return (
-        <div>
-            <Routing />
-        </div>
+       <Home/>
     );
 }
 

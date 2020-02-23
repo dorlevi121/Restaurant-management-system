@@ -1,4 +1,4 @@
-import { dashboardReducer} from "./Dashboard/reducer/dashboard.reducer";
+import { dashboardReducer} from "./Dashboard/dashboard.reducer";
 import {orderReducer} from './Order/reducer/order.reducer';
 import {combineReducers} from "redux";
 import {sharedReducer} from "./shared/reducer/shared.reducer";

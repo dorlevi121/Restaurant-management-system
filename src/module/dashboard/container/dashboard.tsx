@@ -1,55 +1,70 @@
 import React, {Component} from "react";
-import {connect, ConnectedProps} from "react-redux";
-import {ordersInQueue} from "../../../store/shared/shared.selectors";
-import {OrderState} from "../../../store/Order/order.types";
+//redux
 import {Dispatch} from "redux";
-import {addOrderToQueue} from "../../../store/Dashboard/dashboard.dispatch";
+import {connect, ConnectedProps} from "react-redux";
+import {getOrdersInQueue} from "../../../store/shared/shared.selectors";
+import {getOrdersInKitchen, getOrdersPriority} from '../../../store/Dashboard/dashboard.selectors';
+import {addOrderToQueue, RemoveOrderFromQueue} from "../../../store/shared/shared.dispatch";
 import {sharedState} from "../../../store/shared/shared.types";
+import {OrderState} from "../../../store/Order/order.types";
+import {addOrderToKitchen, addOrdersPriority} from "../../../store/Dashboard/dashboard.dispatch";
+
 import Queue from '../component/queue/queue.dashboard';
 import Modal from "../../../models/UI/modal/modal";
+import Kitchen from "../component/kitchen/kitchen.dashboard";
+import * as helperFunctions from './helper/helper.dashboard';
+
 
 interface dashboardState {
     showModal: boolean,
-    orderForModal: OrderState | null
+    orderToModal: OrderState | null
 }
 
 class Dashboard extends Component<PropsFromRedux> {
 
     state: dashboardState = {
         showModal: false,
-        orderForModal: null,
+        orderToModal: null,
     }
 
+
     orderInfo = (orderId: number) => {
-        const found = this.props.ordersInQueue.find((order: OrderState) => order.id === orderId);
+        const found = this.props.getOrdersInQueue.find((order: OrderState) => order.id === orderId);
         this.setState({
-            showModal:true,
+            showModal: true,
             orderForModal: found
         });
     }
 
-    closeModal = ():void => {
+
+    closeModal = (): void => {
         this.setState({
             showModal: false
         })
     }
 
-    shouldComponentUpdate(nextProps: PropsFromRedux, nextState: dashboardState){
-       if(this.props.ordersInQueue !== nextProps.ordersInQueue){
-           this.setState({
-               newOrder: nextProps.ordersInQueue[nextProps.ordersInQueue.length-1]
-           })
-           return true;
-       }        
-       else if( this.state.showModal !== nextState.showModal) return true;
+
+    shouldComponentUpdate(nextProps: PropsFromRedux, nextState: dashboardState) {
+        if (this.state.showModal !== nextState.showModal) return true;
+
         return false;
     }
 
+    componentDidMount(): void {
+        //console.log('[dashboard componentDidMount]: ' + this.props.getOrdersPriority)
+    }
+
+
     render() {
+        //Send all the orders to QueueToKitchen. QueueToKitchen - Arranges all orders by order type and order time
+        //and return ordered array to the state
+        // if (this.props.getOrdersInQueue.length)
+        //     this.props.addOrdersPriority(helperFunctions.QueueToKitchen(this.props.getOrdersInQueue));
         return (
             <div>
-                <Modal show={this.state.showModal} order={this.state.orderForModal} closeModal={this.closeModal}/>
-                <Queue orderId={this.orderInfo} ordersList={this.props.ordersInQueue}/>
+                <Modal show={this.state.showModal} order={this.state.orderToModal} closeModal={this.closeModal}/>
+                <Queue orderId={this.orderInfo} ordersList={this.props.getOrdersInQueue}/>
+                <Kitchen/>
             </div>
         );
     }
@@ -57,13 +72,18 @@ class Dashboard extends Component<PropsFromRedux> {
 
 const mapStateToProps = (state: sharedState) => {
     return {
-        ordersInQueue: ordersInQueue(state)
+        getOrdersInQueue: getOrdersInQueue(state),
+        getOrdersInKitchen: getOrdersInKitchen(state),
+        getOrdersPriority: getOrdersPriority(state)
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        addOrderToQueue: (order: OrderState) => addOrderToQueue(order, dispatch)
+        addOrderToQueue: (newOrder: OrderState) => addOrderToQueue(newOrder, dispatch),
+        removeOrderFromQueue: (removeOrder: OrderState) => RemoveOrderFromQueue(removeOrder, dispatch),
+        addOrdersPriority: (ordersPriority: OrderState[]) => addOrdersPriority(ordersPriority, dispatch),
+        addOrderToKitchen: (order: OrderState) => addOrderToKitchen(order, dispatch)
     }
 }
 

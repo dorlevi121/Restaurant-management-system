@@ -16,3 +16,8 @@ export interface sharedActionAddOrder extends sharedBaseAction {
     type: SharedActionTypes.ADD_ORDER_TO_QUEUE;
     newOrder: OrderState;
 }
+
+export interface sharedActionRemoveOrder extends sharedBaseAction {
+    type: SharedActionTypes.REMOVE_ORDER_FROM_QUEUE;
+    removeOrder: OrderState;
+}

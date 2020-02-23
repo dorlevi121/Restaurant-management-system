@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import homeStyles from "./home.module.scss";
 import logo from "../../../assets/logo/logo.png";
+import Dishes from "../../../assets/dishes/allDishes";
+
 import {Link} from "react-router-dom";
 import {OrderState} from "../../../store/Order/order.types";
-import Dashboard from "../../dashboard/container/dashboard";
-import Dishes from "../../../assets/dishes/allDishes";
-import Order from "../../order/container/order";
+import Routing from "../../../app.routing";
+
 
 class Home extends Component {
     newOrder: OrderState = {
@@ -35,6 +36,7 @@ class Home extends Component {
                         <div className={homeStyles.Item}><Link to="/dashboard">dashboard</Link></div>
                         <div className={homeStyles.Item}><Link to="/storage">storage</Link></div>
                     </div>
+                    <Routing/>
                 </div>
             </div>
         );

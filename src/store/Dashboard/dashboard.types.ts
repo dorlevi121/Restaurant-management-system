@@ -1,18 +1,29 @@
 import {OrderState} from "../Order/order.types";
-import {dashboardActionTypes} from './dashboard.actions';
+import {DashboardActionTypes} from './dashboard.actions';
 
 //Type of Dashboard State
 export interface DashboardState {
     ordersInKitchen: OrderState[],
-    ordersInDelivery: OrderState[]
+    ordersPriority: OrderState []
+   // ordersInDelivery: OrderState[]
 }
 
 
 export interface dashboardBaseAction {
-    type: dashboardActionTypes;
+    type: DashboardActionTypes;
 }
 
-export interface dashboardAction extends dashboardBaseAction {
-    // type: dashboardActionTypes.ADD_ORDER_TO_QUEUE;
-    // newOrder: OrderState;
+export interface dashboardActionAddOrderToKitchen extends dashboardBaseAction {
+     type: DashboardActionTypes.ADD_ORDER_TO_KITCHEN;
+     newOrder: OrderState;
+}
+
+export interface dashboardActionOrdersPriority extends dashboardBaseAction {
+    type: DashboardActionTypes.PRIORITY_ORDERS_KITCHEN;
+    ordersPriority: OrderState[];
+}
+
+export interface dashboardActionRemoveOrderFromKitchen extends dashboardBaseAction {
+    type: DashboardActionTypes.REMOVE_ORDER_FROM_KITCHEN;
+    orderToRemove: OrderState;
 }
