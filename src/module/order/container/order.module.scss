@@ -1,11 +1,25 @@
-.Order {
-  margin: 0 auto;
+.OrderBody {
+  width: 100%;
 
-  .Dishes {
+  & .Notification {
+    position: absolute;
+    top: 180px;
+    left: 100px;
+    @media (max-height: 780px) {
+      top: 100px;
+    }
+  }
+  .Order {
+    width: 35%;
+    margin: 10% auto;
 
-    .Dish {
+    .Dishes {
+
+      .Dish {
+
+      }
 
     }
-
   }
 }
+

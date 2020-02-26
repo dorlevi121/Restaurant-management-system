@@ -1,23 +1,20 @@
 import React, {Component} from "react";
+import dashboardStyle from './dashboard.module.scss';
 //redux
 import {Dispatch} from "redux";
 import {connect, ConnectedProps} from "react-redux";
-import {getOrdersInQueue} from "../../../store/shared/shared.selectors";
-import {getOrdersInKitchen, getOrdersPriority} from '../../../store/Dashboard/dashboard.selectors';
-import {addOrderToQueue, RemoveOrderFromQueue} from "../../../store/shared/shared.dispatch";
-import {sharedState} from "../../../store/shared/shared.types";
-import {OrderState} from "../../../store/Order/order.types";
-import {addOrderToKitchen, addOrdersPriority} from "../../../store/Dashboard/dashboard.dispatch";
 
-import Queue from '../component/queue/queue.dashboard';
+
 import Modal from "../../../models/UI/modal/modal";
-import Kitchen from "../component/kitchen/kitchen.dashboard";
-import * as helperFunctions from './helper/helper.dashboard';
-
+import * as helperFunctions from './helper/helper.dashboard'
+import Queue from "../component/queue/queue.dashboard";
+import {getAllOrders, getOrdersPriority} from "../../../store/orders/order.selectors";
+import {OrderType} from "../../../models/system/order.model";
+import {OrderState} from "../../../store/orders/order.types";
 
 interface dashboardState {
     showModal: boolean,
-    orderToModal: OrderState | null
+    orderToModal: OrderType | null
 }
 
 class Dashboard extends Component<PropsFromRedux> {
@@ -29,13 +26,11 @@ class Dashboard extends Component<PropsFromRedux> {
 
 
     orderInfo = (orderId: number) => {
-        const found = this.props.getOrdersInQueue.find((order: OrderState) => order.id === orderId);
+        const found = this.props.getAllOrders.find((order: OrderType) => order.id === orderId);
         this.setState({
             showModal: true,
-            orderForModal: found
-        });
+            orderToModal: found });
     }
-
 
     closeModal = (): void => {
         this.setState({
@@ -44,46 +39,28 @@ class Dashboard extends Component<PropsFromRedux> {
     }
 
 
-    shouldComponentUpdate(nextProps: PropsFromRedux, nextState: dashboardState) {
-        if (this.state.showModal !== nextState.showModal) return true;
-
-        return false;
-    }
-
-    componentDidMount(): void {
-        //console.log('[dashboard componentDidMount]: ' + this.props.getOrdersPriority)
-    }
-
-
     render() {
-        //Send all the orders to QueueToKitchen. QueueToKitchen - Arranges all orders by order type and order time
-        //and return ordered array to the state
-        // if (this.props.getOrdersInQueue.length)
-        //     this.props.addOrdersPriority(helperFunctions.QueueToKitchen(this.props.getOrdersInQueue));
+        console.log(this.props.getPriorityOrders)
         return (
-            <div>
-                <Modal show={this.state.showModal} order={this.state.orderToModal} closeModal={this.closeModal}/>
-                <Queue orderId={this.orderInfo} ordersList={this.props.getOrdersInQueue}/>
-                <Kitchen/>
+            <div className={dashboardStyle.dashboard}>
+                {/*<Modal show={this.state.showModal} order={this.state.orderToModal} closeModal={this.closeModal}/>*/}
+                <Queue orderId={this.orderInfo} ordersList={this.props.getAllOrders}/>
+                {/*<Kitchen/>*/}
             </div>
         );
     }
 }
 
-const mapStateToProps = (state: sharedState) => {
+const mapStateToProps = (state: OrderState) => {
     return {
-        getOrdersInQueue: getOrdersInQueue(state),
-        getOrdersInKitchen: getOrdersInKitchen(state),
-        getOrdersPriority: getOrdersPriority(state)
+        getAllOrders: getAllOrders(state),
+        getPriorityOrders: getOrdersPriority(state)
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        addOrderToQueue: (newOrder: OrderState) => addOrderToQueue(newOrder, dispatch),
-        removeOrderFromQueue: (removeOrder: OrderState) => RemoveOrderFromQueue(removeOrder, dispatch),
-        addOrdersPriority: (ordersPriority: OrderState[]) => addOrdersPriority(ordersPriority, dispatch),
-        addOrderToKitchen: (order: OrderState) => addOrderToKitchen(order, dispatch)
+
     }
 }
 

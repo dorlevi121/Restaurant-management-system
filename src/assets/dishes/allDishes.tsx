@@ -1,14 +1,27 @@
-import IngredientsModel from "../../models/system/Ingredients.model";
 import burgerImg from '../dishesImg/burger.png';
 import pizzaImg from '../dishesImg/pizza.png';
-import {Dish} from "../../models/system/dish.model";
+import {DishType, priceCalculation} from "../../models/system/dish.model";
+import * as Ingredients from '../../models/system/ingredients.model';
+import {Tomato} from "../../models/system/ingredients.model";
 
-const menu: Dish[] = [
-    {title: 'Burger', ingredients:['Tomato', 'Meat', 'Cucumber'],
-    duration: 100, image: burgerImg, id:0, price:10},
+const menu: DishType[] = [
+    {
+        title: 'Burger',
+        ingredients: [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese],
+        duration: 100,
+        image: burgerImg,
+        id: 0,
+        price: priceCalculation( [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese])
+    },
 
-    {title: 'Pizza', ingredients:['Tomato', 'Cucumber'],
-        duration: 60, image: pizzaImg, id:1, price: 5 }
+    {
+        title: 'Pizza',
+        ingredients: [Ingredients.Cheese, Ingredients.Tomato],
+        duration: 60,
+        image: pizzaImg,
+        id: 1,
+        price: priceCalculation([Ingredients.Cheese, Ingredients.Tomato])
+    }
 ];
 
 

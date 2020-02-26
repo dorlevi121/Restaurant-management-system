@@ -1,0 +1,4 @@
+export enum StorageActionsEnum {
+    REFUEL_INGREDIENTS = 'REFUEL_INGREDIENTS',
+    UPDATE_BUDGET = 'UPDATE_BUDGET'
+}

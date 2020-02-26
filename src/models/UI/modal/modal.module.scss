@@ -1,57 +1,100 @@
-/* Modal Content */
 .modal {
-    position: absolute;
-    top: 150px;
-    left: 300px;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 60%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-    z-index: 1000;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-/* Add Animation */
-@-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-}
+/* Modal Content */
+.modalContent {
+  background-color: #fefefe;
+  opacity: .9;
+  margin: auto;
+  padding-left: 10px;
+  border: 1px solid #888;
+  width: 40%;
 
-@keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-}
+  border-radius: 10px;
+  box-shadow: 10px 12px 0.5rem rgba(0, 0, 0, 0.5);
 
-/* The Close Button */
-.close {
-    color: white;
-    float: right;
-    font-size: 28px;
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    font-size: 35px;
     font-weight: bold;
-}
+    transition: all .2s;
+  }
 
-.close:hover,
-.close:focus {
+  .close:hover,
+  .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .Boxes {
+    display: flex;
+    justify-content: space-around;
+
+    .OrderSummary {
+      width: 30%;
+      padding: 1rem;
+      color: white;
+      border-width: 1.5px;
+      border-style: solid;
+      border-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1;
+      color: #000;
+      text-decoration: none;
+      text-transform: capitalize;
+
+      .PriceNdish {
+        align-self: end;
+        font-weight: 600;
+
+        span {
+          margin-left: 100px;
+        }
+      }
+    }
+
+    .typesNtime {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+
+      .type {
+        margin-bottom: -10px;
+      }
+      .CheckBox {
+        text-align: left;
+
+        .check {
+
+        }
+      }
+
+      .Duration {
+        align-self: end;
+      }
+    }
+
+
+  }
+
+  .Dish {
+    align-self: end;
+
+    .DishPrice {
+      margin-left: 100px;
+    }
+  }
 }
 
-.header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
 
-.body {padding: 2px 16px;}
 
-.footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}

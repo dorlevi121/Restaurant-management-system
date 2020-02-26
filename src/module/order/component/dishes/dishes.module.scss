@@ -1,0 +1,19 @@
+.Dishes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .Arrow {
+    align-self: auto;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: .5;
+    order: unset;
+    transition: all .3s;
+    color: white;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

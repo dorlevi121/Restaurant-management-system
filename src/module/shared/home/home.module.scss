@@ -1,55 +1,42 @@
 .App {
   text-align: center;
   display: flex;
-  flex-direction: column;
 
-
-  .Header {
-    height: 10%;
-    display: flex;
-    align-items: center;
-
-
-    .Logo {
-
-      & img {
+    .Header {
         height: 30%;
-        width: 30%;
+      img {
+        height: 40%;
       }
-    }
-
-
-    .PageName {
 
     }
 
+  & .ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin-top: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #333;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    text-transform: capitalize;
+
+    li .link {
+      display: block;
+      color: #000;
+      padding: 8px 16px;
+      text-decoration: none;
+      transition: all .3s;
+    }
   }
 
-  .AppBody {
-    display: flex;
-    margin: 10px;
-    padding-right: 30px;
 
-    border-style: solid;
-    border-width: 2px;
-
-    .Navigation {
-      margin: 5px;
-      padding: 10px;
-
-
-      .Item {
-
-      }
-    }
-
-    .MainContent {
-      margin: 0 auto;
-      width: 80%;
-      height: 60vh;
-      padding: 5px;
-
-    }
+  li .link:hover:not(.active) {
+    background-color: #555;
+    color: white;
+    transform: scaleY(1.1);
   }
 
 }

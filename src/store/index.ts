@@ -1,10 +1,9 @@
-import { dashboardReducer} from "./Dashboard/dashboard.reducer";
-import {orderReducer} from './Order/reducer/order.reducer';
+import {ordersReducer} from './orders/reducer/order.reducer';
 import {combineReducers} from "redux";
-import {sharedReducer} from "./shared/reducer/shared.reducer";
+import {storageReducer} from "./storage/reducer/storage.reducer";
 
 export const rootReducer = combineReducers({
-    dashboard: dashboardReducer,
-    shared: sharedReducer
+    orders: ordersReducer,
+    storage: storageReducer
 })
 
