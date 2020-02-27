@@ -26,19 +26,18 @@ class Dishes extends Component <Props> {
     dishes = menu.map((dish: DishType, index: number) => (<DishComponent key={dish.id} dish={dish}/>));
 
     render() {
-
         return (
             <div>
                 <div className={dishesStyle.Dishes}>
                     <p className={dishesStyle.Arrow} onClick={this.nextDish}>&#10094;</p>
                     {this.dishes[this.state.clickCounter]}
                     <p className={dishesStyle.Arrow} onClick={this.nextDish}>&#x276f;</p>
-
                 </div>
+
                 <div onClick={() => this.props.addNewDish(this.state.clickCounter)}>
                     <Button text='Add to cart'/>
                 </div>
-            // </div>
+             </div>
         )
     }
 }

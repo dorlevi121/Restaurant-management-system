@@ -1,7 +1,26 @@
 .Queue {
   position: relative;
-  margin: 10px;
-  background-color: aliceblue;
+
+  .Line{
+    margin-left: 10px;
+    margin-top: 20px;
+    background-color: aliceblue;
+    border-radius: 30px;
+    text-align:  left;
+    padding: 15px;
+    height: 15px;
+    max-height: 15px;
+  }
+
+  .Order {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    margin-left: 8px;
+    background-color: aqua;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 
   .Name {
     display: inline-block;

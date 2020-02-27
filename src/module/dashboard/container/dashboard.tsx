@@ -44,7 +44,9 @@ class Dashboard extends Component<PropsFromRedux> {
         return (
             <div className={dashboardStyle.dashboard}>
                 {/*<Modal show={this.state.showModal} order={this.state.orderToModal} closeModal={this.closeModal}/>*/}
-                <Queue orderId={this.orderInfo} ordersList={this.props.getAllOrders}/>
+                <div className={dashboardStyle.Queues}>
+                    <Queue orderId={this.orderInfo} ordersList={this.props.getPriorityOrders}/>
+                </div>
                 {/*<Kitchen/>*/}
             </div>
         );

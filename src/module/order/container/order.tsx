@@ -69,8 +69,7 @@ class Order extends Component <PropsFromRedux> {
             <div className={orderStyle.OrderBody}>
 
                 <div className={orderStyle.Notification} onClick={() => {
-                    (this.state.dishes.length) > 0 ? this.initNewOrder() : alert('You didn\'t choose any dish')
-                }}>
+                    (this.state.dishes.length) > 0 ? this.initNewOrder() : alert('You didn\'t choose any dish')}}>
                     <Notifications notificationsNumber={this.state.dishes.length} title='Cart'/>
                 </div>
 
@@ -106,6 +105,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>
-
 
 export default connector(Order);

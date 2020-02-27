@@ -68,52 +68,52 @@ const Modal: React.FC<Props> = (props) => {
     }
 
     return (
-            <div className={modalStyle.modal} style={showHideClassName}>
-                <div className={modalStyle.modalContent}>
-                    <span onClick={() => props.closeModal()} className={modalStyle.close}>&times;</span>
+        <div className={modalStyle.modal} style={showHideClassName}>
+            <div className={modalStyle.modalContent}>
+                <span onClick={() => props.closeModal()} className={modalStyle.close}>&times;</span>
 
-                    <div className={modalStyle.Boxes}>
-                        <div className={modalStyle.OrderSummary}>
-                            <div className={modalStyle.PriceNdish}>
-                                <p>Dish <span>price</span></p>
-                            </div>
-                            {props.order?.dish.map((dish: DishType) => (
-                                <div className={modalStyle.Dish} key={Math.random()}>
-                                    <p className={modalStyle.DishTitle}>{dish.title}
-                                        <span className={modalStyle.DishPrice}> {dish.price}&#36;</span></p>
-                                </div>
-                            ))}
-
-                            <div className={modalStyle.PriceNdish}>
-                                <p>Total Price: <span style={{marginLeft: '65px'}}>{props.order?.price}&#36;</span></p>
-                            </div>
+                <div className={modalStyle.Boxes}>
+                    <div className={modalStyle.OrderSummary}>
+                        <div className={modalStyle.PriceNdish}>
+                            <p>Dish <span>price</span></p>
                         </div>
-
-                        <div className={modalStyle.OrderSummary}>
-                            <div className={modalStyle.typesNtime}>
-                                <p className={modalStyle.type}>Customer type:</p>
-
-                                <ul className={modalStyle.CheckBox}>
-                                    {
-                                        userTypes.types.map((type) => {
-                                            return (<CheckBox key={Math.random()}
-                                                              handleCheckChildElement={handleCheckChildElement}  {...type} />)
-                                        })}
-                                </ul>
-
-                                <div className={modalStyle.Duration}>
-                                    <p>Duration: <span> {props.order !== null ? (props.order.totalTime / 60).toFixed(1) : null}</span>
-                                    </p>
-                                </div>
+                        {props.order?.dish.map((dish: DishType) => (
+                            <div className={modalStyle.Dish} key={Math.random()}>
+                                <p className={modalStyle.DishTitle}>{dish.title}
+                                    <span className={modalStyle.DishPrice}> {dish.price}&#36;</span></p>
                             </div>
+                        ))}
+
+                        <div className={modalStyle.PriceNdish}>
+                            <p>Total Price: <span style={{marginLeft: '65px'}}>{props.order?.price}&#36;</span></p>
                         </div>
                     </div>
 
-                    <div onClick={onClickOrder} style={{marginBottom: '10px'}}>
-                        <Button text='Order'/>
+                    <div className={modalStyle.OrderSummary}>
+                        <div className={modalStyle.typesNtime}>
+                            <p className={modalStyle.type}>Customer type:</p>
+
+                            <ul className={modalStyle.CheckBox}>
+                                {
+                                    userTypes.types.map((type) => {
+                                        return (<CheckBox key={Math.random()}
+                                                          handleCheckChildElement={handleCheckChildElement}  {...type} />)
+                                    })}
+                            </ul>
+
+                            <div className={modalStyle.Duration}>
+                                <p>Duration: <span> {props.order !== null ? (props.order.totalTime / 60).toFixed(1) : null}</span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div onClick={onClickOrder} style={{marginBottom: '10px'}}>
+                    <Button text='Order'/>
+                </div>
             </div>
+        </div>
     )
 }
 

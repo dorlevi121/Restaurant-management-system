@@ -1,3 +1,10 @@
 .dashboard {
-  margin: 0 auto;
+  margin-left: 350px;
+  margin-top: 100px;
+
+  .Queues {
+    width:600px; /* or whatever width you want. */
+    max-width:600px; /* or whatever width you want. */
+    display: inline-block;
+  }
 }

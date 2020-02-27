@@ -1,5 +1,6 @@
 import React from "react";
 import notificationsStyle from './notifications.module.scss';
+
 interface Props {
     title: string,
     notificationsNumber: number
@@ -8,8 +9,8 @@ interface Props {
 let style = {
     pointerEvents: 'none',
     cursor: 'default'
-
 }as React.CSSProperties;
+
 const notifications:React.FC <Props>= (props) => {
 
     if(props.notificationsNumber > 0) style = { pointerEvents: 'fill',cursor: 'pointer'}

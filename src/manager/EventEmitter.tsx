@@ -35,7 +35,7 @@ class QueueListener extends EventEmitter {
         this.emit('update order status', data.id, OrderStatus.kitchen);
         this.ordersInKitchen.push(data);
         this.removeOrderFromOrders(data.id);
-        let timer = 10, minutes, seconds;
+        let timer = 20, minutes, seconds;
 
         const kitchenInterval = setInterval(() => {
             minutes = parseInt(String(timer / 60), 10);

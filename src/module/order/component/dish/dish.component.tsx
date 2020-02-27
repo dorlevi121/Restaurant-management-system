@@ -11,15 +11,7 @@ interface Props {
 const DishComponent: React.FC<Props> = (props) => {
     return (
         <div className={dishStyle.Dish}>
-            {/*onClick={() => props.addToQueue(props.dish.id)}*/}
-            <img  src={props.dish.image}
-                 alt={props.dish.title}/>
-
-            {/*<div className={dishStyle.Content}>*/}
-            {/*    {props.dish.ingredients.map((ing, index) => {*/}
-            {/*        return (<p key={index}>{ing.title}</p>) })}*/}
-            {/*</div>*/}
-
+            <img  src={props.dish.image} alt={props.dish.title}/>
         </div>
     );
 }
