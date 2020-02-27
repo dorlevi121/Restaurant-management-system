@@ -13,7 +13,7 @@ export interface orderItem {
 class QueueListener extends EventEmitter {
     private items: orderItem[]; //Hold sorted items
     private itemsWaitingToKitchen: { myOrder: number, myDishes: [number, number] }[]; // myPlace - Location relative to other dishes value- Number of dishes in the order
-    private dishessInKitchen: { myOrder: number, myDishes: [number, number] }[]; //Hold items in kitchen
+    dishesInKitchen: { myOrder: number, myDishes: [number, number] }[]; //Hold items in kitchen
     private itemsInKitchen: orderItem[];
     private itemsWaitingToDelivery: orderItem [];
     private itemsInDelivery: orderItem[]; // Hold items in delivery
@@ -22,7 +22,7 @@ class QueueListener extends EventEmitter {
         super();
         this.items = [];
         this.itemsWaitingToKitchen = [];
-        this.dishessInKitchen = [];
+        this.dishesInKitchen = [];
         this.itemsInKitchen = [];
         this.itemsInDelivery = [];
         this.itemsWaitingToDelivery = [];
@@ -30,16 +30,15 @@ class QueueListener extends EventEmitter {
 
     addNewOrderToPend = (order: orderItem) => {
         this.items.splice(order.priority, 0, order);
-        if (this.dishessInKitchen.length < numberOfCookingStands)
+        if (this.dishesInKitchen.length < numberOfCookingStands)
             this.pushDishesToKitchen()
     }
 
 
     addToKitchen(dish: { myOrder: number, myDishes: [number, number] }) {
-        this.dishessInKitchen.push(dish);
-
+        this.dishesInKitchen.push(dish);
         let timer = 5, minutes, seconds;
-
+        console.log('addToKitchen - 1')
         const kitchenInterval = setInterval(() => {
             minutes = parseInt(String(timer / 60), 10);
             seconds = parseInt(String(timer % 60), 10);
@@ -100,9 +99,9 @@ class QueueListener extends EventEmitter {
     }
 
     removeOrderFromKitchen = (dish: { myOrder: number, myDishes: { [myPlace: number]: number } }) => {
-        for (let i = 0; i < this.dishessInKitchen.length; i++) {
-            if (this.dishessInKitchen[i] === dish)
-                this.dishessInKitchen.splice(i, 1);
+        for (let i = 0; i < this.dishesInKitchen.length; i++) {
+            if (this.dishesInKitchen[i] === dish)
+                this.dishesInKitchen.splice(i, 1);
         }
     }
 
@@ -127,16 +126,19 @@ class QueueListener extends EventEmitter {
         for (let i = 0; i < orderToKitchen.dishes.length; i++)
             this.itemsWaitingToKitchen.push(orderToKitchen.dishes[i])
         this.emit(EventManager.UPDATE_ORDER_STATUS, orderToKitchen.id, OrderStatus.kitchen);
+
         this.removeOrderFromOrders(orderToKitchen.id);
-        while (this.dishessInKitchen.length < numberOfCookingStands) {
+
+        while (this.dishesInKitchen.length < numberOfCookingStands) {
             const dishToKitchen = this.itemsWaitingToKitchen.shift();
+            console.log(dishToKitchen)
             if (dishToKitchen !== undefined) this.addToKitchen(dishToKitchen);
+            else return;
         }
+
     }
 
 
 }
 
 export const queueListener = new QueueListener();
-
-
