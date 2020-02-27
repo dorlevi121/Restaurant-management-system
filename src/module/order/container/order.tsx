@@ -33,10 +33,7 @@ class Order extends Component <PropsFromRedux> {
 
     addOrderToQueue = (order: OrderType) => {
         this.props.addNewOrderToQueue(order);
-        this.setState({
-            showModal: false
-        })
-
+        this.setState({ showModal: false })
     }
 
     addNewDish = (disId: number): void => {
@@ -59,13 +56,13 @@ class Order extends Component <PropsFromRedux> {
             price: price,
             status: OrderStatus.queue
         }
-        this.setState({showModal: true, orderToModal: order})
-        this.setState({dishes: []})
+        this.setState({showModal: true, orderToModal: order, dishes: []})
     }
 
     closeModal = (): void => {
         this.setState({showModal: false})
     }
+
 
     render() {
         return (

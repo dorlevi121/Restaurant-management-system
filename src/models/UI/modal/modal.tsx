@@ -5,7 +5,6 @@ import {DishType} from "../../system/dish.model";
 import Button from "../button/button";
 import CheckBox from "../chackbox/checkbox";
 import {UserType} from "../../system/user-type.model";
-import {OrderStatus} from "../../system/order-status.model";
 
 interface Props {
     order: OrderType | null,
@@ -19,26 +18,31 @@ const Modal: React.FC<Props> = (props) => {
         types: [
             {id: 0, value: "Regular", isChecked: false},
             {id: 1, value: "Member", isChecked: false},
-            {id: 2, value: "VIP", isChecked: false},
+            {id: 2, value: "VIP", isChecked: false}
         ]
-    })
+    });
+
+    const [dishes, setDishes] = useState(props.order?.dish);
+
+    let showHideClassName = props.show || props.show === null ? {display: 'block'} : {display: 'none'};
 
     const handleCheckChildElement = (event: any) => {
         let types = userTypes.types;
         types.forEach(type => {
             if (type.isChecked) type.isChecked = false;
-            if (type.value === event.target.value)
-                type.isChecked = event.target.checked
+            if (type.value === event.target.value) type.isChecked = event.target.checked
         })
         setUserTypes({types: types})
     }
 
-    let showHideClassName = props.show || props.show === null ? {display: 'block'} : {display: 'none'};
 
     const onClickOrder = () => {
         const typeOfUser = userTypes.types.filter(type => type.isChecked);
+        if(typeOfUser.length === 0) return;
+
         let type: UserType;
         let finalOrder: OrderType;
+
         if (typeOfUser[0].value === 'VIP') type = UserType.vip;
         else if (typeOfUser[0].value === 'Member') type = UserType.member;
         else type = UserType.regular;
@@ -58,21 +62,17 @@ const Modal: React.FC<Props> = (props) => {
             types: [
                 {id: 0, value: "Regular", isChecked: false},
                 {id: 1, value: "Member", isChecked: false},
-                {id: 2, value: "VIP", isChecked: false},
+                {id: 2, value: "VIP", isChecked: false}
             ]
         })
-
     }
 
     return (
-        <div style={showHideClassName}>
-            <div className={modalStyle.modal}>
-
+            <div className={modalStyle.modal} style={showHideClassName}>
                 <div className={modalStyle.modalContent}>
                     <span onClick={() => props.closeModal()} className={modalStyle.close}>&times;</span>
 
                     <div className={modalStyle.Boxes}>
-
                         <div className={modalStyle.OrderSummary}>
                             <div className={modalStyle.PriceNdish}>
                                 <p>Dish <span>price</span></p>
@@ -109,13 +109,11 @@ const Modal: React.FC<Props> = (props) => {
                         </div>
                     </div>
 
-                    <div onClick={onClickOrder}>
+                    <div onClick={onClickOrder} style={{marginBottom: '10px'}}>
                         <Button text='Order'/>
                     </div>
                 </div>
-
             </div>
-        </div>
     )
 }
 

@@ -20,12 +20,11 @@ class AddNewOrderManager extends Component <PropsFromRedux> {
     constructor(props: any) {
         super(props);
         queueListener.on('new order to kitchen', queueListener.addToKitchen);
-        queueListener.on('update status to kitchen', this.updateOrderStatusToKitchen)
-        queueListener.on('order ready', this.removeFromStore)
+        queueListener.on('update order status', this.updateOrderStatus);
+        queueListener.on('order finished', this.removeFromStore);
     }
 
     shouldComponentUpdate(nextProps: Readonly<PropsFromRedux>, nextState: Readonly<{}>, nextContext: any): boolean {
-        console.log(nextProps.getPriorityArr)
         if (nextProps.getLastOrder !== this.props.getLastOrder)
             return true;
 
@@ -37,13 +36,13 @@ class AddNewOrderManager extends Component <PropsFromRedux> {
             const newOrder = this.props.getLastOrder;
             const findPriority = (o: OrderType) => o.id === newOrder.id
             const priority = prevProps.getPriorityArr.findIndex(findPriority);
-            queueListener.addNewOrderToWaiting({id: newOrder.id, priority: priority, ttl: newOrder.totalTime})
+            queueListener.addNewOrderToPend({id: newOrder.id, priority: priority, ttl: newOrder.totalTime})
         }
     }
 
-    updateOrderStatusToKitchen = (orderId: number): void => {
+    updateOrderStatus = (orderId: number, status: OrderStatus): void => {
         const found = this.props.getPriorityArr.find((order: OrderType) => order.id === orderId);
-        this.props.changeOrderStatus(OrderStatus.kitchen, found);
+        this.props.changeOrderStatus(status, found);
     }
 
     removeFromStore = (orderId: number) => {

@@ -9,6 +9,15 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+  animation-name: animate;
+  animation-duration: 0.5s;
+
+  @keyframes animate {
+    from { opacity:0}
+    to { opacity:1}
+  }
+
 }
 
 /* Modal Content */
@@ -19,16 +28,17 @@
   padding-left: 10px;
   border: 1px solid #888;
   width: 40%;
-
   border-radius: 10px;
   box-shadow: 10px 12px 0.5rem rgba(0, 0, 0, 0.5);
 
   /* The Close Button */
   .close {
     color: #aaaaaa;
-    font-size: 35px;
+    font-size: 40px;
     font-weight: bold;
     transition: all .2s;
+    margin-right: 700px;
+    transition: all .3s;
   }
 
   .close:hover,
@@ -38,6 +48,7 @@
     cursor: pointer;
   }
 
+  /* The Boxes Of Content */
   .Boxes {
     display: flex;
     justify-content: space-around;
@@ -61,31 +72,26 @@
           margin-left: 100px;
         }
       }
-    }
 
-    .typesNtime {
-      display: flex;
-      flex-direction: column;
-      align-items: end;
+      .typesNtime {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
 
-      .type {
-        margin-bottom: -10px;
-      }
-      .CheckBox {
-        text-align: left;
-        margin-left: -40px;
+        .type {
+          margin-bottom: -10px;
+        }
 
-        .check {
+        .CheckBox {
+          text-align: left;
+          margin-left: -40px;
+        }
 
+        .Duration {
+          align-self: end;
         }
       }
-
-      .Duration {
-        align-self: end;
-      }
     }
-
-
   }
 
   .Dish {
