@@ -16,6 +16,7 @@ import {DishType} from "../../../models/system/dish.model";
 import {dispatchAddNewOrderToQueue, dispatchRemoveOrderFromQueue} from "../../../store/orders/orders.dispatch";
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
+import OrderModal from "../../../models/UI/modal/order/moda-order.modal";
 
 interface StateType {
     dishes: DishType [],
@@ -74,8 +75,10 @@ class Order extends Component <PropsFromRedux> {
                 </div>
 
                 <div className={orderStyle.Order}>
-                    <Modal onOrderClick={this.addOrderToQueue} closeModal={this.closeModal} show={this.state.showModal}
-                           order={this.state.orderToModal}/>
+                    <Modal  show={this.state.showModal} closeModal={this.closeModal} >
+                        <OrderModal order={this.state.orderToModal} onOrderClick={this.addOrderToQueue}/>
+                    </Modal>
+
                     <div className={orderStyle.Dishes}>
                         <div className={orderStyle.Dish}>
                             <Dishes addNewDish={this.addNewDish}/>

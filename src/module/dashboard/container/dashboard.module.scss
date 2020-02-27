@@ -6,5 +6,15 @@
     width:600px; /* or whatever width you want. */
     max-width:600px; /* or whatever width you want. */
     display: inline-block;
+
+    @media (max-width: 1200px) {
+      width:300px; /* or whatever width you want. */
+      max-width:300px; /* or whatever width you want. */
+    }
+  }
+
+  @media (max-width: 1200px) {
+    margin-left: 200px;
+    margin-top: 50px;
   }
 }

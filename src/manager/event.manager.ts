@@ -1,0 +1,4 @@
+export enum EventManager {
+    UPDATE_ORDER_STATUS= 'UPDATE_ORDER_STATUS',
+    ORDER_FINISHED = 'ORDER_FINISHED'
+}

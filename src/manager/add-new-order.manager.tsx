@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {queueListener} from "./EventEmitter";
+import {queueListener} from "./manager-orders";
 import {connect, ConnectedProps} from "react-redux";
 import {Dispatch} from "redux";
 
@@ -13,22 +13,19 @@ import {
     dispatchRemoveOrderFromQueue
 } from "../store/orders/orders.dispatch";
 import {OrderStatus} from "../models/system/order-status.model";
+import {EventManager} from "./event.manager";
 
 
 class AddNewOrderManager extends Component <PropsFromRedux> {
 
     constructor(props: any) {
         super(props);
-        queueListener.on('new order to kitchen', queueListener.addToKitchen);
-        queueListener.on('update order status', this.updateOrderStatus);
-        queueListener.on('order finished', this.removeFromStore);
+        queueListener.on(EventManager.UPDATE_ORDER_STATUS, this.updateOrderStatus);
+        queueListener.on(EventManager.ORDER_FINISHED, this.removeFromStore);
     }
 
     shouldComponentUpdate(nextProps: Readonly<PropsFromRedux>, nextState: Readonly<{}>, nextContext: any): boolean {
-        if (nextProps.getLastOrder !== this.props.getLastOrder)
-            return true;
-
-        return false;
+        return nextProps.getLastOrder !== this.props.getLastOrder;
     }
 
     componentDidUpdate(prevProps: Readonly<PropsFromRedux>, prevState: Readonly<{}>, snapshot?: any): void {
@@ -36,7 +33,11 @@ class AddNewOrderManager extends Component <PropsFromRedux> {
             const newOrder = this.props.getLastOrder;
             const findPriority = (o: OrderType) => o.id === newOrder.id
             const priority = prevProps.getPriorityArr.findIndex(findPriority);
-            queueListener.addNewOrderToPend({id: newOrder.id, priority: priority, ttl: newOrder.totalTime})
+            const a:{ myOrder: number, myDishes: [number, number] }[] = [];
+            for(let i =0; i<newOrder.dish.length; i++)
+                a.push({myOrder: newOrder.id, myDishes: [i, newOrder.dish.length-1]})
+            queueListener.addNewOrderToPend({id: newOrder.id, priority: priority, ttl: newOrder.totalTime,
+                dishes:a})
         }
     }
 

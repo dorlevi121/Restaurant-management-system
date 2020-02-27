@@ -10,6 +10,12 @@
     padding: 15px;
     height: 15px;
     max-height: 15px;
+
+    @media (max-width: 1200px) {
+      margin-top: 15px;
+      padding: 10px;
+      height: 10px;
+    }
   }
 
   .Order {
@@ -20,6 +26,7 @@
     background-color: aqua;
     border-radius: 50%;
     cursor: pointer;
+
   }
 
   .Name {

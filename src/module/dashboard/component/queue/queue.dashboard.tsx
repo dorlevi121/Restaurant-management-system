@@ -15,6 +15,10 @@ interface Props {
 const Queue: React.FC<Props> = (props) => {
     const [queues, initQueues] = useState(orderedQueue(props.ordersList));
 
+    const showModal = (order: OrderStatus) => {
+
+    }
+
 
     return (
         <div className={queueStyle.Queue}>
@@ -29,9 +33,7 @@ const Queue: React.FC<Props> = (props) => {
                             )
                         })}
                     </div>
-                )
-            })}
-
+                )})}
         </div>
         // <div className={queueStyle.Queue}>
         //     {props.ordersList.map((queue: OrderType[], index: number) => {
