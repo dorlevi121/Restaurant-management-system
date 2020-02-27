@@ -1,64 +1,59 @@
 import React, {Component} from 'react';
-import {dataQueueListener, queueListener} from "./EventEmitter";
+import {queueListener} from "./EventEmitter";
 import {connect, ConnectedProps} from "react-redux";
 import {Dispatch} from "redux";
 
 import {OrderState} from "../store/orders/order.types";
 import {OrderType} from "../models/system/order.model";
-import {getOrdersInKitchen, getOrdersNumber, getOrdersPriority} from "../store/orders/order.selectors";
+import {getLastOrder, getOrdersNumber, getOrdersPriority} from "../store/orders/order.selectors";
 import {
-    dispatchAddNewOrderToKitchen,
-    dispatchAddNewOrderToQueue, dispatchRemoveOrderFromKitchen,
+    dispatchAddNewOrderToQueue,
+    dispatchChangeStatus,
+    dispatchRemoveOrderFromPriority,
     dispatchRemoveOrderFromQueue
 } from "../store/orders/orders.dispatch";
+import {OrderStatus} from "../models/system/order-status.model";
 
 
 class AddNewOrderManager extends Component <PropsFromRedux> {
-    state = {
-        count: 0
-    }
+
     constructor(props: any) {
         super(props);
-        console.log('AddNewOrderManager - constructor')
-
         queueListener.on('new order to kitchen', queueListener.addToKitchen);
-        queueListener.on('order ready', this.removeFromKitchen)
-    }
-
-    removeFromKitchen = (order:OrderType) => {
-        this.props.removeFromKitchen(order);
-        //this.props.removeOrderFromQueue(order)
-        queueListener.addOrderToKitchen(this.props.getPriorityArr[this.state.count]);
-        this.setState({
-            count: this.state.count +1
-        })
+        queueListener.on('update status to kitchen', this.updateOrderStatusToKitchen)
+        queueListener.on('order ready', this.removeFromStore)
     }
 
     shouldComponentUpdate(nextProps: Readonly<PropsFromRedux>, nextState: Readonly<{}>, nextContext: any): boolean {
-        console.log('AddNewOrderManager - componentWillMount')
-        return true
+        console.log(nextProps.getPriorityArr)
+        if (nextProps.getLastOrder !== this.props.getLastOrder)
+            return true;
 
+        return false;
     }
 
-    componentWillMount(): void {
-
-        if (this.props.getPriorityArr.length === 1) {
-            ///this.props.addOrderToKitchen(this.props.getPriorityArr[0])
-            queueListener.addOrderToKitchen(this.props.getPriorityArr[this.state.count]);
-            this.setState({
-                count: this.state.count +1
-            })
+    componentDidUpdate(prevProps: Readonly<PropsFromRedux>, prevState: Readonly<{}>, snapshot?: any): void {
+        if (prevProps.getPriorityArr.length !== this.props.getPriorityArr.length) {
+            const newOrder = this.props.getLastOrder;
+            const findPriority = (o: OrderType) => o.id === newOrder.id
+            const priority = prevProps.getPriorityArr.findIndex(findPriority);
+            queueListener.addNewOrderToWaiting({id: newOrder.id, priority: priority, ttl: newOrder.totalTime})
         }
     }
 
+    updateOrderStatusToKitchen = (orderId: number): void => {
+        const found = this.props.getPriorityArr.find((order: OrderType) => order.id === orderId);
+        this.props.changeOrderStatus(OrderStatus.kitchen, found);
+    }
+
+    removeFromStore = (orderId: number) => {
+        this.props.removeOrderFromPriority(this.props.getPriorityArr
+            .find((order: OrderType) => order.id === orderId))
+    }
+
+
     render() {
-        console.log('AddNewOrderManager - render')
-
-        return (
-            <div>
-
-            </div>
-        );
+        return null;
     }
 }
 
@@ -66,7 +61,8 @@ const mapStateToProps = (state: OrderState) => {
     return {
         getOrdersNumber: getOrdersNumber(state),
         getPriorityArr: getOrdersPriority(state),
-        getKitchenArr: getOrdersInKitchen(state)
+        getLastOrder: getLastOrder(state),
+        getNumberOfOrders: getOrdersNumber(state)
     }
 }
 
@@ -74,8 +70,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         addNewOrderToQueue: (order: OrderType) => dispatchAddNewOrderToQueue(order, dispatch),
         removeOrderFromQueue: (order: OrderType) => dispatchRemoveOrderFromQueue(order, dispatch),
-        addOrderToKitchen: (order: OrderType) => dispatchAddNewOrderToKitchen(order, dispatch),
-        removeFromKitchen: (order: OrderType) => dispatchRemoveOrderFromKitchen(order, dispatch)
+        changeOrderStatus: (status: OrderStatus, order: OrderType) => dispatchChangeStatus(status, order, dispatch),
+        removeOrderFromPriority: (order: OrderType) => dispatchRemoveOrderFromPriority(order, dispatch)
     }
 }
 

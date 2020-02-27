@@ -12,20 +12,9 @@ export const dispatchRemoveOrderFromQueue = (removeOrder: OrderType, dispatch: D
     return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_QUEUE, removeOrder: removeOrder })
 }
 
-export const dispatchAddNewOrderToKitchen = (newOrder: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.ADD_ORDER_TO_KITCHEN, newOrder: newOrder })
-}
 
-export const dispatchRemoveOrderFromKitchen = (removeOrder: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_KITCHEN, removeOrder: removeOrder })
-}
-
-export const dispatchAddNewOrderToDelivery = (newOrder: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.ADD_ORDER_TO_DELIVERY, newOrder: newOrder })
-}
-
-export const dispatchRemoveOrderFromDelivery = (removeOrder: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_DELIVERY, removeOrder: removeOrder })
+export const dispatchRemoveOrderFromPriority = (removeOrder: OrderType, dispatch: Dispatch) => {
+    return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_PRIORITY, removeOrder: removeOrder })
 }
 
 export const dispatchAddNewOrderToHistory = (newOrder: OrderType, dispatch: Dispatch) => {
@@ -35,3 +24,23 @@ export const dispatchAddNewOrderToHistory = (newOrder: OrderType, dispatch: Disp
 export const dispatchChangeStatus = (status: OrderStatus, order: OrderType, dispatch: Dispatch) => {
     return dispatch({ type: OrderActionsEnum.CHANGE_STATUS, order: order, status: status })
 }
+
+
+
+
+
+
+// export const dispatchAddNewOrderToDelivery = (newOrder: OrderType, dispatch: Dispatch) => {
+//     return dispatch({ type: OrderActionsEnum.ADD_ORDER_TO_DELIVERY, newOrder: newOrder })
+// }
+//
+// export const dispatchRemoveOrderFromDelivery = (removeOrder: OrderType, dispatch: Dispatch) => {
+//     return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_DELIVERY, removeOrder: removeOrder })
+// }
+// export const dispatchAddNewOrderToKitchen = (newOrder: OrderType, dispatch: Dispatch) => {
+//     return dispatch({ type: OrderActionsEnum.ADD_ORDER_TO_KITCHEN, newOrder: newOrder })
+// }
+//
+// export const dispatchRemoveOrderFromKitchen = (removeOrder: OrderType, dispatch: Dispatch) => {
+//     return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_KITCHEN, removeOrder: removeOrder })
+// }

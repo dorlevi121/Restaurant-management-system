@@ -16,7 +16,6 @@ import {DishType} from "../../../models/system/dish.model";
 import {dispatchAddNewOrderToQueue, dispatchRemoveOrderFromQueue} from "../../../store/orders/orders.dispatch";
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
-import {queueListener} from "../../../manager/EventEmitter";
 
 interface StateType {
     dishes: DishType [],
@@ -37,9 +36,7 @@ class Order extends Component <PropsFromRedux> {
         this.setState({
             showModal: false
         })
-        if(order.id === 0){
-            //queueListener.addOrderToKitchen(order);
-        }
+
     }
 
     addNewDish = (disId: number): void => {

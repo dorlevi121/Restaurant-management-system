@@ -1,30 +1,39 @@
 import {EventEmitter} from 'events';
-import {OrderState} from "../store/orders/order.types";
-import {OrderType} from "../models/system/order.model";
-import {OrderStatus} from "../models/system/order-status.model";
+import {numberOfCookingStands, numberOfMessengers} from "../config/config";
 
-export interface dataQueueListener {
+export interface orderListenerType {
     id: number,
-    ttl: number //seconds
+    ttl: number, //seconds
+    priority: number //Array priority location
 }
 
 class QueueListener extends EventEmitter {
+    private orders: orderListenerType[]; //Hold sorted orders
+    private ordersInKitchen: orderListenerType[]; //Hold orders in kitchen
+    private ordersInDelivery: orderListenerType[]; // Hold orders in delivery
+
     constructor() {
         super();
-        console.log('QueueListener - constructor')
-
+        this.orders = [];
+        this.ordersInKitchen = [];
+        this.ordersInDelivery = [];
     }
 
-    addOrderToKitchen(data:OrderType ){
-        this.emit('new order to kitchen', data)
+    addNewOrderToWaiting = (order: orderListenerType) => {
+        this.orders.splice(order.priority, 0, order);
+        if (this.ordersInKitchen.length < numberOfCookingStands) {
+            const orderToKitchen = this.orders.shift();
+            this.emit('new order to kitchen', orderToKitchen);
+        }
     }
 
-    addToKitchen(data: OrderType) {
-        // data.status = OrderStatus.kitchen;
-        // console.log('1: ' + data.status)
-        let timer = 7, minutes, seconds;
-        const x = setInterval( () => {
-            //console.log(timer)
+
+    addToKitchen(data: orderListenerType) {
+        this.emit('update status to kitchen', data.id);
+        this.ordersInKitchen.push(data);
+        let timer = 10, minutes, seconds;
+
+        const x = setInterval(() => {
             minutes = parseInt(String(timer / 60), 10);
             seconds = parseInt(String(timer % 60), 10);
 
@@ -32,18 +41,32 @@ class QueueListener extends EventEmitter {
             seconds = seconds < 10 ? "0" + seconds : seconds;
             console.log(minutes + ":" + seconds + ' (' + data.id + ')');
             if (--timer < 0) {
-                clearInterval(x)
-               // data.status = OrderStatus.queue;
-                //console.log('2: ' + data.status)
-                this.emit('order ready', data);
+                clearInterval(x);
+                this.emit('order ready', data.id);
+                this.removeOrderFromArrays(data.id);
+                if (this.orders.length !== 0 ) {
+                    const orderToKitchen = this.orders.shift();
+                    this.emit('new order to kitchen', orderToKitchen);
+                }
             }
         }, 1000);
     }
 
 
-    destroy(){
+    destroy() {
         this.removeAllListeners();
         //todo: clearInterval
+    }
+
+     removeOrderFromArrays = (orderId:number) => {
+        for (let i = 0; i < this.ordersInKitchen.length; i++) {
+            if (this.ordersInKitchen[i].id === orderId)
+                this.ordersInKitchen.splice(i, 1);
+        }
+        for (let i = 0; i < this.orders.length; i++) {
+            if (this.orders[i].id === orderId)
+                this.orders.splice(i, 1);
+        }
     }
 }
 
