@@ -2,7 +2,6 @@ import burgerImg from '../dishesImg/burger.png';
 import pizzaImg from '../dishesImg/pizza.png';
 import {DishType, priceCalculation} from "../../models/system/dish.model";
 import * as Ingredients from '../../models/system/ingredients.model';
-import {Tomato} from "../../models/system/ingredients.model";
 
 const menu: DishType[] = [
     {

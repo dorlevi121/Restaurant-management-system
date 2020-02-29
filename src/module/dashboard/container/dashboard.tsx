@@ -4,9 +4,6 @@ import dashboardStyle from './dashboard.module.scss';
 import {Dispatch} from "redux";
 import {connect, ConnectedProps} from "react-redux";
 
-
-import Modal from "../../../models/UI/modal/modal";
-import * as helperFunctions from './helper/helper.dashboard'
 import Queue from "../component/queue/queue.dashboard";
 import {getAllOrders, getOrdersPriority} from "../../../store/orders/order.selectors";
 import {OrderType} from "../../../models/system/order.model";

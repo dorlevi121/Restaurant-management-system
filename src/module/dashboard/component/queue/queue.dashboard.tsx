@@ -4,7 +4,6 @@ import queueStyle from './queue.module.scss';
 import {numberOfQueues} from "../../../../config/config";
 import {OrderType} from "../../../../models/system/order.model";
 import {OrderStatus} from "../../../../models/system/order-status.model";
-import Modal from "../../../../models/UI/modal/modal";
 
 
 interface Props {
@@ -15,9 +14,6 @@ interface Props {
 const Queue: React.FC<Props> = (props) => {
     const [queues, initQueues] = useState(orderedQueue(props.ordersList));
 
-    const showModal = (order: OrderStatus) => {
-
-    }
 
 
     return (

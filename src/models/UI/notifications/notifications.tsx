@@ -16,7 +16,7 @@ const notifications:React.FC <Props>= (props) => {
     if(props.notificationsNumber > 0) style = { pointerEvents: 'fill',cursor: 'pointer'}
     return(
         <div  style={style}>
-            <a href="#" className={notificationsStyle.notification}>
+            <a href="# " className={notificationsStyle.notification}>
                 <span>{props.title}</span>
                 <span className={notificationsStyle.badge}>{props.notificationsNumber}</span>
             </a>

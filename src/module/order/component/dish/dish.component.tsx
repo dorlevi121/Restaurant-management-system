@@ -1,7 +1,6 @@
 import React from "react";
 import dishStyle from './Dish.module.scss';
 import {DishType} from "../../../../models/system/dish.model";
-import Button from "../../../../models/UI/button/button";
 
 interface Props {
     dish: DishType

@@ -1,7 +1,5 @@
-import React, {useState} from "react";
-import {OrderType} from "../../system/order.model";
+import React from "react";
 import modalStyle from './modal.module.scss';
-import OrderModal from "./order/moda-order.modal";
 
 interface Props {
     show: boolean,

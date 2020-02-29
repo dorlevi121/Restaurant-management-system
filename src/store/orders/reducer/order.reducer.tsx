@@ -43,7 +43,7 @@ export const ordersReducer = (state = initialOrderState, action: allOrdersAction
         case OrderActionsEnum.REMOVE_ORDER_FROM_PRIORITY:
             return {
                 ...state,
-                ordersPriority: [...state.ordersPriority.filter((order) => order.id != action.removeOrder.id)]
+                ordersPriority: [...state.ordersPriority.filter((order) => order.id !== action.removeOrder.id)]
             };
     }
 

@@ -1,5 +1,4 @@
-
-import React, {Component} from 'react';
+import {Component} from 'react';
 import {queueListener} from "./manager-orders";
 import {connect, ConnectedProps} from "react-redux";
 import {Dispatch} from "redux";
@@ -22,7 +21,7 @@ class AddNewOrderManager extends Component <PropsFromRedux> {
     constructor(props: any) {
         super(props);
         queueListener.on(EventManager.UPDATE_ORDER_STATUS, this.updateOrderStatus);
-        queueListener.on(EventManager.ORDER_FINISHED, this.removeFromStore);
+        queueListener.on(EventManager.ORDER_FINISHED, this.removeOrderFromStore);
     }
 
     shouldComponentUpdate(nextProps: Readonly<PropsFromRedux>, nextState: Readonly<{}>, nextContext: any): boolean {
@@ -47,7 +46,7 @@ class AddNewOrderManager extends Component <PropsFromRedux> {
         this.props.changeOrderStatus(status, found);
     }
 
-    removeFromStore = (orderId: number) => {
+    removeOrderFromStore = (orderId: number) => {
         this.props.removeOrderFromPriority(this.props.getPriorityArr
             .find((order: OrderType) => order.id === orderId))
     }

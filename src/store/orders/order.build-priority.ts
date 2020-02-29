@@ -4,7 +4,6 @@ import {UserType} from "../../models/system/user-type.model";
 
 
 export const buildPriorityList = (orders:{[id:number]: OrderType}) => {
-    const priorityArr: OrderType[] = [];
     const vipOrders: OrderType [] = [];
     const membersOrders: OrderType [] = [];
     const regularOrders: OrderType [] = []
