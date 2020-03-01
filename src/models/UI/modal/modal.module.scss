@@ -11,12 +11,10 @@
 
   animation-name: animate;
   animation-duration: 0.5s;
-
   @keyframes animate {
     from { opacity:0}
     to { opacity:1}
   }
-
 }
 
 /* Modal Content */
@@ -24,7 +22,7 @@
   background-color: #fefefe;
   opacity: .9;
   margin: auto;
-  padding-left: 10px;
+  padding: 10px;
   border: 1px solid #888;
   width: 40%;
   border-radius: 10px;
@@ -32,12 +30,16 @@
   max-height: 60%;
   overflow: auto;
 
+  .border {
+    border-width: 1.5px;
+    border-style: solid;
+    border-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1;
+  }
   /* The Close Button */
   .close {
     color: #aaaaaa;
     font-size: 40px;
     font-weight: bold;
-    transition: all .2s;
     margin-right: 700px;
     transition: all .3s;
   }
@@ -47,60 +49,6 @@
     color: #000;
     text-decoration: none;
     cursor: pointer;
-  }
-
-  /* The Boxes Of Content */
-  .Boxes {
-    display: flex;
-    justify-content: space-around;
-
-    .OrderSummary {
-      width: 30%;
-      padding: 1rem;
-      color: white;
-      border-width: 1.5px;
-      border-style: solid;
-      border-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1;
-      color: #000;
-      text-decoration: none;
-      text-transform: capitalize;
-
-      .PriceNdish {
-        align-self: end;
-        font-weight: 600;
-
-        span {
-          margin-left: 6.25rem;
-        }
-      }
-
-      .typesNtime {
-        display: flex;
-        flex-direction: column;
-        align-items: end;
-
-        .type {
-          margin-bottom: -10px;
-        }
-
-        .CheckBox {
-          text-align: left;
-          margin-left: -40px;
-        }
-
-        .Duration {
-          align-self: end;
-        }
-      }
-    }
-  }
-
-  .Dish {
-    align-self: end;
-
-    .DishPrice {
-      margin-left: 100px;
-    }
   }
 }
 

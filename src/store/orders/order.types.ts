@@ -4,10 +4,10 @@ import {OrderStatus} from "../../models/system/order-status.model";
 
 export interface OrderState  {
     allOrders: {[id:number]: OrderType}, //all the orders
-    ordersPriority: OrderType[], // All orders are sorted
     ordersHistory: {[id:number]: OrderType}, //all the orders that delivered
     ordersNumber: number, //Number Of orders
-    lastOrder: OrderType | null //Holds the last order
+    lastOrder: OrderType | null, //Holds the last order
+    orderCancel: OrderType | null // Holds the last order that cancel
 }
 
 
@@ -22,18 +22,9 @@ export interface addNewOrderToQueueActionType extends ordersActionPattern {
 
 export interface removeOrderFromQueueActionType extends ordersActionPattern {
     type: OrderActionsEnum.REMOVE_ORDER_FROM_QUEUE;
-    removeOrder: OrderType;
+    orderId: number
 }
 
-export interface addOrderToPriorityActionType extends ordersActionPattern {
-    type: OrderActionsEnum.ADD_NEW_ORDER_TO_PRIORITY;
-    newOrder: OrderType;
-}
-
-export interface removeOrderFromPriorityActionType extends ordersActionPattern {
-    type: OrderActionsEnum.REMOVE_ORDER_FROM_PRIORITY;
-    removeOrder: OrderType;
-}
 
 export interface addOrderToHistoryActionType extends ordersActionPattern {
     type: OrderActionsEnum.ADD_NEW_ORDER_TO_HISTORY;
@@ -43,29 +34,11 @@ export interface addOrderToHistoryActionType extends ordersActionPattern {
 export interface changeStatusActionType extends ordersActionPattern {
     type: OrderActionsEnum.CHANGE_STATUS;
     status: OrderStatus;
-    order: OrderType
+    orderId: number
 }
 
 
-
-
-
-// export interface addOrderToKitchenActionType extends ordersActionPattern {
-//     type: OrderActionsEnum.ADD_ORDER_TO_KITCHEN;
-//     newOrder: OrderType;
-// }
-//
-// export interface removeOrderFromKitchenActionType extends ordersActionPattern {
-//     type: OrderActionsEnum.REMOVE_ORDER_FROM_KITCHEN;
-//     removeOrder: OrderType;
-// }
-//
-// export interface addOrderToDeliveryActionType extends ordersActionPattern {
-//     type: OrderActionsEnum.ADD_ORDER_TO_DELIVERY;
-//     newOrder: OrderType;
-// }
-//
-// export interface removeOrderFromDeliveryActionType extends ordersActionPattern {
-//     type: OrderActionsEnum.REMOVE_ORDER_FROM_DELIVERY;
-//     removeOrder: OrderType;
-// }
+export interface addOrderCancelActionType extends ordersActionPattern {
+    type: OrderActionsEnum.ORDER_CANCEL;
+    orderId: number;
+}

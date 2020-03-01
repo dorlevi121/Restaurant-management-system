@@ -2,21 +2,24 @@ import {EventEmitter} from 'events';
 import {numberOfCookingStands, numberOfMessengers} from "../config/config";
 import {OrderStatus} from "../models/system/order-status.model";
 import {EventManager} from "./event.manager";
+import {UserType} from "../models/system/user-type.model";
+import {buildPriorityList} from "../store/orders/order.build-priority";
+import {cloneDeep} from 'lodash';
 
 export interface orderItem {
     id: number,
     ttl: number, //seconds
-    priority: number, //Array priority location
-    dishes: { myOrder: number, myDishes: [number, number] }[]
+    priority: UserType, //Array priority location
+    dishes: { myOrder: number, myDishes: [number, number] }[] //myOrder - order id, myDishes - [cur dish number, total dishes number]
 }
 
 class QueueListener extends EventEmitter {
-    private items: orderItem[]; //Hold sorted items
-    private dishesWaitingToKitchen: { myOrder: number, myDishes: [number, number] }[]; // myPlace - Location relative to other dishes value- Number of dishes in the order
-    private dishesInKitchen: { myOrder: number, myDishes: [number, number] }[]; //Hold items in kitchen
-    private itemsInKitchen: orderItem[];
+    public items: orderItem[]; //Hold sorted items
+    private dishesWaitingToKitchen: { myOrder: number, myDishes: [number, number] }[]; // myOrder - Location relative to other dishes value- Number of dishes in the order
+    public dishesInKitchen: { myOrder: number, myDishes: [number, number] }[]; //Hold items in kitchen
+    public itemsInKitchen: orderItem[];
     private itemsWaitingToDelivery: orderItem [];
-    private itemsInDelivery: orderItem[]; // Hold items in delivery
+    public itemsInDelivery: orderItem[]; // Hold items in delivery
 
     constructor() {
         super();
@@ -29,9 +32,16 @@ class QueueListener extends EventEmitter {
     }
 
     addNewOrderToPend = (order: orderItem) => {
-        this.items.splice(order.priority, 0, order);
+        this.items = cloneDeep(buildPriorityList(this.items, order));
         if (this.dishesInKitchen.length < numberOfCookingStands)
-            this.pushDishesToKitchen()
+            this.pushDishesToKitchen();
+    }
+
+    removeOrder = (orderId: number) => {
+        for (let i=0; i<this.items.length; i++){
+            if(this.items[i].id === orderId)
+                delete this.items[i];
+        }
     }
 
 
@@ -44,7 +54,7 @@ class QueueListener extends EventEmitter {
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
-            console.log(minutes + ":" + seconds + ' ( order number :' + dish.myOrder + ' | ' + dish.myDishes + ')');
+            console.log(minutes + ":" + seconds + ' ( order number :' + dish.myOrder + ' | ' + dish.myDishes + ') | ');
             if (--timer < 0) {
                 clearInterval(kitchenInterval);
                 this.removeDishFromKitchen(dish);
@@ -104,12 +114,6 @@ class QueueListener extends EventEmitter {
         }
     }
 
-    removeOrderFromOrders = (orderId: number) => {
-        for (let i = 0; i < this.items.length; i++) 
-            if (this.items[i].id === orderId){
-                this.items.splice(i, 1);
-        }
-    }
 
     removeOrderFromDelivery = (orderId: number) => {
         for (let i = 0; i < this.itemsInDelivery.length; i++) {
@@ -124,7 +128,7 @@ class QueueListener extends EventEmitter {
         this.itemsInKitchen.push(orderToKitchen)
         for (let i = 0; i < orderToKitchen.dishes.length; i++)
             this.dishesWaitingToKitchen.push(orderToKitchen.dishes[i])
-        this.emit(EventManager.UPDATE_ORDER_STATUS, orderToKitchen.id, OrderStatus.kitchen);        
+        this.emit(EventManager.UPDATE_ORDER_STATUS, orderToKitchen.id, OrderStatus.kitchen);
 
         while (this.dishesInKitchen.length < numberOfCookingStands) {
             const dishToKitchen = this.dishesWaitingToKitchen.shift();
@@ -133,8 +137,6 @@ class QueueListener extends EventEmitter {
         }
 
     }
-
-
 }
 
 export const queueListener = new QueueListener();

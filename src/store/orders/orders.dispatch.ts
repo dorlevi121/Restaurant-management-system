@@ -7,19 +7,19 @@ export const dispatchAddNewOrderToQueue = (newOrder: OrderType, dispatch: Dispat
     return dispatch({ type: OrderActionsEnum.ADD_NEW_ORDER_TO_QUEUE, newOrder: newOrder })
 }
 
-export const dispatchRemoveOrderFromQueue = (removeOrder: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_QUEUE, removeOrder: removeOrder })
+export const dispatchRemoveOrderFromQueue = (orderId: number, dispatch: Dispatch) => {
+    return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_QUEUE, orderId: orderId })
 }
 
-
-export const dispatchRemoveOrderFromPriority = (removeOrder: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.REMOVE_ORDER_FROM_PRIORITY, removeOrder: removeOrder })
-}
 
 export const dispatchAddNewOrderToHistory = (newOrder: OrderType, dispatch: Dispatch) => {
     return dispatch({ type: OrderActionsEnum.ADD_NEW_ORDER_TO_HISTORY, newOrder: newOrder })
 }
 
-export const dispatchChangeStatus = (status: OrderStatus, order: OrderType, dispatch: Dispatch) => {
-    return dispatch({ type: OrderActionsEnum.CHANGE_STATUS, order: order, status: status })
+export const dispatchChangeStatus = (orderId: number, status: OrderStatus, dispatch: Dispatch) => {
+    return dispatch({ type: OrderActionsEnum.CHANGE_STATUS, orderId: orderId, status: status })
+}
+
+export const dispatchAddNewOrderToCancel = (orderId: number, dispatch: Dispatch) => {
+    return dispatch({ type: OrderActionsEnum.ORDER_CANCEL, orderId: orderId })
 }

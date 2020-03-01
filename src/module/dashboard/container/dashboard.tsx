@@ -5,9 +5,12 @@ import {Dispatch} from "redux";
 import {connect, ConnectedProps} from "react-redux";
 
 import Queue from "../component/queue/queue.dashboard";
-import {getAllOrders, getOrdersPriority} from "../../../store/orders/order.selectors";
+import {getAllOrders} from "../../../store/orders/order.selectors";
 import {OrderType} from "../../../models/system/order.model";
 import {OrderState} from "../../../store/orders/order.types";
+import {dispatchAddNewOrderToCancel} from "../../../store/orders/orders.dispatch";
+import Kitchen from "../component/kitchen/kitchen.dashboard";
+
 
 interface dashboardState {
     showModal: boolean,
@@ -16,35 +19,21 @@ interface dashboardState {
 
 class Dashboard extends Component<PropsFromRedux> {
 
-    state: dashboardState = {
-        showModal: false,
-        orderToModal: null,
+    cancelOrder = (orderId: number | null): void => {
+        if (orderId !== null)
+            this.props.cancelOrder(orderId)
     }
-
-
-    orderInfo = (orderId: number) => {
-        const found = this.props.getAllOrders.find((order: OrderType) => order.id === orderId);
-        this.setState({
-            showModal: true,
-            orderToModal: found });
-    }
-
-    closeModal = (): void => {
-        this.setState({
-            showModal: false
-        })
-    }
-
 
     render() {
-        console.log(this.props.getPriorityOrders)
         return (
             <div className={dashboardStyle.dashboard}>
-                {/*<Modal show={this.state.showModal} order={this.state.orderToModal} closeModal={this.closeModal}/>*/}
                 <div className={dashboardStyle.Queues}>
-                    <Queue orderId={this.orderInfo} ordersList={this.props.getPriorityOrders}/>
+                    <Queue cancelOrder={this.cancelOrder} ordersList={this.props.getAllOrders}/>
                 </div>
                 {/*<Kitchen/>*/}
+                <div className={dashboardStyle.Kitchen}>
+                    <Kitchen ordersList={this.props.getAllOrders}/>
+                </div>
             </div>
         );
     }
@@ -53,13 +42,12 @@ class Dashboard extends Component<PropsFromRedux> {
 const mapStateToProps = (state: OrderState) => {
     return {
         getAllOrders: getAllOrders(state),
-        getPriorityOrders: getOrdersPriority(state)
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-
+        cancelOrder: (orderId: number) => dispatchAddNewOrderToCancel(orderId, dispatch)
     }
 }
 

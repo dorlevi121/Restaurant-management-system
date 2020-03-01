@@ -14,8 +14,10 @@ const Modal: React.FC<Props> = (props) => {
     return (
         <div className={modalStyle.modal} style={showHideClassName}>
             <div className={modalStyle.modalContent}>
-                <span onClick={() => props.closeModal()} className={modalStyle.close}>&times;</span>
-                {props.children}
+                <div className={modalStyle.border}>
+                    <span onClick={() => props.closeModal()} className={modalStyle.close}>&times;</span>
+                    {props.children}
+                </div>
             </div>
         </div>
     )

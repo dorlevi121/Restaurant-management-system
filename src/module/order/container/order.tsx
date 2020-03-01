@@ -8,7 +8,7 @@ import {Dispatch} from "redux";
 import {OrderState} from "../../../store/orders/order.types";
 import {connect, ConnectedProps} from "react-redux";
 
-import {getAllOrders, getOrdersNumber, getOrdersPriority} from "../../../store/orders/order.selectors";
+import {getAllOrders, getOrdersNumber} from "../../../store/orders/order.selectors";
 import {OrderType} from "../../../models/system/order.model";
 import {UserType} from "../../../models/system/user-type.model";
 import {OrderStatus} from "../../../models/system/order-status.model";
@@ -16,7 +16,7 @@ import {DishType} from "../../../models/system/dish.model";
 import {dispatchAddNewOrderToQueue, dispatchRemoveOrderFromQueue} from "../../../store/orders/orders.dispatch";
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
-import OrderModal from "../../../models/UI/modal/order/moda-order.modal";
+import OrderModal from "../../../models/UI/modal/order/modal-order.modal";
 
 interface StateType {
     dishes: DishType [],
@@ -95,14 +95,13 @@ const mapStateToProps = (state: OrderState) => {
     return {
         getAllOrders: getAllOrders(state),
         getOrdersNumber: getOrdersNumber(state),
-        getPriorityArr: getOrdersPriority(state)
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         addNewOrderToQueue: (order: OrderType) => dispatchAddNewOrderToQueue(order, dispatch),
-        removeOrderFromQueue: (order: OrderType) => dispatchRemoveOrderFromQueue(order, dispatch)
+        removeOrderFromQueue: (orderId: number) => dispatchRemoveOrderFromQueue(orderId, dispatch)
     }
 }
 

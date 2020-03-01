@@ -1,75 +1,100 @@
-import React, {useState} from "react";
+import React, {Component} from "react";
 import queueStyle from './queue.module.scss';
-
-import {numberOfQueues} from "../../../../config/config";
 import {OrderType} from "../../../../models/system/order.model";
+import {queueListener} from "../../../../manager/manager-orders";
+import {numberOfQueues} from "../../../../config/config";
 import {OrderStatus} from "../../../../models/system/order-status.model";
-
+import Modal from "../../../../models/UI/modal/modal";
+import DashboardModal from "../../../../models/UI/modal/dashboard/moda-dashboard.model";
 
 interface Props {
-    ordersList:OrderType[],
-    orderId: (id: number) => void
+    ordersList: { [id: number]: OrderType },
+    cancelOrder: (orderId: number | null) => void
 }
 
-const Queue: React.FC<Props> = (props) => {
-    const [queues, initQueues] = useState(orderedQueue(props.ordersList));
-
-
-
-    return (
-        <div className={queueStyle.Queue}>
-            {queues.map((queue: OrderType[], index: number) => {
-                return (
-                    <div key={Math.random()} className={queueStyle.Line}>
-                        {queue.map((order: OrderType, index: number) => {
-                            return (
-                                <div key={Math.random()} className={queueStyle.Order}>
-                                    {order.id}
-                                </div>
-                            )
-                        })}
-                    </div>
-                )})}
-        </div>
-        // <div className={queueStyle.Queue}>
-        //     {props.ordersList.map((queue: OrderType[], index: number) => {
-        //         return (
-        //             <div key={index}>
-        //                 <div className={queueStyle.Name}>Queue number {index} :</div>
-        //                 {queue.map((order: OrderType, index: number) => {
-        //                     return (
-        //                         <div onClick={() => props.orderId(order.id)}
-        //                              key={index}
-        //                              className={queueStyle.Circle}>
-        //                             {order.id}
-        //                         </div>
-        //                     )})}
-        //             </div>
-        //         )
-        //     })}
-        // </div>
-    );
-
-}
-
-
-const orderedQueue = (orders: OrderType[]) => {
-    let queues = Array(numberOfQueues).fill(Array(0)); //Array of arrays
-    let count = 0; //Represent queue number
-    let indexInArray = 0; //Represent the position in the queue
-    for (let i = 0; i < orders.length; i++) {
-        if(orders[i].status !== OrderStatus.queue) continue;
-        if (count === numberOfQueues) {
-            count = 0;
-            indexInArray++;
-        }
-        let copyAllArr = [...queues];
-        let copyInnerArr = [...copyAllArr[count]];
-        copyInnerArr[indexInArray] = orders[i];
-        copyAllArr[count++] = copyInnerArr;
-        queues = copyAllArr;
+class Queue extends Component <Props> {
+    constructor(props: any) {
+        super(props);
+        this.cancelOrder = this.cancelOrder.bind(this);
     }
-    return queues;
+
+    state = {
+        showDuration: false,
+        showModal: false,
+        orderClicked: null
+    }
+
+    orderedQueue = (orders: { [id: number]: OrderType }) => {
+        const orderInQueue = queueListener.items;
+
+        let queues = Array(numberOfQueues).fill(Array(0)); //Array of arrays
+        let count = 0; //Represent queue number
+        let indexInArray = 0; //Represent the position in the queue
+        for (let i = 0; i < orderInQueue.length; i++) {
+            const order = orders[orderInQueue[i].id];
+            if (order === undefined) continue;
+            if (order.status !== OrderStatus.queue) continue;
+            if (count === numberOfQueues) {
+                count = 0;
+                indexInArray++;
+            }
+            let copyAllArr = [...queues];
+            let copyInnerArr = [...copyAllArr[count]];
+            copyInnerArr[indexInArray] = order;
+            copyAllArr[count++] = copyInnerArr;
+            queues = copyAllArr;
+        }
+        return queues;
+    }
+
+
+    onMouseHover = () => {
+        this.setState({showDuration: !this.state.showDuration})
+    }
+
+    closeModal = (): void => {
+        this.setState({showModal: false})
+    }
+
+    cancelOrder = (orderId: number | null): void => {
+        this.setState({showModal: false});
+        this.props.cancelOrder(orderId);
+    }
+    onClickOrder = (orderId: number) => {
+        this.setState({showModal: true, orderClicked: this.props.ordersList[orderId]})
+        const order = this.props.ordersList[orderId];
+    }
+
+    render() {
+        return (
+            <div className={queueStyle.Queue}>
+                {this.orderedQueue(this.props.ordersList).map((queue: OrderType[], index: number) => {
+                    return (
+                        <div key={Math.random()} className={queueStyle.Line}>
+                            {queue.map((order: OrderType, index: number) => {
+                                return (
+                                    <div key={Math.random()} className={queueStyle.Order}
+                                         onMouseEnter={this.onMouseHover} onMouseLeave={this.onMouseHover}
+                                         onClick={this.onClickOrder.bind(this, order.id)}>
+                                        {order.id}
+                                        <span className={queueStyle.DurationModal}>
+                                        {this.state.showDuration && <a>Duration: {order.totalTime}</a>}
+                                    </span>
+
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )
+                })}
+                <Modal show={this.state.showModal} closeModal={this.closeModal}>
+                    <DashboardModal order={this.state.orderClicked}
+                                    onCancelClick={this.cancelOrder}/>
+                </Modal>
+            </div>
+        );
+
+    }
 }
 
 export default Queue;

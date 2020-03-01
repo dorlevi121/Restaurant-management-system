@@ -1,0 +1,47 @@
+/* The Boxes Of Content */
+.Boxes {
+  display: flex;
+  justify-content: space-around;
+
+
+  .OrderSummary {
+    width: 30%;
+    padding: 1rem;
+
+    color: #000;
+    text-decoration: none;
+    text-transform: capitalize;
+
+    .PriceNdish {
+      font-weight: 600;
+
+      span {
+        margin-left: 6.25rem;
+      }
+    }
+
+    .typesNtime {
+      text-align: left;
+
+      .type {
+        margin-bottom: -10px;
+      }
+
+      .CheckBox {
+        text-align: left;
+        margin-left: -40px;
+      }
+
+      .Duration {
+      }
+    }
+  }
+}
+
+.Dish {
+  align-self: end;
+
+  .DishPrice {
+    margin-left: 100px;
+  }
+}
