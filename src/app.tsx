@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Home from "./module/shared/home/home";
-import AddNewOrderManager from "./manager/add-new-order.manager";
+import AddNewOrderManager from "./manager/subscriber";
 
 
 function App() {

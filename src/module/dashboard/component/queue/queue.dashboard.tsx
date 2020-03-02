@@ -8,7 +8,7 @@ import Modal from "../../../../models/UI/modal/modal";
 import DashboardModal from "../../../../models/UI/modal/dashboard/moda-dashboard.model";
 
 interface Props {
-    ordersList: { [id: number]: OrderType },
+    ordersList: OrderType[],
     cancelOrder: (orderId: number | null) => void
 }
 
@@ -17,23 +17,21 @@ class Queue extends Component <Props> {
         super(props);
         this.cancelOrder = this.cancelOrder.bind(this);
     }
-
+    
     state = {
         showDuration: false,
         showModal: false,
         orderClicked: null
     }
 
-    orderedQueue = (orders: { [id: number]: OrderType }) => {
-        const orderInQueue = queueListener.items;
+    orderedQueue = (orders:OrderType[]) => {
 
         let queues = Array(numberOfQueues).fill(Array(0)); //Array of arrays
         let count = 0; //Represent queue number
         let indexInArray = 0; //Represent the position in the queue
-        for (let i = 0; i < orderInQueue.length; i++) {
-            const order = orders[orderInQueue[i].id];
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i];
             if (order === undefined) continue;
-            if (order.status !== OrderStatus.queue) continue;
             if (count === numberOfQueues) {
                 count = 0;
                 indexInArray++;
@@ -47,6 +45,7 @@ class Queue extends Component <Props> {
         return queues;
     }
 
+    
 
     onMouseHover = () => {
         this.setState({showDuration: !this.state.showDuration})
@@ -65,7 +64,7 @@ class Queue extends Component <Props> {
         const order = this.props.ordersList[orderId];
     }
 
-    render() {
+    render() {        
         return (
             <div className={queueStyle.Queue}>
                 {this.orderedQueue(this.props.ordersList).map((queue: OrderType[], index: number) => {

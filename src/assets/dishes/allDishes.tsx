@@ -11,7 +11,8 @@ const menu: DishType[] = [
         image: burgerImg,
         id: 0,
         price: priceCalculation( [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese]),
-        date: null
+        date: null,
+        orderId: -1
     },
 
     {
@@ -21,7 +22,8 @@ const menu: DishType[] = [
         image: pizzaImg,
         id: 1,
         price: priceCalculation([Ingredients.Cheese, Ingredients.Tomato]),
-        date: null
+        date: null,
+        orderId: -1
     }
 ];
 

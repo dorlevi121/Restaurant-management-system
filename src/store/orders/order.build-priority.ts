@@ -1,17 +1,15 @@
-
-import {OrderType} from "../../models/system/order.model";
 import {UserType} from "../../models/system/user-type.model";
-import {orderItem} from "../../manager/manager-orders";
+import { ItemType } from "../../models/system/item.modal";
 
 
-export const buildPriorityList = (orders: orderItem[], newOrder: orderItem): orderItem[] => {
+export const buildPriorityList = (orders: ItemType[], newOrder: ItemType): ItemType[] => {
     orders.push(newOrder)
-    const vipOrders: orderItem [] = [];
-    const membersOrders: orderItem [] = [];
-    const regularOrders: orderItem [] = []
+    const vipOrders: ItemType [] = [];
+    const membersOrders: ItemType [] = [];
+    const regularOrders: ItemType [] = []
     for (let i=0; i<orders.length; i++) {
-        if(orders[i].priority === UserType.member) membersOrders.push(orders[i]);
-        else if(orders[i].priority === UserType.vip) vipOrders.push(orders[i]);
+        if(orders[i].userType === UserType.member) membersOrders.push(orders[i]);
+        else if(orders[i].userType === UserType.vip) vipOrders.push(orders[i]);
         else regularOrders.push(orders[i]);
     }
     return vipOrders.concat(membersOrders.concat(regularOrders));

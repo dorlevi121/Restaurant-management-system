@@ -37,15 +37,16 @@ class Order extends Component <PropsFromRedux> {
 
     addOrderToQueue = (order: OrderType) => {
         this.setState({loading: true})
-        setTimeout(()=> {this.setState({loading: false})},4000)
-        clearTimeout();
+        //setTimeout(()=> {this.setState({loading: false})},4000)
+        //clearTimeout();
         this.props.addNewOrderToQueue(order);
         this.setState({ showModal: false })
     }
 
     addNewDish = (disId: number): void => {
         const dish = menu[disId];
-        this.setState({dishes: [...this.state.dishes, dish]})
+        dish.orderId = this.props.getOrdersNumber;
+        this.setState({dishes: [...this.state.dishes, dish]});
     }
 
     initNewOrder = (): void => {
@@ -76,9 +77,9 @@ class Order extends Component <PropsFromRedux> {
         return (
             <div className={orderStyle.OrderBody}>
 
-               { loading && <div className={orderStyle.Loading}>
+               {/* { loading && <div className={orderStyle.Loading}>
                     <Loading/>
-                </div>}
+                </div>} */}
 
                 <div className={orderStyle.Notification} onClick={() => {
                     (this.state.dishes.length) > 0 ? this.initNewOrder() : alert('You didn\'t choose any dish')}}>

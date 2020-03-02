@@ -1,25 +1,19 @@
 import {EventEmitter} from 'events';
-import {numberOfCookingStands, numberOfMessengers} from "../config/config";
-import {OrderStatus} from "../models/system/order-status.model";
+import {numberOfCookingStands, numberOfMessengers, deliveryTime} from "../config/config";
 import {EventManager} from "./event.manager";
-import {UserType} from "../models/system/user-type.model";
 import {buildPriorityList} from "../store/orders/order.build-priority";
-import {cloneDeep} from 'lodash';
+import {cloneDeep, isEqual} from 'lodash';
+import { ItemType } from '../models/system/item.modal';
+import { DishType } from '../models/system/dish.model';
 
-export interface orderItem {
-    id: number,
-    ttl: number, //seconds
-    priority: UserType, //Array priority location
-    dishes: { myOrder: number, myDishes: [number, number] }[] //myOrder - order id, myDishes - [cur dish number, total dishes number]
-}
 
 class QueueListener extends EventEmitter {
-    public items: orderItem[]; //Hold sorted items
-    private dishesWaitingToKitchen: { myOrder: number, myDishes: [number, number] }[]; // myOrder - Location relative to other dishes value- Number of dishes in the order
-    public dishesInKitchen: { myOrder: number, myDishes: [number, number] }[]; //Hold items in kitchen
-    public itemsInKitchen: orderItem[];
-    private itemsWaitingToDelivery: orderItem [];
-    public itemsInDelivery: orderItem[]; // Hold items in delivery
+    private items: ItemType[]; //Hold sorted items
+    private dishesWaitingToKitchen: DishType[]; // myOrder - Location relative to other dishes value- Number of dishes in the order
+    private dishesInKitchen: DishType []; //Hold items in kitchen
+    private itemsInKitchen: ItemType[];
+    private itemsWaitingToDelivery: ItemType [];
+    private itemsInDelivery: ItemType[]; // Hold items in delivery
 
     constructor() {
         super();
@@ -31,69 +25,97 @@ class QueueListener extends EventEmitter {
         this.itemsWaitingToDelivery = [];
     }
 
-    addNewOrderToPend = (order: orderItem) => {
-        this.items = cloneDeep(buildPriorityList(this.items, order));
+    addNewOrderToPend = (item: ItemType) => {
+        this.items = cloneDeep(buildPriorityList(this.items, item));
         if (this.dishesInKitchen.length < numberOfCookingStands)
             this.pushDishesToKitchen();
+        else {
+            this.emit(EventManager.ADD_NEW_ITEM_TO_QUEUE, item.orderId, this.items.findIndex(i=>i.orderId===item.orderId))
+        };
     }
 
-    removeOrder = (orderId: number) => {
-        for (let i=0; i<this.items.length; i++){
-            if(this.items[i].id === orderId)
-                delete this.items[i];
+    pushDishesToKitchen = () => {
+        const orderToKitchen = this.items.shift();
+        if (orderToKitchen === undefined) return;
+
+        this.itemsInKitchen.push(orderToKitchen)
+        this.emit(EventManager.REMOVE_ITEM_FROM_QUEUE, orderToKitchen.orderId);
+
+        for (let i = 0; i < orderToKitchen.dishes.length; i++)
+            this.dishesWaitingToKitchen.push(orderToKitchen.dishes[i])
+
+        while (this.dishesInKitchen.length < numberOfCookingStands) {
+            const dishToKitchen = this.dishesWaitingToKitchen.shift();
+            if (dishToKitchen !== undefined) this.addToKitchen(dishToKitchen);
+            else return;
         }
+
     }
 
 
-    addToKitchen(dish: { myOrder: number, myDishes: [number, number] }) {
+    addToKitchen(dish: DishType) {
         this.dishesInKitchen.push(dish);
-        let timer = 5, minutes, seconds;
+        this.emit(EventManager.UPDATE_NEW_KITCHEN_LIST, this.dishesInKitchen);
+        let timer = dish.duration, minutes, seconds;
         const kitchenInterval = setInterval(() => {
             minutes = parseInt(String(timer / 60), 10);
             seconds = parseInt(String(timer % 60), 10);
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
-            console.log(minutes + ":" + seconds + ' ( order number :' + dish.myOrder + ' | ' + dish.myDishes + ') | ');
+            console.log(minutes + ":" + seconds + ' ( order number :' + dish.orderId  + ') | ');
             if (--timer < 0) {
                 clearInterval(kitchenInterval);
+
                 this.removeDishFromKitchen(dish);
-                if (dish.myDishes[0] === dish.myDishes[1]) {
-                    const order = this.itemsInKitchen.find(o => o.id === dish.myOrder);
-                    if (order === undefined) return;
-                    this.itemsWaitingToDelivery.push(order);
-                    this.emit(EventManager.UPDATE_ORDER_STATUS, order.id, OrderStatus.waiting_to_delivery);
+                this.emit(EventManager.UPDATE_NEW_KITCHEN_LIST, this.dishesInKitchen);
+
+                const orderId = dish.orderId
+                const found = this.itemsInKitchen.find(item => item.orderId === orderId);
+                
+                if(found===undefined) return;
+                found.numOfReadyDishes = found.numOfReadyDishes+1;
+
+                if (found.dishes.length === found.numOfReadyDishes) {
+                    this.itemsInKitchen.splice(this.itemsInKitchen.indexOf(found), 1);
+                    this.itemsWaitingToDelivery.push(found);
+
+                    if (this.itemsInDelivery.length < numberOfMessengers) {
+                        const nextDelivery = this.itemsWaitingToDelivery.shift();
+                        if (nextDelivery !== undefined) this.addToDelivery(nextDelivery)
+                    }
                 }
-                if (this.itemsInDelivery.length < numberOfMessengers) {
-                    const nextDelivery = this.itemsWaitingToDelivery.pop();
-                    if (nextDelivery !== undefined) this.addToDelivery(nextDelivery)
-                }
+
                 if (this.dishesWaitingToKitchen.length !== 0) {
                     const dishToKitchen = this.dishesWaitingToKitchen.shift();
                     if (dishToKitchen !== undefined) this.addToKitchen(dishToKitchen);
-                } else this.pushDishesToKitchen();
+                } 
+                else this.pushDishesToKitchen();
             }
         }, 1000);
     }
 
 
-    addToDelivery = (data: orderItem): void => {
-        this.itemsInDelivery.push(data)
-        this.emit(EventManager.UPDATE_ORDER_STATUS, data.id, OrderStatus.delivery);
-        let deliveryTime = 20;//second
+    addToDelivery = (item: ItemType): void => {
+        this.itemsInDelivery.push(item)
+        this.emit(EventManager.ADD_NEW_ITEM_TO_DELIVERY,item.orderId);
+
+        let time = deliveryTime;//second
         let minutes, seconds;
 
         const deliveryInterval = setInterval(() => {
-            minutes = parseInt(String(deliveryTime / 60), 10);
-            seconds = parseInt(String(deliveryTime % 60), 10);
+            minutes = parseInt(String(time / 60), 10);
+            seconds = parseInt(String(time % 60), 10);
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
-            console.log(minutes + ":" + seconds + ' (' + data.id + ')');
-            if (--deliveryTime < 0) {
+            console.log(minutes + ":" + seconds + ' (' + item.orderId + ')');
+            if (--time < 0) {
                 clearInterval(deliveryInterval);
-                this.removeOrderFromDelivery(data.id)
-                this.emit(EventManager.ORDER_FINISHED, data.id);
+
+                this.removeOrderFromDelivery(item.orderId);
+                this.emit(EventManager.REMOVE_ITEM_FROM_DELIVERY, item.orderId);
+
                 if (this.itemsWaitingToDelivery.length !== 0) {
                     const nextDelivery = this.itemsWaitingToDelivery.pop();
                     if (nextDelivery !== undefined) this.addToDelivery(nextDelivery)
@@ -102,14 +124,10 @@ class QueueListener extends EventEmitter {
         }, 1000)
     }
 
-    destroy() {
-        this.removeAllListeners();
-        //todo: clearInterval
-    }
 
-    removeDishFromKitchen = (dish: { myOrder: number, myDishes: { [myPlace: number]: number } }) => {
+    removeDishFromKitchen = (dish: DishType) => {
         for (let i = 0; i < this.dishesInKitchen.length; i++) {
-            if (this.dishesInKitchen[i] === dish)
+            if (isEqual(this.dishesInKitchen[i], dish))
                 this.dishesInKitchen.splice(i, 1);
         }
     }
@@ -117,25 +135,16 @@ class QueueListener extends EventEmitter {
 
     removeOrderFromDelivery = (orderId: number) => {
         for (let i = 0; i < this.itemsInDelivery.length; i++) {
-            if (this.itemsInDelivery[i].id === orderId)
+            if (this.itemsInDelivery[i].orderId === orderId)
                 this.itemsInDelivery.splice(i, 1);
         }
     }
 
-    pushDishesToKitchen = () => {
-        const orderToKitchen = this.items.shift();
-        if (orderToKitchen === undefined) return;
-        this.itemsInKitchen.push(orderToKitchen)
-        for (let i = 0; i < orderToKitchen.dishes.length; i++)
-            this.dishesWaitingToKitchen.push(orderToKitchen.dishes[i])
-        this.emit(EventManager.UPDATE_ORDER_STATUS, orderToKitchen.id, OrderStatus.kitchen);
-
-        while (this.dishesInKitchen.length < numberOfCookingStands) {
-            const dishToKitchen = this.dishesWaitingToKitchen.shift();
-            if (dishToKitchen !== undefined) this.addToKitchen(dishToKitchen);
-            else return;
+    removeOrder = (orderId: number) => {
+        for (let i=0; i<this.items.length; i++){
+            if(this.items[i].orderId === orderId)
+                delete this.items[i];
         }
-
     }
 }
 

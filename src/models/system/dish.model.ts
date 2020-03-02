@@ -7,7 +7,7 @@ export type DishType = {
     duration: number,
     price: number,
     image: string,
-    orderId?: number,
+    orderId: number,
     finishTims?: number,
     date: Date | null
 }

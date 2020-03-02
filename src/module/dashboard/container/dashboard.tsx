@@ -6,16 +6,12 @@ import {connect, ConnectedProps} from "react-redux";
 
 import Queue from "../component/queue/queue.dashboard";
 import {getAllOrders} from "../../../store/orders/order.selectors";
-import {OrderType} from "../../../models/system/order.model";
 import {OrderState} from "../../../store/orders/order.types";
 import {dispatchAddNewOrderToCancel} from "../../../store/orders/orders.dispatch";
 import Kitchen from "../component/kitchen/kitchen.dashboard";
-
-
-interface dashboardState {
-    showModal: boolean,
-    orderToModal: OrderType | null
-}
+import { getOrdersIdInQueue, getDishesInKitchen, getOrdersIdInDelivery } from "../../../store/queue/queue.selectors";
+import { ItemType } from "../../../models/system/item.modal";
+import { OrderType } from "../../../models/system/order.model";
 
 class Dashboard extends Component<PropsFromRedux> {
 
@@ -24,15 +20,30 @@ class Dashboard extends Component<PropsFromRedux> {
             this.props.cancelOrder(orderId)
     }
 
-    render() {
+    itemsToOrders = (items: number[]): OrderType[] => {
+        const orders: OrderType[] = [];
+        if(items===undefined) return orders;
+        for(let i=0; i<items.length; i++){
+            orders.push(this.props.getAllOrders[items[i]]);
+            console.log('items[i]: ' + items[i]);
+            
+        }
+        console.log('items: ' + items);
+        console.log('orders: ' + orders);
+
+        return orders;
+    }
+
+    render() {       
+         
         return (
             <div className={dashboardStyle.dashboard}>
                 <div className={dashboardStyle.Queues}>
-                    <Queue cancelOrder={this.cancelOrder} ordersList={this.props.getAllOrders}/>
+                    <Queue cancelOrder={this.cancelOrder} ordersList={this.itemsToOrders(this.props.getOrdersIdInQueue)}/>
                 </div>
                 {/*<Kitchen/>*/}
                 <div className={dashboardStyle.Kitchen}>
-                    <Kitchen ordersList={this.props.getAllOrders}/>
+                    <Kitchen dishesList={this.props.getDishesInKitchen}/>
                 </div>
             </div>
         );
@@ -41,7 +52,10 @@ class Dashboard extends Component<PropsFromRedux> {
 
 const mapStateToProps = (state: OrderState) => {
     return {
-        getAllOrders: getAllOrders(state),
+        getAllOrders: getAllOrders(state), // Dictionary of OrderType
+        getOrdersIdInQueue: getOrdersIdInQueue(state), //Array of orders id
+        getDishesInKitchen: getDishesInKitchen(state), //Array of DishType
+        getOrdersIdInDelivery: getOrdersIdInDelivery(state) //Array of orders id
     }
 }
 

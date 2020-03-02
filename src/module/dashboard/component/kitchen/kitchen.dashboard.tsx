@@ -7,46 +7,47 @@ import {DishType} from "../../../../models/system/dish.model";
 
 
 interface Props {
-    ordersList: { [id: number]: OrderType },
+    dishesList: DishType[],
 }
 
 class Kitchen extends Component <Props> {
     state = {
-        orderInKitchen: queueListener.dishesInKitchen
+       // orderInKitchen: this.props.ordersList
     }
 
-    mealToKitchen = () => {
-        let queues = Array(numberOfCookingStands);
-        let count = 0; //Represent queue number
-        let indexInArray = 0; //Represent the position in the queue
-        for (let i = 0; i < this.state.orderInKitchen.length; i++) {
-            const order = this.props.ordersList[this.state.orderInKitchen[i].myOrder];
-            const dish = order.dish[this.state.orderInKitchen[i].myDishes[0]];
-            queues.push(dish);
-        }
-        return queues;
-    }
+    // mealToKitchen = () => {
+    //     let queues = Array(numberOfCookingStands);
+    //     let count = 0; //Represent queue number
+    //     let indexInArray = 0; //Represent the position in the queue
+    //     for (let i = 0; i < this.state.orderInKitchen.length; i++) {
+    //         const order = this.props.ordersList[this.state.orderInKitchen[i].myOrder];
+    //         const dish = order.dish[this.state.orderInKitchen[i].myDishes[0]];
+    //         queues.push(dish);
+    //     }
+    //     return queues;
+    // }
 
 
 
     render() {
         return (
-            <div className={kitchenStyle.Kitchen}>
-                {this.mealToKitchen().map((dish: DishType) => {
-                    return (
-                        <div key={Math.random()} className={kitchenStyle.Stand}>
-                            {dish.title}
-                        </div>
-                    )
-                })}
-                <div className={kitchenStyle.Content}>
-                    <div className={kitchenStyle.Meal}>
-                        <div className={kitchenStyle.DishImg}>
-                            <img src="" alt=""/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div></div>
+            // <div className={kitchenStyle.Kitchen}>
+            //     {this.mealToKitchen().map((dish: DishType) => {
+            //         return (
+            //             <div key={Math.random()} className={kitchenStyle.Stand}>
+            //                 {dish.title}
+            //             </div>
+            //         )
+            //     })}
+            //     <div className={kitchenStyle.Content}>
+            //         <div className={kitchenStyle.Meal}>
+            //             <div className={kitchenStyle.DishImg}>
+            //                 <img src="" alt=""/>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
         );
     }
 
