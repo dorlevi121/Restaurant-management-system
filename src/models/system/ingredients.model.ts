@@ -8,6 +8,7 @@ export type IngredientType = {
     title: string,
     price: number,
     quantity: number,
+    duration: number,
     image: string
 }
 
@@ -15,6 +16,7 @@ export const Tomato: IngredientType = {
     title: 'tomato',
     price: 1,
     quantity: 5,
+    duration: 1,
     image: tomato
 }
 
@@ -22,6 +24,7 @@ export const Meat: IngredientType = {
     title: 'meat',
     price: 5,
     quantity: 5,
+    duration: 2,
     image: meat
 }
 
@@ -29,6 +32,7 @@ export const Cheese: IngredientType = {
     title: 'cheese',
     price: 3,
     quantity: 5,
+    duration: 1,
     image: cheese
 }
 
@@ -36,6 +40,7 @@ export const Lettuce: IngredientType = {
     title: 'lettuce',
     price: 2,
     quantity: 5,
+    duration: 1,
     image: lettuce
 }
 
@@ -43,6 +48,7 @@ export const Cucumber: IngredientType = {
     title: 'cucumber',
     price: 2,
     quantity: 5,
+    duration: 1,
     image: cucumber
 }
 
