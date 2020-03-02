@@ -10,7 +10,7 @@
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 
   animation-name: animate;
-  animation-duration: 0.5s;
+  animation-duration: 1s;
   @keyframes animate {
     from { opacity:0}
     to { opacity:1}

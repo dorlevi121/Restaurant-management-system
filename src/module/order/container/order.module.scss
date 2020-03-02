@@ -13,6 +13,45 @@
   .Order {
     width: 35%;
     margin: 10% auto;
+    animation-name: fadeInUp;
+    animation-duration: 3s;
+
+    }
+  
+
+  & .Loading {
+    width: 90%;
+    height: 100vh;
+    margin: 0 160px;
+    animation-name: loading;
+    animation-duration: 4s;
+    visibility: hidden;
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear;
   }
 }
 
+@keyframes loading {
+  from {
+    z-index: 0;
+    opacity: .5;
+  }
+  to {
+    visibility: visible;
+    z-index: 2000;
+    opacity: 1;
+  }
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+  -100% {
+    opacity: 0.3;
+  }
+}

@@ -17,10 +17,12 @@ import {dispatchAddNewOrderToQueue, dispatchRemoveOrderFromQueue} from "../../..
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
 import OrderModal from "../../../models/UI/modal/order/modal-order.modal";
+import Loading from "../../../models/UI/loading/loading";
 
 interface StateType {
     dishes: DishType [],
     showModal: boolean,
+    loading: boolean,
     orderToModal: OrderType | null
 }
 
@@ -29,10 +31,14 @@ class Order extends Component <PropsFromRedux> {
     state: StateType = {
         dishes: [],
         showModal: false,
+        loading: false,
         orderToModal: null
     }
 
     addOrderToQueue = (order: OrderType) => {
+        this.setState({loading: true})
+        setTimeout(()=> {this.setState({loading: false})},4000)
+        clearTimeout();
         this.props.addNewOrderToQueue(order);
         this.setState({ showModal: false })
     }
@@ -66,8 +72,13 @@ class Order extends Component <PropsFromRedux> {
 
 
     render() {
+        const loading = this.state.loading;
         return (
             <div className={orderStyle.OrderBody}>
+
+               { loading && <div className={orderStyle.Loading}>
+                    <Loading/>
+                </div>}
 
                 <div className={orderStyle.Notification} onClick={() => {
                     (this.state.dishes.length) > 0 ? this.initNewOrder() : alert('You didn\'t choose any dish')}}>
