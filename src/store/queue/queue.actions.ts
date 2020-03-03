@@ -1,7 +1,23 @@
-export enum QueueActionsEnum {
-    ADD_NEW_ITEM_TO_QUEUE = 'ADD_NEW_ITEM_TO_QUEUE',
-    REMOVE_ITEM_FROM_QUEUE = 'REMOVE_ITEM_FROM_QUEUE',
-    ADD_NEW_KITCHEN_LIST = 'ADD_NEW_KITCHEN_LIST',
-    ADD_NEW_ITEM_TO_DELIVERY = 'ADD_NEW_ITEM_TO_DELIVERY',
-    REMOVE_ITEM_FROM_DELIVERY = 'REMOVE_ITEM_FROM_DELIVERY'
+import { DishInterface } from "../../models/system/dish.model";
+import {QueueActionsEnum} from "./queue.types";
+
+
+export const addNewOrderIdToQueue = (OrderId: string, index: number) => {
+    return { type: QueueActionsEnum.ADD_NEW_ORDER_ID_TO_QUEUE, OrderId: OrderId , index: index};
+}
+
+export const removeOrderIdFromQueue = (OrderId: string) => {
+    return { type: QueueActionsEnum.REMOVE_ORDER_ID_QUEUE, OrderId: OrderId };
+}
+
+export const addNewKitchenList= (dishes: DishInterface []) => {
+    return { type: QueueActionsEnum.ADD_NEW_KITCHEN_LIST, dishes: dishes };
+}
+
+export const addNewOrderIdToDelivery = (OrderId: string) => {
+    return { type: QueueActionsEnum.ADD_NEW_ORDER_ID_TO_DELIVERY, OrderId: OrderId };
+}
+
+export const removeOrderIdFromDelivery = (OrderId: string) => {
+    return { type: QueueActionsEnum.REMOVE_ORDER_ID_FROM_DELIVERY, OrderId: OrderId };
 }

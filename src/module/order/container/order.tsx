@@ -1,94 +1,104 @@
 import React, {Component} from "react";
-
 import orderStyle from './order.module.scss';
-import Dishes from "../component/dishes/dishes";
-import menu from "../../../assets/dishes/allDishes";
-//redux
+import Dishes from "../component/dishes/dishes.component";
+import menu from "../../../constants/allDishes";
 import {Dispatch} from "redux";
 import {OrderState} from "../../../store/orders/order.types";
-import {connect, ConnectedProps} from "react-redux";
-
 import {getAllOrders, getOrdersNumber} from "../../../store/orders/order.selectors";
-import {OrderType} from "../../../models/system/order.model";
-import {UserType} from "../../../models/system/user-type.model";
-import {OrderStatus} from "../../../models/system/order-status.model";
-import {DishType} from "../../../models/system/dish.model";
-import {dispatchAddNewOrderToQueue, dispatchRemoveOrderFromQueue} from "../../../store/orders/orders.dispatch";
+import {OrderInterface} from "../../../models/system/order.model";
+import {UserType} from "../../../models/system/user-type.enum";
+import {DishInterface} from "../../../models/system/dish.model";
+import {addNewOrderToQueue, removeOrderFromQueue} from "../../../store/orders/orders.actions";
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
 import OrderModal from "../../../models/UI/modal/order/modal-order.modal";
 import Loading from "../../../models/UI/loading/loading";
+import composition from "../../../utils/composition";
+import {connect} from "react-redux";
 
-interface StateType {
-    dishes: DishType [],
+interface State {
+    dishes: DishInterface [],
     showModal: boolean,
     loading: boolean,
-    orderToModal: OrderType | null
+    orderToModal: OrderInterface | null
 }
 
-class Order extends Component <PropsFromRedux> {
+interface OwnProps {
+}
 
-    state: StateType = {
+interface PropsFromState {
+    getAllOrders: any,
+    getOrdersNumber: number
+}
+
+interface PropsFromDispatch {
+    addNewOrderToQueue: typeof addNewOrderToQueue,
+    removeOrderFromQueue: typeof removeOrderFromQueue,
+}
+
+type AllProps = OwnProps
+    & PropsFromState
+    & PropsFromDispatch;
+
+
+class OrderComponent extends Component<AllProps, State> {
+    state: State = {
         dishes: [],
         showModal: false,
         loading: false,
         orderToModal: null
-    }
+    };
 
-    addOrderToQueue = (order: OrderType) => {
-        this.setState({loading: true})
-        //setTimeout(()=> {this.setState({loading: false})},4000)
-        //clearTimeout();
-        this.props.addNewOrderToQueue(order);
-        this.setState({ showModal: false })
-    }
+    addOrderToQueue = (userType: UserType, dishes: DishInterface[]) => {
+        this.setState({loading: true, dishes: [], orderToModal: null});
+        // setTimeout(() => {
+        //     this.setState({loading: false})
+        // }, 4000);
+        this.props.addNewOrderToQueue(dishes, userType);
+        this.setState({showModal: false})
+    };
 
     addNewDish = (disId: number): void => {
         const dish = menu[disId];
-        dish.orderId = this.props.getOrdersNumber;
         this.setState({dishes: [...this.state.dishes, dish]});
-    }
+    };
 
-    initNewOrder = (): void => {
-        let totalTime = 0, price = 0;
-        for (let i in this.state.dishes) {
-            totalTime += this.state.dishes[i].duration;
-            price += this.state.dishes[i].price
+    changeModalView = (): void => {
+        this.setState({showModal: !this.state.showModal})
+    };
+
+    onNotificationClicked = () => {
+        if(this.state.dishes.length) {
+            this.changeModalView()
+            return;
         }
-
-        const order: OrderType = {
-            id: this.props.getOrdersNumber,
-            dish: this.state.dishes,
-            userType: totalTime > 100 ? UserType.member : UserType.vip,
-            totalTime: totalTime,
-            price: price,
-            status: OrderStatus.queue
-        }
-        this.setState({showModal: true, orderToModal: order, dishes: []})
-    }
-
-    closeModal = (): void => {
-        this.setState({showModal: false})
-    }
-
+        alert('You didn\'t choose any dish');
+    };
 
     render() {
         const loading = this.state.loading;
         return (
             <div className={orderStyle.OrderBody}>
-
-               {/* { loading && <div className={orderStyle.Loading}>
-                    <Loading/>
-                </div>} */}
-
-                <div className={orderStyle.Notification} onClick={() => {
-                    (this.state.dishes.length) > 0 ? this.initNewOrder() : alert('You didn\'t choose any dish')}}>
-                    <Notifications notificationsNumber={this.state.dishes.length} title='Cart'/>
+                {/*{loading && <div className={orderStyle.Loading}>*/}
+                {/*    <Loading/>*/}
+                {/*</div>}*/}
+                <div
+                    className={orderStyle.Notification}
+                    onClick={this.onNotificationClicked}>
+                    <Notifications
+                        notificationsNumber={this.state.dishes.length}
+                        title='Cart'
+                    />
                 </div>
 
                 <div className={orderStyle.Order}>
-                    <Modal  show={this.state.showModal} closeModal={this.closeModal} >
-                        <OrderModal order={this.state.orderToModal} onOrderClick={this.addOrderToQueue}/>
+                    <Modal
+                        show={this.state.showModal}
+                        closeModal={this.changeModalView}>
+                        <OrderModal
+                            dishes={this.state.dishes}
+                            onOrderClick={this.addOrderToQueue}
+                        />
                     </Modal>
 
                     <div className={orderStyle.Dishes}>
@@ -98,26 +108,23 @@ class Order extends Component <PropsFromRedux> {
                     </div>
                 </div>
             </div>
-
         );
     }
 }
 
-const mapStateToProps = (state: OrderState) => {
-    return {
-        getAllOrders: getAllOrders(state),
-        getOrdersNumber: getOrdersNumber(state),
-    }
-}
+const mapStateToProps = (state: OrderState) => ({
+    getAllOrders: getAllOrders(state),
+    getOrdersNumber: getOrdersNumber(state),
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        addNewOrderToQueue: (order: OrderType) => dispatchAddNewOrderToQueue(order, dispatch),
-        removeOrderFromQueue: (orderId: number) => dispatchRemoveOrderFromQueue(orderId, dispatch)
-    }
-}
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    addNewOrderToQueue: (dishes: DishInterface[], userType: UserType) => dispatch(addNewOrderToQueue(dishes, userType))
+});
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>
+const Order = composition<OwnProps>(
+    // @ts-ignore
+    OrderComponent,
+    connect(mapStateToProps, mapDispatchToProps)
+);
 
-export default connector(Order);
+export default Order;

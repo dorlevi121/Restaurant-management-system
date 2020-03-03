@@ -31,11 +31,16 @@ $color: rgb(210, 216, 221); // the rest
 #cooking {
   position: relative;
   margin-top: -90px;
-  margin-left: 250px;
+  margin-left: 400px;
   top: 0;
   width: 75vh;
   height: 45vh;
   overflow: hidden;
+  @media (min-height: 800px) {
+    margin-top: -150px;
+    margin-left: 400px;
+  }
+
   .bubble {
     position: absolute;
     border-radius: 100%;

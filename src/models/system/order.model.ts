@@ -1,12 +1,10 @@
-import {DishType} from "./dish.model";
-import {UserType} from "./user-type.model";
-import {OrderStatus} from "./order-status.model";
+import {DishInterface} from "./dish.model";
+import {UserType} from "./user-type.enum";
 
-export type OrderType = {
-    id: number,
+export type OrderInterface = {
+    id: string,
     userType: UserType,
-    dish: DishType [],
+    dish: DishInterface[],
     totalTime: number,
-    price: number,
-    status: OrderStatus
+    price: number
 }

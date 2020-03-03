@@ -1,4 +1,4 @@
-export enum EventManager {
+export enum OrdersEvents {
     ADD_NEW_ITEM_TO_QUEUE = 'ADD_NEW_ITEM_TO_QUEUE',
     REMOVE_ITEM_FROM_QUEUE = 'REMOVE_ITEM_FROM_QUEUE',
     UPDATE_NEW_KITCHEN_LIST = 'UPDATE_NEW_KITCHEN_LIST',

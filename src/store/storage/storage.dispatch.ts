@@ -1,9 +1,9 @@
-import {IngredientType} from "../../models/system/ingredients.model";
+import {IngredientInterface} from "../../models/system/ingredients.model";
 import {Dispatch} from "redux";
 import {StorageActionsEnum} from "./storage.actions";
 
 
-export const dispatchRefuelIngredients = (ingredients: {[title: string]: IngredientType}, dispatch: Dispatch) => {
+export const dispatchRefuelIngredients = (ingredients: {[title: string]: IngredientInterface}, dispatch: Dispatch) => {
     return dispatch({type: StorageActionsEnum.REFUEL_INGREDIENTS, newIngrediens: ingredients});
 }
 

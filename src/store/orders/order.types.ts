@@ -1,15 +1,20 @@
-import {OrderType} from "../../models/system/order.model";
-import {OrderActionsEnum} from "./order.actions";
-import {OrderStatus} from "../../models/system/order-status.model";
+import {OrderInterface} from "../../models/system/order.model";
+import {DishInterface} from "../../models/system/dish.model";
+import {UserType} from "../../models/system/user-type.enum";
 
 export interface OrderState  {
-    allOrders: {[id:number]: OrderType}, //all the orders
-    ordersHistory: {[id:number]: OrderType}, //all the orders that delivered
+    allOrders: {[id:string]: OrderInterface}, //all the orders
     ordersNumber: number, //Number Of orders
-    lastOrder: OrderType | null, //Holds the last order
-    orderCancel: OrderType | null // Holds the last order that cancel
+    lastOrder: OrderInterface | null, //Holds the last order
+    orderCancel: OrderInterface | null // Holds the last order that cancel
 }
 
+
+export enum OrderActionsEnum {
+    ADD_NEW_ORDER_TO_QUEUE = 'ADD_NEW_ORDER_TO_QUEUE',
+    REMOVE_ORDER_FROM_QUEUE = 'REMOVE_ORDER_FROM_QUEUE',
+    ORDER_CANCEL = 'ORDER_CANCEL'
+}
 
 export interface ordersActionPattern {
     type: OrderActionsEnum; //Enum of actions
@@ -17,26 +22,14 @@ export interface ordersActionPattern {
 
 export interface addNewOrderToQueueActionType extends ordersActionPattern {
     type: OrderActionsEnum.ADD_NEW_ORDER_TO_QUEUE;
-    newOrder: OrderType;
+    dishes: DishInterface [],
+    userType: UserType
 }
 
 export interface removeOrderFromQueueActionType extends ordersActionPattern {
     type: OrderActionsEnum.REMOVE_ORDER_FROM_QUEUE;
     orderId: number
 }
-
-
-export interface addOrderToHistoryActionType extends ordersActionPattern {
-    type: OrderActionsEnum.ADD_NEW_ORDER_TO_HISTORY;
-    newOrder: OrderType;
-}
-
-export interface changeStatusActionType extends ordersActionPattern {
-    type: OrderActionsEnum.CHANGE_STATUS;
-    status: OrderStatus;
-    orderId: number
-}
-
 
 export interface addOrderCancelActionType extends ordersActionPattern {
     type: OrderActionsEnum.ORDER_CANCEL;

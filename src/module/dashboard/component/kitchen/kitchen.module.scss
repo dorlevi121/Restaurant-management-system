@@ -1,8 +1,42 @@
-.Kitchen {
-    background-color: black;
+.KitchenModule {
+  width: 80vw;
+  display: flex;
+  flex-wrap: wrap;
 
-    .Stand {
-        color: white;
-        display: block;
+  .Stand {
+    color: white;
+    width: 50vw;
+    margin-right: -400px;
+  }
+
+  .DishHeader {
+    text-align: start;
+    margin-left: 10px;
+
+    & p {
+
+        & span {
+            margin-left: 10px;
+        }
     }
+  }
+
+  .Ingredients {
+    margin-left: -750px;
+    display: inline-block;
+
+    .Ingredient {
+      display: inline;
+
+      & img {
+        width: 2%;
+        margin: 12px;
+      }
+    }
+  }
+
+  .Time {
+    text-align: start;
+    margin-left: 10px;
+  }
 }

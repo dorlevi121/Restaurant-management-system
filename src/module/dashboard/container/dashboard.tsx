@@ -1,45 +1,83 @@
 import React, {Component} from "react";
 import dashboardStyle from './dashboard.module.scss';
-//redux
 import {Dispatch} from "redux";
-import {connect, ConnectedProps} from "react-redux";
-
+import {connect} from "react-redux";
 import Queue from "../component/queue/queue.dashboard";
 import {getAllOrders} from "../../../store/orders/order.selectors";
 import {OrderState} from "../../../store/orders/order.types";
-import {dispatchAddNewOrderToCancel} from "../../../store/orders/orders.dispatch";
 import Kitchen from "../component/kitchen/kitchen.dashboard";
-import { getOrdersIdInQueue, getDishesInKitchen, getOrdersIdInDelivery } from "../../../store/queue/queue.selectors";
-import { ItemType } from "../../../models/system/item.modal";
-import { OrderType } from "../../../models/system/order.model";
+import {getDishesInKitchen, getOrdersIdInDelivery, getOrdersIdInQueue} from "../../../store/queue/queue.selectors";
+import {OrderInterface} from "../../../models/system/order.model";
+import {addNewOrderToCancel} from "../../../store/orders/orders.actions";
+import {DishInterface} from "../../../models/system/dish.model";
+import composition from "../../../utils/composition";
+import Modal from "../../../models/UI/modal/modal";
+import DashboardModal from "../../../models/UI/modal/dashboard/modal-dashboard.modal";
 
-class Dashboard extends Component<PropsFromRedux> {
+interface State {
+    showModal: boolean,
+    orderClicked: OrderInterface | null
+}
 
-    cancelOrder = (orderId: number | null): void => {
+interface OwnProps {
+}
+
+interface PropsFromState {
+    getAllOrders: any,
+    getOrdersIdInQueue: string[],
+    getDishesInKitchen: DishInterface[],
+    getOrdersIdInDelivery: number[]
+}
+
+interface PropsFromDispatch {
+    cancelOrder: typeof addNewOrderToCancel
+}
+
+type AllProps = OwnProps
+    & PropsFromState
+    & PropsFromDispatch;
+
+class Dashboard extends Component<AllProps, State> {
+    state: State = {
+        showModal: false,
+        orderClicked: null
+    }
+    cancelOrder = (orderId: string | null): void => {
+        this.changeModalView();
         if (orderId !== null)
             this.props.cancelOrder(orderId)
     }
 
-    itemsToOrders = (items: number[]): OrderType[] => {
-        const orders: OrderType[] = [];
-        if(items===undefined) return orders;
-        for(let i=0; i<items.length; i++){
-            orders.push(this.props.getAllOrders[items[i]]);
-            console.log('items[i]: ' + items[i]);
-            
-        }
-        console.log('items: ' + items);
-        console.log('orders: ' + orders);
+    changeModalView = (): void => {
+        this.setState({showModal: !this.state.showModal})
+    };
 
-        return orders;
+
+    onOrderClick = (orderId: string | null): void => {
+        if (orderId === null) return;
+        this.setState({
+            orderClicked: this.props.getAllOrders[orderId], showModal: true
+        })
     }
 
-    render() {       
-         
+
+    render() {
         return (
             <div className={dashboardStyle.dashboard}>
+                <Modal show={this.state.showModal} closeModal={this.changeModalView}>
+                    <DashboardModal
+                        order={this.state.orderClicked}
+                        onCancelClick={this.cancelOrder}
+                    />
+                </Modal>
                 <div className={dashboardStyle.Queues}>
-                    <Queue cancelOrder={this.cancelOrder} ordersList={this.itemsToOrders(this.props.getOrdersIdInQueue)}/>
+                    <Queue
+                        onOrderClick={this.onOrderClick}
+                        ordersIdList={this.props.getOrdersIdInQueue}
+                    />
+                </div>
+                <div className={dashboardStyle.Line}>
+
                 </div>
                 {/*<Kitchen/>*/}
                 <div className={dashboardStyle.Kitchen}>
@@ -61,11 +99,13 @@ const mapStateToProps = (state: OrderState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        cancelOrder: (orderId: number) => dispatchAddNewOrderToCancel(orderId, dispatch)
+        cancelOrder: (orderId: string) => dispatch(addNewOrderToCancel(orderId))
     }
 }
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>
 
-export default connector(Dashboard);
+export default composition<OwnProps>(
+    // @ts-ignore
+    Dashboard,
+    connect(mapStateToProps, mapDispatchToProps)
+);

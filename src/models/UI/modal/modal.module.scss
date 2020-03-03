@@ -10,7 +10,8 @@
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 
   animation-name: animate;
-  animation-duration: 1s;
+  animation-duration: .5s;
+
   @keyframes animate {
     from { opacity:0}
     to { opacity:1}
@@ -41,7 +42,6 @@
     font-size: 40px;
     font-weight: bold;
     margin-right: 700px;
-    transition: all .3s;
   }
 
   .close:hover,

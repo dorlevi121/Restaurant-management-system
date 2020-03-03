@@ -1,14 +1,12 @@
 import React from 'react';
-
-import Home from "./module/shared/home/home";
-import AddNewOrderManager from "./manager/subscriber";
-
+import Core from "./module/core/core";
+import OrderSubscriber from "./manager/subscriber";
 
 function App() {
     return (
           <div>
-              <Home/>
-              <AddNewOrderManager/>
+              <Core/>
+              <OrderSubscriber/>
           </div>
     );
 }

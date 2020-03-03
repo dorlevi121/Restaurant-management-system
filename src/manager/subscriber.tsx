@@ -1,85 +1,89 @@
 import {Component} from 'react';
-import {queueListener} from "./manager-orders";
 import {connect, ConnectedProps} from "react-redux";
 import {Dispatch} from "redux";
-
-import {OrderState} from "../store/orders/order.types";
-import {OrderType} from "../models/system/order.model";
 import {getLastOrder, getOrderCancel} from "../store/orders/order.selectors";
-import {EventManager} from "./event.manager";
 import {isEqual} from "lodash";
-import { DishType } from '../models/system/dish.model';
-import { dispatchAddNewItemToQueue, dispatchAddNewKitchenList, dispatchRemoveItemFromQueue, dispatchAddNewItemToDelivery, dispatchRemoveItemFromDelivery } from '../store/queue/queue.dispatch';
+import {OrderState} from "../store/orders/order.types";
+import {DishInterface} from '../models/system/dish.model';
+import {queueListener} from "./orders.manager";
+import {OrdersEvents} from "./orders-events";
+import {
+    addNewOrderIdToDelivery,
+    addNewOrderIdToQueue,
+    addNewKitchenList,
+    removeOrderIdFromDelivery, removeOrderIdFromQueue
+} from "../store/queue/queue.actions";
+import {OrderInterface} from "../models/system/order.model";
+import composition from "../utils/composition";
 
+interface OwnProps {
+}
 
-class AddNewOrderManager extends Component <PropsFromRedux> {
+interface PropsFromState {
+    getLastOrder: OrderInterface,
+    getOrderCancel: number
+}
+
+interface PropsFromDispatch {
+    addNewOrderIdToQueue: typeof addNewOrderIdToQueue,
+    removeOrderIdFromQueue: typeof removeOrderIdFromQueue,
+    updateNewKitchenList: typeof addNewKitchenList,
+    addNewOrderIdToDelivery: typeof addNewOrderIdToDelivery,
+    removeOrderIdFromDelivery: typeof removeOrderIdFromDelivery,
+}
+
+type AllProps = OwnProps
+    & PropsFromState
+    & PropsFromDispatch;
+class Subscriber extends Component <AllProps> {
 
     constructor(props: any) {
         super(props);
-        queueListener.on(EventManager.ADD_NEW_ITEM_TO_QUEUE, this.addNewItemToQueue);
-        queueListener.on(EventManager.REMOVE_ITEM_FROM_QUEUE, this.removeItemFromQueue);
-        queueListener.on(EventManager.UPDATE_NEW_KITCHEN_LIST, this.updateNewKitchenList);
-        queueListener.on(EventManager.ADD_NEW_ITEM_TO_DELIVERY, this.addNewItemToDelivery);
-        queueListener.on(EventManager.REMOVE_ITEM_FROM_DELIVERY, this.removeItemFromDelivery);
+        queueListener.on(OrdersEvents.ADD_NEW_ITEM_TO_QUEUE, this.addNewItemToQueue);
+        queueListener.on(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, this.removeItemFromQueue);
+        queueListener.on(OrdersEvents.UPDATE_NEW_KITCHEN_LIST, this.updateNewKitchenList);
+        queueListener.on(OrdersEvents.ADD_NEW_ITEM_TO_DELIVERY, this.addNewItemToDelivery);
+        queueListener.on(OrdersEvents.REMOVE_ITEM_FROM_DELIVERY, this.removeItemFromDelivery);
     }
 
-    shouldComponentUpdate(nextProps: Readonly<PropsFromRedux>, nextState: Readonly<{}>, nextContext: any): boolean {
+    shouldComponentUpdate(nextProps: Readonly<AllProps>, nextState: Readonly<{}>, nextContext: any): boolean {
         return (nextProps.getLastOrder !== this.props.getLastOrder) ||
             (nextProps.getOrderCancel !== this.props.getOrderCancel);
     }
 
-    componentDidUpdate(prevProps: Readonly<PropsFromRedux>, prevState: Readonly<{}>, snapshot?: any): void {
-        if (!isEqual(prevProps.getLastOrder, this.props.getLastOrder)) {
-            const newOrder: OrderType = this.props.getLastOrder;
-            const a: DishType[] = []
+    addNewItemToQueue = (orderId: string, index: number) => this.props.addNewOrderIdToQueue(orderId, index);
 
-            for (let i = 0; i < newOrder.dish.length; i++) a.push(newOrder.dish[i])
+    removeItemFromQueue = (orderId: string) => this.props.removeOrderIdFromQueue(orderId);
 
-            const item = {orderId: newOrder.id, userType: newOrder.userType, dishes: [...a], numOfReadyDishes: 0};
-            queueListener.addNewOrderToPend(item);
-        }
+    updateNewKitchenList = (dishes: DishInterface[]) => this.props.updateNewKitchenList(dishes);
 
-        else if (!isEqual(prevProps.getOrderCancel, this.props.getOrderCancel))
-            queueListener.removeOrder(this.props.getOrderCancel.id);
-    }
+    addNewItemToDelivery = (orderId: string) => this.props.addNewOrderIdToDelivery(orderId);
+
+    removeItemFromDelivery = (orderId: string) => this.props.removeOrderIdFromDelivery(orderId);
 
 
-    addNewItemToQueue = (orderId: number, index: number) => this.props.addNewItemToQueue(orderId, index);
-    
-
-    removeItemFromQueue = (orderId: number) => this.props.removeItemFromQueue(orderId);
-    
-
-    updateNewKitchenList = (dishes: DishType[]) => this.props.updateNewKitchenList(dishes);
-
-
-    addNewItemToDelivery = (orderId: number) => this.props.addNewItemToDelivery(orderId);
-    
-
-    removeItemFromDelivery = (orderId: number) => this.props.removeItemFromDelivery(orderId);
-    
-
-    render() { return null; }
-}
-
-const mapStateToProps = (state: OrderState) => {
-    return {
-        getLastOrder: getLastOrder(state),
-        getOrderCancel: getOrderCancel(state)
+    render() {
+        return null;
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        addNewItemToQueue: (orderId: number, index: number) => dispatchAddNewItemToQueue(orderId, index, dispatch),
-        removeItemFromQueue: (orderId: number) => dispatchRemoveItemFromQueue(orderId, dispatch),
-        updateNewKitchenList: (dishes: DishType[]) => dispatchAddNewKitchenList(dishes, dispatch),
-        addNewItemToDelivery: (orderId: number) => dispatchAddNewItemToDelivery(orderId, dispatch),
-        removeItemFromDelivery: (orderId: number) => dispatchRemoveItemFromDelivery(orderId, dispatch)
-    }
-}
+const mapStateToProps = (state: OrderState) => ({
+    getLastOrder: getLastOrder(state),
+    getOrderCancel: getOrderCancel(state)
+})
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    addNewOrderIdToQueue: (orderId: string, index: number) => dispatch(addNewOrderIdToQueue(orderId, index)),
+    removeOrderIdFromQueue: (orderId: string) => dispatch(removeOrderIdFromQueue(orderId)),
+    updateNewKitchenList: (dishes: DishInterface[]) => dispatch(addNewKitchenList(dishes)),
+    addNewOrderIdToDelivery: (orderId: string) => dispatch(addNewOrderIdToDelivery(orderId)),
+    removeOrderIdFromDelivery: (orderId: string) => dispatch(removeOrderIdFromDelivery(orderId))
+})
 
-export default connector(AddNewOrderManager);
+
+
+export default  composition<OwnProps>(
+    // @ts-ignore
+    Subscriber,
+    connect(mapStateToProps, mapDispatchToProps)
+);

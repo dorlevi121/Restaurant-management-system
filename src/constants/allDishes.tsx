@@ -1,9 +1,9 @@
-import burgerImg from '../dishesImg/burger.png';
-import pizzaImg from '../dishesImg/pizza.png';
-import {DishType, priceCalculation, timeCalculation} from "../../models/system/dish.model";
-import * as Ingredients from '../../models/system/ingredients.model';
+import burgerImg from '../assets/dishesImg/burger.png';
+import pizzaImg from '../assets/dishesImg/pizza.png';
+import {DishInterface, priceCalculation, timeCalculation} from "../models/system/dish.model";
+import * as Ingredients from '../models/system/ingredients.model';
 
-const menu: DishType[] = [
+const menu: DishInterface[] = [
     {
         title: 'Burger',
         ingredients: [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese],
@@ -11,8 +11,8 @@ const menu: DishType[] = [
         image: burgerImg,
         id: 0,
         price: priceCalculation( [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese]),
-        date: null,
-        orderId: -1
+        orderId: '',
+        kitchenEntryTime: 0
     },
 
     {
@@ -22,8 +22,8 @@ const menu: DishType[] = [
         image: pizzaImg,
         id: 1,
         price: priceCalculation([Ingredients.Cheese, Ingredients.Tomato]),
-        date: null,
-        orderId: -1
+        orderId: '',
+        kitchenEntryTime: 0
     }
 ];
 

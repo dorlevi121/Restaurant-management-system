@@ -3,14 +3,14 @@
   width: 50%;
   height: 100%;
 
-  .Queues {
-    width:600px; /* or whatever width you want. */
-    max-width:600px; /* or whatever width you want. */
-    display: inline-block;
 
+  .Queues {
+    width:40vw;
+    max-width:40vw;
+    margin: auto;
     @media (max-width: 1200px) {
-      width:300px; /* or whatever width you want. */
-      max-width:300px; /* or whatever width you want. */
+      width:300px;
+      max-width:300px;
     }
   }
 
@@ -20,10 +20,20 @@
   }
 
   .Kitchen {
-    margin-top: 50px;
-    width:600px; /* or whatever width you want. */
-    max-width:600px; /* or whatever width you want. */
-    display: inline-block;
+    width:40vw;
+    max-width:40vw;
+    margin: auto;
 
   }
+}
+
+.Line{
+  margin-left: 80px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  height: 1px;
+  border: 0;
+  background: #ffffff;
+  background: -webkit-gradient(linear, 0 0, 100% 0, from(#000000), to(#0e0e0e), color-stop(50%, #ffffff));
+
 }

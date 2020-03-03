@@ -1,0 +1,13 @@
+li .link {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+li .link:hover:not(.active) {
+  background-color: #555;
+  color: white;
+  transform: scaleY(1.1);
+}

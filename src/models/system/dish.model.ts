@@ -1,25 +1,24 @@
-import {IngredientType} from "./ingredients.model";
+import {IngredientInterface} from "./ingredients.model";
 
-export type DishType = {
+export type DishInterface = {
     id: number,
     title: string,
-    ingredients: IngredientType[],
+    ingredients: IngredientInterface[],
     duration: number,
     price: number,
     image: string,
-    orderId: number,
-    finishTims?: number,
-    date: Date | null
+    orderId: string,
+    kitchenEntryTime: number,
 }
 
-export const priceCalculation = (ingredients: IngredientType[]): number => {
+export const priceCalculation = (ingredients: IngredientInterface[]): number => {
     let sum = 0;
     for (let i = 0; i < ingredients.length; i++)
         sum += ingredients[i].price;
     return sum;
 }
 
-export const timeCalculation = (ingredients: IngredientType[]): number => {
+export const timeCalculation = (ingredients: IngredientInterface[]): number => {
     let sum = 0;
     for (let i = 0; i < ingredients.length; i++)
         sum += ingredients[i].duration;

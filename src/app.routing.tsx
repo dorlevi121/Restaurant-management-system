@@ -3,7 +3,7 @@ import {Route, Switch} from "react-router";
 
 import Order from './module/order/container/order';
 import Dashboard from "./module/dashboard/container/dashboard";
-import Storage from "./module/storage/container/storage";
+import Storage from "./module/storage/storage";
 
 export const routing: React.FC = () => (
     <Switch>

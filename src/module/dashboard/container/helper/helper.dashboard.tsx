@@ -1,13 +1,13 @@
 import {OrderState} from "../../../../store/orders/order.types";
-import {OrderType} from "../../../../models/system/order.model";
-import {UserType} from "../../../../models/system/user-type.model";
+import {OrderInterface} from "../../../../models/system/order.model";
+import {UserType} from "../../../../models/system/user-type.enum";
 
 
 //Sort
-export const QueueToKitchen = (ordersInKitchen: OrderType[]): OrderType[] => {
-    const vipOrders: OrderType [] = [];
-    const membersOrders: OrderType [] = [];
-    const regularOrders: OrderType [] = []
+export const QueueToKitchen = (ordersInKitchen: OrderInterface[]): OrderInterface[] => {
+    const vipOrders: OrderInterface [] = [];
+    const membersOrders: OrderInterface [] = [];
+    const regularOrders: OrderInterface [] = []
     for (let i = 0; i < ordersInKitchen.length; i++) {
         if (ordersInKitchen[i].userType ===  UserType.vip)
             vipOrders.push(ordersInKitchen[i]);
