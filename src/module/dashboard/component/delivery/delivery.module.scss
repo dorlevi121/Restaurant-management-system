@@ -1,0 +1,30 @@
+.DeliveryModule {
+  display: flex;
+  justify-content: space-between;
+
+  .Position {
+    width: 50%;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid white;
+    margin-right: 10px;
+
+    .Content {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-left: 5px;
+
+    }
+
+    .Icon {
+      width: 40%;
+      & img {
+        width: 80%;
+      }
+    }
+  }
+}

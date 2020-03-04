@@ -1,8 +1,7 @@
 import {Component} from 'react';
-import {connect, ConnectedProps} from "react-redux";
+import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {getLastOrder, getOrderCancel} from "../store/orders/order.selectors";
-import {isEqual} from "lodash";
 import {OrderState} from "../store/orders/order.types";
 import {DishInterface} from '../models/system/dish.model';
 import {queueListener} from "./orders.manager";

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import queueStyle from './queue.module.scss';
 import {numberOfQueues} from "../../../../config/config";
+import {OrderInterface} from "../../../../models/system/order.model";
 
 
 interface Props {
@@ -40,11 +41,7 @@ class Queue extends Component <Props> {
         return queues;
     }
 
-
-
     onMouseHover = () => this.setState({showDuration: !this.state.showDuration});
-
-
 
 
     render() {

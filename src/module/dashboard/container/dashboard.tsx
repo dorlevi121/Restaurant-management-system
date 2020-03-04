@@ -13,6 +13,8 @@ import {DishInterface} from "../../../models/system/dish.model";
 import composition from "../../../utils/composition";
 import Modal from "../../../models/UI/modal/modal";
 import DashboardModal from "../../../models/UI/modal/dashboard/modal-dashboard.modal";
+import Delivery from "../component/delivery/delivery.dashboard";
+import Timer from "../../shared/timer.shared";
 
 interface State {
     showModal: boolean,
@@ -26,7 +28,7 @@ interface PropsFromState {
     getAllOrders: any,
     getOrdersIdInQueue: string[],
     getDishesInKitchen: DishInterface[],
-    getOrdersIdInDelivery: number[]
+    getOrdersIdInDelivery: string[]
 }
 
 interface PropsFromDispatch {
@@ -42,6 +44,7 @@ class Dashboard extends Component<AllProps, State> {
         showModal: false,
         orderClicked: null
     }
+
     cancelOrder = (orderId: string | null): void => {
         this.changeModalView();
         if (orderId !== null)
@@ -52,12 +55,22 @@ class Dashboard extends Component<AllProps, State> {
         this.setState({showModal: !this.state.showModal})
     };
 
-
     onOrderClick = (orderId: string | null): void => {
         if (orderId === null) return;
         this.setState({
             orderClicked: this.props.getAllOrders[orderId], showModal: true
         })
+    }
+
+    itemsToOrders = (items: string[]): OrderInterface[] => {
+        const orders: OrderInterface[] = [];
+        if(items===undefined) return orders;
+        for(let i=0; i<items.length; i++){
+            const order: OrderInterface = this.props.getAllOrders[items[i]];
+            order.deliveryEntryTime = Date.now();
+            orders.push(order);
+        }
+        return orders;
     }
 
 
@@ -76,12 +89,18 @@ class Dashboard extends Component<AllProps, State> {
                         ordersIdList={this.props.getOrdersIdInQueue}
                     />
                 </div>
-                <div className={dashboardStyle.Line}>
+                <div className={dashboardStyle.Line}/>
 
-                </div>
                 {/*<Kitchen/>*/}
                 <div className={dashboardStyle.Kitchen}>
                     <Kitchen dishesList={this.props.getDishesInKitchen}/>
+                </div>
+                <div className={dashboardStyle.Line}/>
+
+                {/*<Delivery/>*/}
+                <div className={dashboardStyle.Delivery}>
+                    {/*<Delivery ordersIdDelivery={this.itemsToOrders(this.props.getOrdersIdInDelivery)}/>*/}
+                    <Timer time={5000}/>
                 </div>
             </div>
         );

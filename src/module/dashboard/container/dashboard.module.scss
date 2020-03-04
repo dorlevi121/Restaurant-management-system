@@ -1,16 +1,18 @@
 .dashboard {
-  margin: 40px 200px;
+  box-sizing: border-box;
+  margin: 40px 280px;
   width: 50%;
+  max-width: 50%;
   height: 100%;
 
 
   .Queues {
-    width:40vw;
-    max-width:40vw;
+    width: 80%;
+    max-width: 80%;
     margin: auto;
     @media (max-width: 1200px) {
-      width:300px;
-      max-width:300px;
+      width: 300px;
+      max-width: 300px;
     }
   }
 
@@ -19,15 +21,20 @@
     margin-top: 50px;
   }
 
-  .Kitchen {
-    width:40vw;
-    max-width:40vw;
+  & .Kitchen {
+    width: 80%;
+    max-width: 80%;
     margin: auto;
+  }
 
+  & .Delivery {
+    width: 80%;
+    max-width: 80%;
+    margin: auto;
   }
 }
 
-.Line{
+.Line {
   margin-left: 80px;
   margin-top: 25px;
   margin-bottom: 25px;

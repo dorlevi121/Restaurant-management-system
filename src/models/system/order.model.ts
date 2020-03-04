@@ -6,5 +6,6 @@ export type OrderInterface = {
     userType: UserType,
     dish: DishInterface[],
     totalTime: number,
-    price: number
+    price: number,
+    deliveryEntryTime?: number
 }

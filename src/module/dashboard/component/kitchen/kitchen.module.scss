@@ -1,36 +1,27 @@
 .KitchenModule {
-  width: 80vw;
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
 
-  .Stand {
+  & .Stand {
+    width: 40%;
     color: white;
-    width: 50vw;
-    margin-right: -400px;
   }
 
   .DishHeader {
-    text-align: start;
+    display: flex;
+    justify-content: space-between;
     margin-left: 10px;
-
-    & p {
-
-        & span {
-            margin-left: 10px;
-        }
-    }
   }
 
-  .Ingredients {
-    margin-left: -750px;
-    display: inline-block;
+  & .Ingredients {
 
-    .Ingredient {
+   & .Ingredient {
       display: inline;
 
       & img {
-        width: 2%;
-        margin: 12px;
+        width: 10%;
+        margin: 8px;
       }
     }
   }

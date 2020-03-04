@@ -54,12 +54,10 @@ class QueueListener extends EventEmitter {
             }
             this.addToKitchen(dishToKitchen);
         }
-
     }
 
 
     addToKitchen(dish: DishInterface) {
-        console.log('s')
         dish.kitchenEntryTime = Date.now();
         this.dishesInKitchen.push(dish);
         this.emit(OrdersEvents.UPDATE_NEW_KITCHEN_LIST, this.dishesInKitchen);
@@ -102,18 +100,11 @@ class QueueListener extends EventEmitter {
         this.emit(OrdersEvents.ADD_NEW_ITEM_TO_DELIVERY, item.orderId);
 
         let time = deliveryTime;//second
-        let minutes, seconds;
 
         const deliveryInterval = setInterval(() => {
-            minutes = parseInt(String(time / 60), 10);
-            seconds = parseInt(String(time % 60), 10);
 
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            console.log(minutes + ":" + seconds + ' (' + item.orderId + ')');
             if (--time < 0) {
                 clearInterval(deliveryInterval);
-
                 this.removeOrderFromDelivery(item.orderId);
                 this.emit(OrdersEvents.REMOVE_ITEM_FROM_DELIVERY, item.orderId);
 
