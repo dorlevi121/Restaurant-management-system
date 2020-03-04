@@ -12,13 +12,15 @@ import {addNewOrderToQueue, removeOrderFromQueue} from "../../../store/orders/or
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
 import OrderModal from "../../../models/UI/modal/order/modal-order.modal";
-import Loading from "../../../models/UI/loading/loading";
 import composition from "../../../utils/composition";
 import {connect} from "react-redux";
+import {cloneDeep, uniqueId} from "lodash";
+import Alert from "../../../models/UI/alert/alert";
 
 interface State {
     dishes: DishInterface [],
     showModal: boolean,
+    showAlert: boolean
     loading: boolean,
     orderToModal: OrderInterface | null
 }
@@ -45,21 +47,26 @@ class OrderComponent extends Component<AllProps, State> {
     state: State = {
         dishes: [],
         showModal: false,
+        showAlert: false,
         loading: false,
         orderToModal: null
     };
 
     addOrderToQueue = (userType: UserType, dishes: DishInterface[]) => {
-        this.setState({loading: true, dishes: [], orderToModal: null});
         // setTimeout(() => {
         //     this.setState({loading: false})
         // }, 4000);
+        this.setState({loading: true, dishes: [], orderToModal: null, showModal: false});
         this.props.addNewOrderToQueue(dishes, userType);
-        this.setState({showModal: false})
     };
 
     addNewDish = (disId: number): void => {
-        const dish = menu[disId];
+        const dish = cloneDeep(menu[disId]);
+        dish.id = uniqueId();
+        dish.ingredients.forEach(i => {
+            i.amountInDish++;
+            i.myDishId = dish.id;
+        });
         this.setState({dishes: [...this.state.dishes, dish]});
     };
 
@@ -68,7 +75,7 @@ class OrderComponent extends Component<AllProps, State> {
     };
 
     onNotificationClicked = () => {
-        if(this.state.dishes.length) {
+        if (this.state.dishes.length) {
             this.changeModalView()
             return;
         }
@@ -82,6 +89,7 @@ class OrderComponent extends Component<AllProps, State> {
                 {/*{loading && <div className={orderStyle.Loading}>*/}
                 {/*    <Loading/>*/}
                 {/*</div>}*/}
+
                 <div
                     className={orderStyle.Notification}
                     onClick={this.onNotificationClicked}>

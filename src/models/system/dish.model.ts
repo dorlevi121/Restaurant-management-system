@@ -1,7 +1,7 @@
 import {IngredientInterface} from "./ingredients.model";
 
 export type DishInterface = {
-    id: number,
+    id: string,
     title: string,
     ingredients: IngredientInterface[],
     duration: number,

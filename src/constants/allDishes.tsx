@@ -9,7 +9,7 @@ const menu: DishInterface[] = [
         ingredients: [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese],
         duration: timeCalculation([Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese]),
         image: burgerImg,
-        id: 0,
+        id: '',
         price: priceCalculation( [Ingredients.Tomato, Ingredients.Meat, Ingredients.Cheese]),
         orderId: '',
         kitchenEntryTime: 0
@@ -20,7 +20,7 @@ const menu: DishInterface[] = [
         ingredients: [Ingredients.Cheese, Ingredients.Tomato],
         duration: timeCalculation([Ingredients.Cheese, Ingredients.Tomato]),
         image: pizzaImg,
-        id: 1,
+        id: '',
         price: priceCalculation([Ingredients.Cheese, Ingredients.Tomato]),
         orderId: '',
         kitchenEntryTime: 0

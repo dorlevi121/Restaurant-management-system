@@ -9,7 +9,9 @@ export type IngredientInterface = {
     price: number,
     quantity: number,
     duration: number,
-    image: string
+    image: string,
+    amountInDish: number,
+    myDishId: string
 }
 
 export const Tomato: IngredientInterface = {
@@ -17,7 +19,9 @@ export const Tomato: IngredientInterface = {
     price: 1,
     quantity: 5,
     duration: 8,
-    image: tomato
+    image: tomato,
+    amountInDish: 0,
+    myDishId: ''
 }
 
 export const Meat: IngredientInterface = {
@@ -25,7 +29,9 @@ export const Meat: IngredientInterface = {
     price: 5,
     quantity: 5,
     duration: 30,
-    image: meat
+    image: meat,
+    amountInDish: 0,
+    myDishId: ''
 }
 
 export const Cheese: IngredientInterface = {
@@ -33,7 +39,9 @@ export const Cheese: IngredientInterface = {
     price: 3,
     quantity: 5,
     duration: 10,
-    image: cheese
+    image: cheese,
+    amountInDish: 0,
+    myDishId: ''
 }
 
 export const Lettuce: IngredientInterface = {
@@ -41,7 +49,9 @@ export const Lettuce: IngredientInterface = {
     price: 2,
     quantity: 5,
     duration: 10,
-    image: lettuce
+    image: lettuce,
+    amountInDish: 0,
+    myDishId: ''
 }
 
 export const Cucumber: IngredientInterface = {
@@ -49,6 +59,8 @@ export const Cucumber: IngredientInterface = {
     price: 2,
     quantity: 5,
     duration: 3,
-    image: cucumber
+    image: cucumber,
+    amountInDish: 0,
+    myDishId: ''
 }
 

@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DishInterface} from "../../../system/dish.model";
 import CheckBox from "../../chackbox/checkbox";
 import Button from "../../button/button";
 import {UserType} from "../../../system/user-type.enum";
 import orderModalStyle from './modal-order.module.scss';
+import {IngredientInterface} from "../../../system/ingredients.model";
+import {cloneDeep} from "lodash";
+import Input from "../../input/input";
+import Alert from "../../alert/alert";
 
 interface Props {
     dishes: DishInterface []
@@ -18,8 +22,16 @@ const OrderModal: React.FC<Props> = (props) => {
             {id: 2, value: "VIP", isChecked: false}
         ]
     });
+    const [dishes, setDishes] = useState<DishInterface[]>(props.dishes.length !== 0 ? cloneDeep(props.dishes) : []);
+    const [showAlert, setShowAlert] = useState(false);
+    const [msgAlert, setMsgAlert] = useState('');
 
-    if (props.dishes.length === 0) return null ;
+
+    useEffect(() => {
+        setDishes(props.dishes)
+    }, [props.dishes])
+
+    if (props.dishes.length === 0) return null;
 
     const handleCheckChildElement = (event: any) => {
         let types = userTypes.types;
@@ -34,15 +46,39 @@ const OrderModal: React.FC<Props> = (props) => {
     const onClickOrder = () => {
         const typeOfUser = userTypes.types.filter(type => type.isChecked);
         if (!typeOfUser.length) {
-            return
-        };
+            setShowAlert(true)
+            setMsgAlert('You didnt choose user type')
+            setTimeout(() => {
+                setShowAlert(false)
+                setMsgAlert('')
+            }, 4000);
+            return;
+        }
+
+        let ing = 0;
+        dishes.forEach(d => {
+            d.ingredients.forEach(i => {
+                if (i.amountInDish > 0) {
+                    ing++;
+                }
+            })
+        })
+        if (ing === 0) {
+            setShowAlert(true)
+            setMsgAlert('You didnt choose any ingredient')
+            setTimeout(() => {
+                setShowAlert(false)
+                setMsgAlert('')
+            }, 4000);
+            return;
+        }
 
         let type: UserType;
         if (typeOfUser[0].value === 'VIP') type = UserType.vip;
         else if (typeOfUser[0].value === 'Member') type = UserType.member;
         else type = UserType.regular;
 
-        props.onOrderClick(type, [...props.dishes]);
+        props.onOrderClick(type, [...dishes]);
 
         setUserTypes({
             types: [
@@ -53,10 +89,43 @@ const OrderModal: React.FC<Props> = (props) => {
         })
     }
 
+    const updateIngredients = (e: any, ingredient: IngredientInterface): void => {
+        const dish = cloneDeep(dishes.find(d => d.id === ingredient.myDishId));
+        if (dish === undefined) {
+            return;
+        }
+        const newIngredient = dish.ingredients.find(i => i.title === ingredient.title);
+        if (newIngredient === undefined) {
+            return;
+        }
+        const allDishes = [...dishes]
+        const dishIndex = allDishes.findIndex(d => d.id === dish.id);
+        switch (e.target.value) {
+            case '+': {
+                newIngredient.amountInDish++;
+                dish.price += newIngredient.price;
+                dish.duration += newIngredient.duration;
+                allDishes.splice(dishIndex, 1, dish);
+                setDishes(allDishes);
+                return;
+            }
+
+            case '-': {
+                if (!newIngredient.amountInDish) return;
+                newIngredient.amountInDish--;
+                dish.price -= newIngredient.price;
+                dish.duration -= newIngredient.duration;
+                allDishes.splice(dishIndex, 1, dish);
+                setDishes(allDishes);
+                return;
+            }
+        }
+    }
+
     const calculateTotalTime = () => {
         let timer = 0, minutes, seconds;
-        for (let i =0; i< props.dishes.length; i++){
-            timer += props.dishes[i].duration
+        for (let i = 0; i < dishes.length; i++) {
+            timer += dishes[i].duration
         }
         minutes = parseInt(String(timer / 60), 10);
         seconds = parseInt(String(timer % 60), 10);
@@ -64,9 +133,16 @@ const OrderModal: React.FC<Props> = (props) => {
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        if(timer < 0) return;
-        //dish.finishTime = timer+1;
+        if (timer < 0) return;
         return ' ' + minutes + ":" + seconds;
+    }
+
+    const calculateTotalPrice = () => {
+        let totalPrice = 0;
+        for (let i = 0; i < dishes.length; i++) {
+            totalPrice += dishes[i].price
+        }
+        return totalPrice;
     }
 
     return (
@@ -74,17 +150,32 @@ const OrderModal: React.FC<Props> = (props) => {
             <div className={orderModalStyle.Boxes}>
                 <div className={orderModalStyle.OrderSummary}>
                     <div className={orderModalStyle.PriceNdish}>
-                        <p>Dish <span>price</span></p>
+                        <p>Dish</p> <p>Price</p>
                     </div>
-                    {props.dishes.map((dish: DishInterface) => (
+                    {dishes.map((dish: DishInterface, i: number) => (
                         <div className={orderModalStyle.Dish} key={Math.random()}>
-                            <p className={orderModalStyle.DishTitle}>{dish.title}
-                                <span className={orderModalStyle.DishPrice}> {dish.price}&#36;</span></p>
+
+                            <input className={orderModalStyle.ToggleBox} id={i.toString()} type="checkbox"/>
+                            <label className={orderModalStyle.Label} htmlFor={i.toString()}>
+                                <p className={orderModalStyle.DishTitle}>{dish.title}</p>
+                            </label>
+                            <div className={orderModalStyle.Ingredients}>
+                                {dish.ingredients.map((i: IngredientInterface) => {
+                                    return (
+                                        <div key={Math.random()} className={orderModalStyle.Ingredient}>
+                                            <p>{i.title}</p>
+                                            <Input ingredient={i} onClickInput={updateIngredients}/>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <span className={orderModalStyle.DishPrice}> {dish.price}&#36;</span>
                         </div>
                     ))}
 
-                    <div className={orderModalStyle.PriceNdish}>
-                        <p>Total Price: <span style={{marginLeft: '65px'}}>{(props.dishes?.map(d => d.price).reduce((a, b) => a + b))}&#36;</span></p>
+                    <div className={orderModalStyle.TotalPrice}>
+                        <p>Total Price:</p>
+                        <p>{calculateTotalPrice()}&#36;</p>
                     </div>
                 </div>
 
@@ -113,6 +204,9 @@ const OrderModal: React.FC<Props> = (props) => {
 
             <div onClick={onClickOrder} style={{marginBottom: '10px'}}>
                 <Button text='Order'/>
+            </div>
+            <div className={orderModalStyle.Alert}>
+                <Alert msg={msgAlert} type='danger' show={showAlert}/>
             </div>
         </div>
     )

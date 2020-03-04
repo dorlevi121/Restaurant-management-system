@@ -5,7 +5,7 @@
 
 
   .OrderSummary {
-    width: 30%;
+    width: 40%;
     padding: 1rem;
 
     color: #000;
@@ -14,10 +14,22 @@
 
     .PriceNdish {
       font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
 
-      span {
-        margin-left: 6.25rem;
-      }
+    .TotalPrice {
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .DishTitle {
+      height: 10%;
+    }
+
+    .DishPrice {
+      height: 10%;
     }
 
     .typesNtime {
@@ -39,9 +51,76 @@
 }
 
 .Dish {
-  align-self: end;
+  display: flex;
+  justify-content: space-between;
 
-  .DishPrice {
-    margin-left: 100px;
+  & .Label {
+    p {
+      display: inline;
+    }
+  }
+
+  .ToggleBox {
+    display: none;
+  }
+
+  .ToggleBox + label {
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    line-height: 21px;
+    margin-bottom: 5px;
+  }
+
+  .ToggleBox + label + .Ingredients {
+    display: none;
+    margin-bottom: 10px;
+  }
+
+  .ToggleBox:checked + label + .Ingredients {
+    display: block;
+  }
+
+  .ToggleBox + label:before {
+    background-color: #4F5150;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    color: #FFFFFF;
+    content: "+";
+    display: block;
+    float: left;
+    font-weight: bold;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 5px;
+    text-align: center;
+    width: 20px;
+  }
+
+  .ToggleBox:checked + label:before {
+    content: "\2212";
+  }
+
+  .Ingredients {
+    margin-top: 10%;
+
+    .Ingredient {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      & p {
+        margin: 0 auto;
+      }
+
+    }
   }
 }
+
+.Alert {
+  position: absolute;
+  top: -3%;
+  left: 38%;
+}
+

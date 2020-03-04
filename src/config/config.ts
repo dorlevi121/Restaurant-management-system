@@ -1,8 +1,8 @@
 import * as Ingredients from "../models/system/ingredients.model";
 import {IngredientInterface} from "../models/system/ingredients.model";
 
-export const numberOfQueues: number = 3;
-export const numberOfCookingStands: number = 3;
+export const numberOfQueues: number = 2;
+export const numberOfCookingStands: number = 2;
 export const numberOfMessengers = 2;
 export const deliveryTime = 5;
 export const initialBudget = 50;
