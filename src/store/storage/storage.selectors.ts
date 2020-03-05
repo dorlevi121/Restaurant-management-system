@@ -1,4 +1,4 @@
 import {StorageState} from "./storage.types";
 
-export const getIngredientsInStorage = (state:any) =>  state.storage.ingredients;
+export const getIngredientsQuantity = (state: any) =>  state.storage.ingredientsQuantity;
 export const getBudget = (state: any) => state.storage.budget;

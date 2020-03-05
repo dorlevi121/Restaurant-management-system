@@ -96,17 +96,17 @@ class QueueListener extends EventEmitter {
 
 
     addToDelivery = (item: ItemInterface): void => {
+        item.deliveryEntryTime = Date.now();
         this.itemsInDelivery.push(item)
-        this.emit(OrdersEvents.ADD_NEW_ITEM_TO_DELIVERY, item.orderId);
+        this.emit(OrdersEvents.ADD_NEW_ITEM_TO_DELIVERY, item);
 
         let time = deliveryTime;//second
 
         const deliveryInterval = setInterval(() => {
-
             if (--time < 0) {
                 clearInterval(deliveryInterval);
                 this.removeOrderFromDelivery(item.orderId);
-                this.emit(OrdersEvents.REMOVE_ITEM_FROM_DELIVERY, item.orderId);
+                this.emit(OrdersEvents.REMOVE_ITEM_FROM_DELIVERY, item);
 
                 if (this.itemsPendingToDelivery.length !== 0) {
                     const nextDelivery = this.itemsPendingToDelivery.pop();

@@ -5,5 +5,6 @@ export type ItemInterface = {
     orderId: string,
     userType: UserType,
     dishes: DishInterface [],
-    numOfReadyDishes: number //Every time that dish finished in the kitchen will do ++
+    numOfReadyDishes: number, //Every time that dish finished in the kitchen will do ++
+    deliveryEntryTime?: number
 }

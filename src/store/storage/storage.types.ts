@@ -1,21 +1,32 @@
 import {IngredientInterface} from "../../models/system/ingredients.model";
-import {StorageActionsEnum} from "./storage.actions";
 
 export interface StorageState {
-    ingredients: {[titile:string]: IngredientInterface}, //All ingredients were initialized with 5 pieces
+    ingredientsQuantity: {[titile:string]: number}, //All ingredients were initialized with 5 pieces
     budget: number
+}
+
+export enum StorageActionsEnum {
+    REFILL_INGREDIENTS = 'REFILL_INGREDIENTS',
+    REMOVE_INGREDIENTS = 'REMOVE_INGREDIENTS',
+    UPDATE_BUDGET = 'UPDATE_BUDGET'
 }
 
 export interface storageActionPattern {
     type: StorageActionsEnum; //Enum of actions
 }
 
-export interface refuelIngredientsActionType extends storageActionPattern {
-    type: StorageActionsEnum.REFUEL_INGREDIENTS;
-    newIngredients: {[titile:string]: IngredientInterface};
+export interface refillIngredientsActionType extends storageActionPattern {
+    type: StorageActionsEnum.REFILL_INGREDIENTS;
+    ingredients: IngredientInterface[];
+}
+
+export interface removeIngredientsActionType extends storageActionPattern {
+    type: StorageActionsEnum.REMOVE_INGREDIENTS;
+    ingredients: IngredientInterface[];
 }
 
 export interface updateBudgetActionType extends storageActionPattern {
     type: StorageActionsEnum.UPDATE_BUDGET;
-    newBudget: number;
+    action: 'add' | 'reduce';
+    amount: number;
 }

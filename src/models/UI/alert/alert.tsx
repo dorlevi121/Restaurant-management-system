@@ -1,9 +1,9 @@
 import React from 'react';
-import './alert.css'
+import './alert.scss'
 
 interface OwnProps {
     msg: string,
-    type: string,
+    type: 'danger' | 'success',
     show: boolean
 }
 

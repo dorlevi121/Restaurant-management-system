@@ -1,12 +1,12 @@
-import { QueueState, removeOrderIdFromDeliveryActionType} from "../queue.types";
+import { QueueState, removeItemFromDeliveryActionType} from "../queue.types";
 
-export const removeOrderIdFromDelivery = (action:removeOrderIdFromDeliveryActionType, state: QueueState) => {
-    const items = [...state.OrdersIdInDelivery];
+export const removeOrderIdFromDelivery = (action:removeItemFromDeliveryActionType, state: QueueState) => {
+    const items = [...state.itemsInDelivery];
     for(let i=0; i<items.length; i++){
-        if(items[i] === action.OrderId){
+        if(items[i] === action.item){
             items.splice(i,1);
             break;
         }
     }
-    return {...state, OrdersIdInDelivery: items }
+    return {...state,  itemsInDelivery: items }
 }

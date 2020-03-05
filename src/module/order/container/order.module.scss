@@ -1,6 +1,19 @@
 .OrderBody {
   width: 100%;
 
+  .Alert {
+    position: absolute;
+    height: 10%;
+    left: 0;
+    right: 0;
+    top: -50%;
+    z-index: 1000;
+
+    @media (max-height: 800px){
+      top: -65%;
+    }
+  }
+
   & .Notification {
     position: absolute;
     top: 180px;

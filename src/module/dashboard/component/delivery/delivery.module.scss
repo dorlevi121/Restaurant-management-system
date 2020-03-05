@@ -1,14 +1,16 @@
 .DeliveryModule {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  align-content: flex-start;
 
   .Position {
-    width: 50%;
-    color: white;
     display: flex;
     justify-content: space-between;
+    width: 45%;
+    color: white;
     border: 1px solid white;
-    margin-right: 10px;
+    margin: 10px;
 
     .Content {
       width: 60%;
@@ -17,6 +19,16 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-left: 5px;
+
+      & .Time {
+        & div {
+          display: inline;
+        }
+        & p {
+          margin-right: 5px;
+          display: inline;
+        }
+      }
 
     }
 

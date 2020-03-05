@@ -133,7 +133,6 @@ const OrderModal: React.FC<Props> = (props) => {
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        if (timer < 0) return;
         return ' ' + minutes + ":" + seconds;
     }
 

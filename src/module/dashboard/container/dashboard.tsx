@@ -6,7 +6,8 @@ import Queue from "../component/queue/queue.dashboard";
 import {getAllOrders} from "../../../store/orders/order.selectors";
 import {OrderState} from "../../../store/orders/order.types";
 import Kitchen from "../component/kitchen/kitchen.dashboard";
-import {getDishesInKitchen, getOrdersIdInDelivery, getOrdersIdInQueue} from "../../../store/queue/queue.selectors";
+import {getDishesInKitchen, getItemsInDelivery, getItemsInQueue
+} from "../../../store/queue/queue.selectors";
 import {OrderInterface} from "../../../models/system/order.model";
 import {addNewOrderToCancel} from "../../../store/orders/orders.actions";
 import {DishInterface} from "../../../models/system/dish.model";
@@ -14,7 +15,11 @@ import composition from "../../../utils/composition";
 import Modal from "../../../models/UI/modal/modal";
 import DashboardModal from "../../../models/UI/modal/dashboard/modal-dashboard.modal";
 import Delivery from "../component/delivery/delivery.dashboard";
-import Timer from "../../shared/timer.shared";
+import {getIngredientsQuantity} from "../../../store/storage/storage.selectors";
+import {IngredientInterface} from "../../../models/system/ingredients.model";
+import {refillIngredients, updateBudget} from "../../../store/storage/storage.actions";
+import {ItemInterface} from "../../../models/system/item.model";
+import {QueueState} from "../../../store/queue/queue.types";
 
 interface State {
     showModal: boolean,
@@ -25,14 +30,17 @@ interface OwnProps {
 }
 
 interface PropsFromState {
-    getAllOrders: any,
-    getOrdersIdInQueue: string[],
+    getAllOrders: { [id: string]: OrderInterface },
+    getItemsInQueue: ItemInterface[],
     getDishesInKitchen: DishInterface[],
-    getOrdersIdInDelivery: string[]
+    getItemsInDelivery: ItemInterface[],
+    getIngredientsQuantity: { [titile: string]: number }
 }
 
 interface PropsFromDispatch {
-    cancelOrder: typeof addNewOrderToCancel
+    cancelOrder: typeof addNewOrderToCancel,
+    returnsIngredientsToStorage: typeof refillIngredients,
+    updateBudget: typeof updateBudget
 }
 
 type AllProps = OwnProps
@@ -47,32 +55,36 @@ class Dashboard extends Component<AllProps, State> {
 
     cancelOrder = (orderId: string | null): void => {
         this.changeModalView();
-        if (orderId !== null)
-            this.props.cancelOrder(orderId)
+        if (orderId !== null) {
+            this.props.getAllOrders[orderId].dish.forEach(d => {
+                this.props.returnsIngredientsToStorage(d.ingredients)
+            });
+            this.props.updateBudget(this.props.getAllOrders[orderId].price, 'reduce');
+            this.props.cancelOrder(orderId);
+        }
     }
 
     changeModalView = (): void => {
         this.setState({showModal: !this.state.showModal})
     };
 
-    onOrderClick = (orderId: string | null): void => {
-        if (orderId === null) return;
+    onOrderClick = (item: ItemInterface): void => {
+        if (item.orderId === null) return;
         this.setState({
-            orderClicked: this.props.getAllOrders[orderId], showModal: true
+            orderClicked: this.props.getAllOrders[item.orderId], showModal: true
         })
     }
 
-    itemsToOrders = (items: string[]): OrderInterface[] => {
+    itemsToOrders = (items: ItemInterface[]): OrderInterface[] => {
         const orders: OrderInterface[] = [];
-        if(items===undefined) return orders;
-        for(let i=0; i<items.length; i++){
-            const order: OrderInterface = this.props.getAllOrders[items[i]];
-            order.deliveryEntryTime = Date.now();
+        if (items === undefined) return orders;
+        for (let i = 0; i < items.length; i++) {
+            const order: OrderInterface = this.props.getAllOrders[items[i].orderId];
+            order.deliveryEntryTime = items[i].deliveryEntryTime;
             orders.push(order);
         }
         return orders;
     }
-
 
     render() {
         return (
@@ -80,14 +92,14 @@ class Dashboard extends Component<AllProps, State> {
                 <Modal show={this.state.showModal} closeModal={this.changeModalView}>
                     <DashboardModal
                         order={this.state.orderClicked}
-                        onCancelClick={this.cancelOrder}
-                    />
+                        onCancelClick={this.cancelOrder}/>
                 </Modal>
+
+                {/*<Queues/>*/}
                 <div className={dashboardStyle.Queues}>
                     <Queue
                         onOrderClick={this.onOrderClick}
-                        ordersIdList={this.props.getOrdersIdInQueue}
-                    />
+                        itemsList={this.props.getItemsInQueue}/>
                 </div>
                 <div className={dashboardStyle.Line}/>
 
@@ -99,28 +111,26 @@ class Dashboard extends Component<AllProps, State> {
 
                 {/*<Delivery/>*/}
                 <div className={dashboardStyle.Delivery}>
-                    {/*<Delivery ordersIdDelivery={this.itemsToOrders(this.props.getOrdersIdInDelivery)}/>*/}
-                    <Timer time={5000}/>
+                    <Delivery ordersIdDelivery={this.itemsToOrders(this.props.getItemsInDelivery)}/>
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state: OrderState) => {
-    return {
-        getAllOrders: getAllOrders(state), // Dictionary of OrderType
-        getOrdersIdInQueue: getOrdersIdInQueue(state), //Array of orders id
-        getDishesInKitchen: getDishesInKitchen(state), //Array of DishType
-        getOrdersIdInDelivery: getOrdersIdInDelivery(state) //Array of orders id
-    }
-}
+const mapStateToProps = (state: OrderState | QueueState) => ({
+    getAllOrders: getAllOrders(state), // Dictionary of OrderType
+    getItemsInQueue: getItemsInQueue(state), //Array of orders id
+    getDishesInKitchen: getDishesInKitchen(state), //Array of DishType
+    getItemsInDelivery: getItemsInDelivery(state), //Array of orders id
+    getIngredientsQuantity: getIngredientsQuantity(state), // Dictionary of ingredients
+})
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        cancelOrder: (orderId: string) => dispatch(addNewOrderToCancel(orderId))
-    }
-}
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    cancelOrder: (orderId: string) => dispatch(addNewOrderToCancel(orderId)),
+    returnsIngredientsToStorage: (ingredients: IngredientInterface[]) => dispatch(refillIngredients(ingredients)),
+    updateBudget: (amount: number, action: 'add' | 'reduce') => dispatch(updateBudget(amount, action))
+})
 
 
 export default composition<OwnProps>(

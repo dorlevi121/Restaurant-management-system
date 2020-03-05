@@ -1,81 +1,54 @@
-import React, {Component} from 'react';
+import React from 'react';
 import kitchenStyle from './kitchen.module.scss';
 import {DishInterface} from "../../../../models/system/dish.model";
 import {IngredientInterface} from "../../../../models/system/ingredients.model";
+import Timer from "../../../shared/timer.shared";
 
 
-interface Props {
+interface OwnProps {
     dishesList: DishInterface[],
 }
 
-let interval: any;
 
-class Kitchen extends Component <Props> {
-    state = {
-        time: 0,
-    }
-
-    time = (dish: DishInterface) => {
-        const t = dish.duration - (Math.abs((dish.kitchenEntryTime - Date.now())) / 1000);
-        let timer = Math.floor(t), minutes, seconds;
-        minutes = parseInt(String(timer / 60), 10);
-        seconds = parseInt(String(timer % 60), 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        if (timer < 0) return;
-        //dish.finishTime = timer+1;
-        return minutes + ":" + seconds;
-
-    }
-
-    componentDidMount() {
-        if (this.props.dishesList.length > 0)
-            interval = setInterval(() => this.setState({time: this.state.time + 1}), 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(interval);
-    }
-
-
-    render() {
-        return (
-            <div className={kitchenStyle.KitchenModule}>
-                {this.props.dishesList.map((dish: DishInterface, i: number) => {
-                    return (
-                        <div key={Math.random()} className={kitchenStyle.Stand}>
-                            <div className={kitchenStyle.DishHeader}>
-                                <p>Title: {dish.title} </p>
-                                <p> Order ID: {dish.orderId}</p>
-                            </div>
-                            <div className={kitchenStyle.Ingredients}>
-                                {dish.ingredients.map((i: IngredientInterface) => {
-                                    return (
-                                        <div key={Math.random()} className={kitchenStyle.Ingredient}>
-                                            <img src={i.image} alt={i.title}/>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            <div className={kitchenStyle.Time}>
-                                <p>Time: {this.time(dish)}</p>
+const Kitchen: React.FC<OwnProps> = (props) => {
+    return (
+        <div className={kitchenStyle.KitchenModule}>
+            {props.dishesList.map((dish: DishInterface, i: number) => {
+                return (
+                    <div key={Math.random()} className={kitchenStyle.Stand}>
+                        <div className={kitchenStyle.DishHeader}>
+                            <p>Title: {dish.title} </p>
+                            <p> Order ID: {dish.orderId}</p>
+                        </div>
+                        <div className={kitchenStyle.Ingredients}>
+                            {dish.ingredients.map((i: IngredientInterface) => {
+                                return (
+                                    <div key={Math.random()} className={kitchenStyle.Ingredient}>
+                                        <img src={i.image} alt={i.title}/>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className={kitchenStyle.Time}>
+                            <div>
+                                <p>Time:</p>
+                                <Timer
+                                    time={dish.duration - (Math.abs((dish.kitchenEntryTime - Date.now())) / 1000)}/>
                             </div>
                         </div>
-                    )
-                })}
-                <div className={kitchenStyle.Content}>
-                    <div className={kitchenStyle.Meal}>
-                        <div className={kitchenStyle.DishImg}>
-                            <img src="" alt=""/>
-                        </div>
+                    </div>
+                )
+            })}
+            <div className={kitchenStyle.Content}>
+                <div className={kitchenStyle.Meal}>
+                    <div className={kitchenStyle.DishImg}>
+                        <img src="" alt=""/>
                     </div>
                 </div>
             </div>
-        );
-    }
-
+        </div>
+    );
 }
 
-export default (Kitchen);
+
+export default Kitchen;

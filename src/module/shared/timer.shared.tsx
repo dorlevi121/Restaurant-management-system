@@ -1,23 +1,42 @@
 import React, {useEffect, useState} from "react";
+import {OrderInterface} from "../../models/system/order.model";
+import {deliveryTime} from "../../config/config";
 
 interface OwnProps {
     time: number
 }
 
 const Timer: React.FC<OwnProps> = (props) => {
-
     const [time, setTime] = useState(props.time);
     useEffect(() => {
-        console.log('s')
-        setInterval(() => {
-            setTime(time - 1);
-            return;
+        const x = setInterval(() => {
+            tick();
+            if (time === 0) {
+                return;
+            }
         }, 1000);
-    }, []);
+        return () => clearInterval(x);
+    });
+
+    const tick = () => setTime(time - 1);
+
+
+    const toMin = (time: number) => {
+        let timer = Math.floor(time), minutes, seconds;
+        minutes = parseInt(String(timer / 60), 10);
+        seconds = parseInt(String(timer % 60), 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        if (timer < 0) return;
+        return minutes + ":" + seconds;
+
+    }
 
     return (
         <div style={{color: 'white'}}>
-            {time}
+            {toMin(time)}
         </div>
     );
 }

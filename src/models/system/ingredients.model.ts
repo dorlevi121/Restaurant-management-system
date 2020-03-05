@@ -7,7 +7,6 @@ import cucumber from '../../assets/ingredients-icons/cucumber.png';
 export type IngredientInterface = {
     title: string,
     price: number,
-    quantity: number,
     duration: number,
     image: string,
     amountInDish: number,
@@ -17,7 +16,6 @@ export type IngredientInterface = {
 export const Tomato: IngredientInterface = {
     title: 'tomato',
     price: 1,
-    quantity: 5,
     duration: 8,
     image: tomato,
     amountInDish: 0,
@@ -27,7 +25,6 @@ export const Tomato: IngredientInterface = {
 export const Meat: IngredientInterface = {
     title: 'meat',
     price: 5,
-    quantity: 5,
     duration: 30,
     image: meat,
     amountInDish: 0,
@@ -37,7 +34,6 @@ export const Meat: IngredientInterface = {
 export const Cheese: IngredientInterface = {
     title: 'cheese',
     price: 3,
-    quantity: 5,
     duration: 10,
     image: cheese,
     amountInDish: 0,
@@ -47,7 +43,6 @@ export const Cheese: IngredientInterface = {
 export const Lettuce: IngredientInterface = {
     title: 'lettuce',
     price: 2,
-    quantity: 5,
     duration: 10,
     image: lettuce,
     amountInDish: 0,
@@ -57,7 +52,6 @@ export const Lettuce: IngredientInterface = {
 export const Cucumber: IngredientInterface = {
     title: 'cucumber',
     price: 2,
-    quantity: 5,
     duration: 3,
     image: cucumber,
     amountInDish: 0,

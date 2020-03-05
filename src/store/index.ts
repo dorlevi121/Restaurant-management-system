@@ -1,11 +1,11 @@
 import {ordersReducer} from './orders/order.reducer';
 import {combineReducers} from "redux";
-import {storageReducer} from "./storage/reducer/storage.reducer";
+import {storageReducers} from "./storage/storage.reducers";
 import { queueReducer } from './queue/queue.reducer';
 
 export const rootReducer = combineReducers({
     orders: ordersReducer,
-    storage: storageReducer,
+    storage: storageReducers,
     queue: queueReducer
 })
 

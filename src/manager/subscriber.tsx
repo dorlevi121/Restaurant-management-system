@@ -7,13 +7,13 @@ import {DishInterface} from '../models/system/dish.model';
 import {queueListener} from "./orders.manager";
 import {OrdersEvents} from "./orders-events";
 import {
-    addNewOrderIdToDelivery,
-    addNewOrderIdToQueue,
-    addNewKitchenList,
-    removeOrderIdFromDelivery, removeOrderIdFromQueue
+    addNewItemsToDelivery,
+    addNewItemsToQueue,
+    addNewKitchenList, removeItemsFromDelivery, removeItemsFromQueue
 } from "../store/queue/queue.actions";
 import {OrderInterface} from "../models/system/order.model";
 import composition from "../utils/composition";
+import {ItemInterface} from "../models/system/item.model";
 
 interface OwnProps {
 }
@@ -24,11 +24,11 @@ interface PropsFromState {
 }
 
 interface PropsFromDispatch {
-    addNewOrderIdToQueue: typeof addNewOrderIdToQueue,
-    removeOrderIdFromQueue: typeof removeOrderIdFromQueue,
+    addNewItemToQueue: typeof addNewItemsToQueue,
+    removeItemFromQueue: typeof removeItemsFromQueue,
     updateNewKitchenList: typeof addNewKitchenList,
-    addNewOrderIdToDelivery: typeof addNewOrderIdToDelivery,
-    removeOrderIdFromDelivery: typeof removeOrderIdFromDelivery,
+    addNewItemToDelivery: typeof addNewItemsToDelivery,
+    removeItemFromDelivery: typeof removeItemsFromDelivery,
 }
 
 type AllProps = OwnProps
@@ -50,15 +50,15 @@ class Subscriber extends Component <AllProps> {
             (nextProps.getOrderCancel !== this.props.getOrderCancel);
     }
 
-    addNewItemToQueue = (orderId: string, index: number) => this.props.addNewOrderIdToQueue(orderId, index);
+    addNewItemToQueue = (item: ItemInterface, index: number) => this.props.addNewItemToQueue(item, index);
 
-    removeItemFromQueue = (orderId: string) => this.props.removeOrderIdFromQueue(orderId);
+    removeItemFromQueue = (item: ItemInterface) => this.props.removeItemFromQueue(item);
 
-    updateNewKitchenList = (dishes: DishInterface[]) => this.props.updateNewKitchenList(dishes);
+    updateNewKitchenList = (item: DishInterface[]) => this.props.updateNewKitchenList(item);
 
-    addNewItemToDelivery = (orderId: string) => this.props.addNewOrderIdToDelivery(orderId);
+    addNewItemToDelivery = (item: ItemInterface) => this.props.addNewItemToDelivery(item);
 
-    removeItemFromDelivery = (orderId: string) => this.props.removeOrderIdFromDelivery(orderId);
+    removeItemFromDelivery = (item: ItemInterface) => this.props.removeItemFromDelivery(item);
 
 
     render() {
@@ -72,11 +72,11 @@ const mapStateToProps = (state: OrderState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    addNewOrderIdToQueue: (orderId: string, index: number) => dispatch(addNewOrderIdToQueue(orderId, index)),
-    removeOrderIdFromQueue: (orderId: string) => dispatch(removeOrderIdFromQueue(orderId)),
-    updateNewKitchenList: (dishes: DishInterface[]) => dispatch(addNewKitchenList(dishes)),
-    addNewOrderIdToDelivery: (orderId: string) => dispatch(addNewOrderIdToDelivery(orderId)),
-    removeOrderIdFromDelivery: (orderId: string) => dispatch(removeOrderIdFromDelivery(orderId))
+    addNewItemToQueue: (item: ItemInterface, index: number) => dispatch(addNewItemsToQueue(item, index)),
+    removeItemFromQueue: (item: ItemInterface) => dispatch(removeItemsFromQueue(item)),
+    updateNewKitchenList: (item: DishInterface[]) => dispatch(addNewKitchenList(item)),
+    addNewItemToDelivery: (item: ItemInterface) => dispatch(addNewItemsToDelivery(item)),
+    removeItemFromDelivery: (item: ItemInterface) => dispatch(removeItemsFromDelivery(item))
 })
 
 

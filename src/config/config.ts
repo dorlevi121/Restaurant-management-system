@@ -2,15 +2,15 @@ import * as Ingredients from "../models/system/ingredients.model";
 import {IngredientInterface} from "../models/system/ingredients.model";
 
 export const numberOfQueues: number = 2;
-export const numberOfCookingStands: number = 4;
+export const numberOfCookingStands: number = 2;
 export const numberOfMessengers = 2;
-export const deliveryTime = 90;
+export const deliveryTime = 5;
 export const initialBudget = 50;
-export const initialIngredients: {[title:string]: IngredientInterface} = {};
+export const initialIngredients: {[title:string]: number} = {};
 
-initialIngredients['cucumber']= Ingredients.Cucumber;
-initialIngredients['tomato']= Ingredients.Tomato;
-initialIngredients['cheese']= Ingredients.Cheese;
-initialIngredients['meat']= Ingredients.Meat;
-initialIngredients['lettuce']= Ingredients.Lettuce;
+initialIngredients['cucumber']= 5;
+initialIngredients['tomato']= 5;
+initialIngredients['cheese']= 5;
+initialIngredients['meat']= 5;
+initialIngredients['lettuce']= 5;
 
