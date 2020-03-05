@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events';
 import {deliveryTime, numberOfCookingStands, numberOfMessengers} from "../config/config";
 import {OrdersEvents} from "./orders-events";
-import {buildPriorityList} from "../store/orders/order.build-priority";
+import {buildPriorityList} from "./order.build-priority";
 import {cloneDeep, isEqual} from 'lodash';
 import {ItemInterface} from '../models/system/item.model';
 import {DishInterface} from '../models/system/dish.model';
@@ -10,7 +10,7 @@ import {DishInterface} from '../models/system/dish.model';
 class QueueListener extends EventEmitter {
     private items: ItemInterface[]; //Hold sorted items
     private dishesPendingToKitchen: DishInterface[]; // myOrder - Location relative to other dishes value- Number of dishes in the order
-    public dishesInKitchen: DishInterface []; //Hold items in kitchen
+    private dishesInKitchen: DishInterface []; //Hold items in kitchen
     private itemsInKitchen: ItemInterface[];
     private itemsPendingToDelivery: ItemInterface [];
     private itemsInDelivery: ItemInterface[]; // Hold items in delivery
@@ -49,7 +49,7 @@ class QueueListener extends EventEmitter {
 
         while (this.dishesInKitchen.length < numberOfCookingStands) {
             const dishToKitchen = cloneDeep(this.dishesPendingToKitchen.shift());
-            if (dishToKitchen === undefined){
+            if (dishToKitchen === undefined) {
                 return;
             }
             this.addToKitchen(dishToKitchen);
@@ -132,6 +132,7 @@ class QueueListener extends EventEmitter {
         }
     }
 
+
     removeOrder = (orderId: string) => {
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].orderId === orderId)
@@ -140,6 +141,7 @@ class QueueListener extends EventEmitter {
         this.emit(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, orderId)
 
     }
+
 
     emit(event: string | symbol, ...args: any[]): boolean {
         setTimeout(() => {

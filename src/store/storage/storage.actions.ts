@@ -3,7 +3,11 @@ import {Dispatch} from "redux";
 import {StorageActionsEnum} from "./storage.types";
 
 
-export const refillIngredients = (ingredients: IngredientInterface[]) => {
+export const refillIngredients = (ingredients: {[titile:string]: number}) => {
+    return {type: StorageActionsEnum.REFILL_INGREDIENTS, ingredients: ingredients};
+}
+
+export const returnIngredients = (ingredients: IngredientInterface[]) => {
     return {type: StorageActionsEnum.REFILL_INGREDIENTS, ingredients: ingredients};
 }
 

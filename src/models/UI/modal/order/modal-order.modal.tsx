@@ -17,7 +17,7 @@ interface Props {
 const OrderModal: React.FC<Props> = (props) => {
     const [userTypes, setUserTypes] = useState({
         types: [
-            {id: 0, value: "Regular", isChecked: false},
+            {id: 0, value: "Regular", isChecked: true},
             {id: 1, value: "Member", isChecked: false},
             {id: 2, value: "VIP", isChecked: false}
         ]
@@ -33,7 +33,7 @@ const OrderModal: React.FC<Props> = (props) => {
 
     if (props.dishes.length === 0) return null;
 
-    const handleCheckChildElement = (event: any) => {
+    const checkUserType = (event: any) => {
         let types = userTypes.types;
         types.forEach(type => {
             if (type.isChecked) type.isChecked = false;
@@ -186,7 +186,7 @@ const OrderModal: React.FC<Props> = (props) => {
                             {
                                 userTypes.types.map((type) => {
                                     return (<CheckBox key={Math.random()}
-                                                      handleCheckChildElement={handleCheckChildElement}  {...type} />)
+                                                      checkUserType={checkUserType}  {...type} />)
                                 })}
                         </ul>
 

@@ -1,5 +1,11 @@
 .checkbox {
   display: block;
+
+  :checked {
+    transform: scale(1.3);
+  }
   .check {
+
+
   }
 }

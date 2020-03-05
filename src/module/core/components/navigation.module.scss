@@ -4,10 +4,17 @@ li .link {
   padding: 8px 16px;
   text-decoration: none;
   transition: all .3s;
+
 }
 
 li .link:hover:not(.active) {
   background-color: #555;
   color: white;
-  transform: scaleY(1.1);
+  transform: scale(1.1);
+
+}
+
+li .link:focus {
+  color: white;
+  transform: scale(1.1);
 }

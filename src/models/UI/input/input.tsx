@@ -8,6 +8,7 @@ interface OwnProps {
 }
 
 const Input: React.FC<OwnProps> = (props) => {
+
     return (
         <div>
             <form method='POST' action='#'>

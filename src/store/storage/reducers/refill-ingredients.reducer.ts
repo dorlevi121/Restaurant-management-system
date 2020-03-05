@@ -4,9 +4,10 @@ import {cloneDeep} from "lodash";
 
 export const refillIngredients = (action: refillIngredientsActionType, state: StorageState) => {
     const ingredientsDictionary = cloneDeep(state.ingredientsQuantity);
-    action.ingredients.forEach(i => {
-        ingredientsDictionary[i.title] += i.amountInDish;
-    })
+    for (let key in action.ingredients){
+        const q = action.ingredients[key] - ingredientsDictionary[key];
+        ingredientsDictionary[key] += q;
+    }
     return {...state, ingredientsQuantity: ingredientsDictionary}
 }
 

@@ -1,5 +1,5 @@
-import {UserType} from "../../models/system/user-type.enum";
-import { ItemInterface } from "../../models/system/item.model";
+import {UserType} from "../models/system/user-type.enum";
+import { ItemInterface } from "../models/system/item.model";
 
 
 export const buildPriorityList = (orders: ItemInterface[], newOrder: ItemInterface): ItemInterface[] => {

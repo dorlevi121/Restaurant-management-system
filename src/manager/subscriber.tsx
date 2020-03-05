@@ -9,7 +9,9 @@ import {OrdersEvents} from "./orders-events";
 import {
     addNewItemsToDelivery,
     addNewItemsToQueue,
-    addNewKitchenList, removeItemsFromDelivery, removeItemsFromQueue
+    addNewKitchenList,
+    removeItemsFromDelivery,
+    removeItemsFromQueue
 } from "../store/queue/queue.actions";
 import {OrderInterface} from "../models/system/order.model";
 import composition from "../utils/composition";
@@ -34,6 +36,7 @@ interface PropsFromDispatch {
 type AllProps = OwnProps
     & PropsFromState
     & PropsFromDispatch;
+
 class Subscriber extends Component <AllProps> {
 
     constructor(props: any) {
@@ -80,8 +83,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 
-
-export default  composition<OwnProps>(
+export default composition<OwnProps>(
     // @ts-ignore
     Subscriber,
     connect(mapStateToProps, mapDispatchToProps)

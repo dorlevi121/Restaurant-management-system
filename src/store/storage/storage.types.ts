@@ -7,6 +7,7 @@ export interface StorageState {
 
 export enum StorageActionsEnum {
     REFILL_INGREDIENTS = 'REFILL_INGREDIENTS',
+    RETURN_INGREDIENTS = 'RETURN_INGREDIENTS',
     REMOVE_INGREDIENTS = 'REMOVE_INGREDIENTS',
     UPDATE_BUDGET = 'UPDATE_BUDGET'
 }
@@ -17,8 +18,14 @@ export interface storageActionPattern {
 
 export interface refillIngredientsActionType extends storageActionPattern {
     type: StorageActionsEnum.REFILL_INGREDIENTS;
+    ingredients: {[titile:string]: number;}
+}
+
+export interface returnIngredientsActionType extends storageActionPattern {
+    type: StorageActionsEnum.RETURN_INGREDIENTS;
     ingredients: IngredientInterface[];
 }
+
 
 export interface removeIngredientsActionType extends storageActionPattern {
     type: StorageActionsEnum.REMOVE_INGREDIENTS;

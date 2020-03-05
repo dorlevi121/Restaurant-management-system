@@ -57,7 +57,7 @@ class Queue extends Component <Props> {
                                          onClick={()=>this.props.onOrderClick(order)}>
                                         {order}
                                     {/*    <span className={queueStyle.DurationModal}>*/}
-                                    {/*    {this.state.showDuration && <a>Duration: {order.totalTime}</a>}*/}
+                                    {/*    {this.state.showDuration && <a>Duration: {order.orderId}</a>}*/}
                                     {/*</span>*/}
 
                                     </div>

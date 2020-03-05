@@ -17,7 +17,7 @@ import DashboardModal from "../../../models/UI/modal/dashboard/modal-dashboard.m
 import Delivery from "../component/delivery/delivery.dashboard";
 import {getIngredientsQuantity} from "../../../store/storage/storage.selectors";
 import {IngredientInterface} from "../../../models/system/ingredients.model";
-import {refillIngredients, updateBudget} from "../../../store/storage/storage.actions";
+import {refillIngredients, returnIngredients, updateBudget} from "../../../store/storage/storage.actions";
 import {ItemInterface} from "../../../models/system/item.model";
 import {QueueState} from "../../../store/queue/queue.types";
 
@@ -39,7 +39,7 @@ interface PropsFromState {
 
 interface PropsFromDispatch {
     cancelOrder: typeof addNewOrderToCancel,
-    returnsIngredientsToStorage: typeof refillIngredients,
+    returnsIngredientsToStorage: typeof returnIngredients,
     updateBudget: typeof updateBudget
 }
 
@@ -128,7 +128,7 @@ const mapStateToProps = (state: OrderState | QueueState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     cancelOrder: (orderId: string) => dispatch(addNewOrderToCancel(orderId)),
-    returnsIngredientsToStorage: (ingredients: IngredientInterface[]) => dispatch(refillIngredients(ingredients)),
+    returnsIngredientsToStorage: (ingredients: IngredientInterface[]) => dispatch(returnIngredients(ingredients)),
     updateBudget: (amount: number, action: 'add' | 'reduce') => dispatch(updateBudget(amount, action))
 })
 

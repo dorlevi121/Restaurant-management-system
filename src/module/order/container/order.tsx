@@ -62,10 +62,12 @@ class OrderComponent extends Component<AllProps, State> {
     };
 
     addOrderToQueue = (userType: UserType, dishes: DishInterface[]) => {
-        if (!this.checkIngredientsQuantity(dishes)) return;
+        if (!this.checkIngredientsQuantity(dishes)) {
+            return;
+        }
 
         dishes.forEach(d => {
-            this.props.removeIngredients(d.ingredients)
+            this.props.removeIngredients(d.ingredients);
             this.props.updateBudget(d.price, 'add');
         });
 
@@ -75,6 +77,7 @@ class OrderComponent extends Component<AllProps, State> {
         // }, 2500);
         this.props.addNewOrderToQueue(dishes, userType);
     };
+
 
     checkIngredientsQuantity = (dishes: DishInterface[]): boolean => {
         let ingCounter = cloneDeep(this.props.getIngredientsQuantity);
@@ -106,6 +109,7 @@ class OrderComponent extends Component<AllProps, State> {
         return true;
     }
 
+
     addNewDish = (disId: number): void => {
         const dish = cloneDeep(menu[disId]);
         dish.id = uniqueId();
@@ -116,9 +120,11 @@ class OrderComponent extends Component<AllProps, State> {
         this.setState({dishes: [...this.state.dishes, dish]});
     };
 
+
     changeModalView = (): void => {
         this.setState({showModal: !this.state.showModal})
     };
+
 
     changeAlertView = (msg: string) => {
         this.setState({
@@ -130,6 +136,7 @@ class OrderComponent extends Component<AllProps, State> {
         }, 4000)
     }
 
+
     onNotificationClicked = () => {
         if (this.state.dishes.length) {
             this.changeModalView()
@@ -139,6 +146,7 @@ class OrderComponent extends Component<AllProps, State> {
     };
 
     render() {
+        console.log(this.props.getIngredientsQuantity)
         const loading = this.state.loading;
         return (
             <div className={OrderStyle.OrderBody}>
