@@ -31,7 +31,14 @@
 
   .Button {
     text-align: center;
-    margin-top: 15%;
+    margin-top: 5%;
   }
 
+  .PriceOnHover {
+    position: absolute;
+    top: 67%;
+    left: 28%;
+    text-align: center;
+    font-weight: 600;
+  }
 }

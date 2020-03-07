@@ -1,6 +1,6 @@
 
 import { initialIngredientsPrice } from '../../config/config';
-import { lettuceImg, cheeseImg, tomatoImg, meatImg, cucumberImg } from '../../constants/images';
+import { lettuceImg, cheeseImg, tomatoImg, meatImg, cucumberImg, riceImg, salmonImg } from '../../constants/images';
 
 export type IngredientInterface = {
     title: string,
@@ -52,6 +52,24 @@ export const Cucumber: IngredientInterface = {
     price: initialIngredientsPrice['cucumber'],
     duration: 3,
     image: cucumberImg,
+    amountInDish: 0,
+    myDishId: ''
+}
+
+export const Rice: IngredientInterface = {
+    title: 'rice',
+    price: initialIngredientsPrice['rice'],
+    duration: 5,
+    image: riceImg,
+    amountInDish: 0,
+    myDishId: ''
+}
+
+export const Salmon: IngredientInterface = {
+    title: 'salmon',
+    price: initialIngredientsPrice['salmon'],
+    duration: 4,
+    image: salmonImg,
     amountInDish: 0,
     myDishId: ''
 }

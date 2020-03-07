@@ -1,6 +1,6 @@
 import {DishInterface, priceCalculation, timeCalculation} from "../models/system/dish.model";
 import * as Ingredients from '../models/system/ingredients.model';
-import { burgerImg, pizzaImg } from './images';
+import { burgerImg, pizzaImg, sushiImg } from './images';
 
 const menu: DishInterface[] = [
     {
@@ -21,6 +21,17 @@ const menu: DishInterface[] = [
         image: pizzaImg,
         id: '',
         price: priceCalculation([Ingredients.Cheese, Ingredients.Tomato]),
+        orderId: '',
+        kitchenEntryTime: 0
+    },
+
+    {
+        title: 'Sushi',
+        ingredients: [Ingredients.Rice, Ingredients.Salmon],
+        duration: timeCalculation([Ingredients.Rice, Ingredients.Salmon]),
+        image: sushiImg,
+        id: '',
+        price: priceCalculation([Ingredients.Rice, Ingredients.Salmon]),
         orderId: '',
         kitchenEntryTime: 0
     }

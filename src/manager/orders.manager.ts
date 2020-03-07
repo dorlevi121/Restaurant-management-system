@@ -1,18 +1,18 @@
-import {EventEmitter} from 'events';
-import {deliveryTime, numberOfCookingStands, numberOfMessengers} from "../config/config";
-import {OrdersEvents} from "./orders-events";
-import {buildPriorityList} from "./order.build-priority";
-import {cloneDeep, isEqual} from 'lodash';
-import {ItemInterface} from '../models/system/item.model';
-import {DishInterface} from '../models/system/dish.model';
+import { EventEmitter } from 'events';
+import { deliveryTime, numberOfCookingStands, numberOfMessengers } from "../config/config";
+import { OrdersEvents } from "./orders-events";
+import { buildPriorityList } from "./order.build-priority";
+import { cloneDeep, isEqual } from 'lodash';
+import { ItemInterface } from '../models/system/item.model';
+import { DishInterface } from '../models/system/dish.model';
 
 
 class QueueListener extends EventEmitter {
     private items: ItemInterface[]; //Hold sorted items
     private dishesPendingToKitchen: DishInterface[]; // myOrder - Location relative to other dishes value- Number of dishes in the order
-    private dishesInKitchen: DishInterface []; //Hold items in kitchen
+    private dishesInKitchen: DishInterface[]; //Hold items in kitchen
     private itemsInKitchen: ItemInterface[];
-    private itemsPendingToDelivery: ItemInterface [];
+    private itemsPendingToDelivery: ItemInterface[];
     private itemsInDelivery: ItemInterface[]; // Hold items in delivery
 
     constructor() {
@@ -41,7 +41,7 @@ class QueueListener extends EventEmitter {
         if (orderToKitchen === undefined) return;
 
         this.itemsInKitchen.push(orderToKitchen)
-        this.emit(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, orderToKitchen.orderId);
+        this.emit(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, orderToKitchen);
 
         for (let i = 0; i < orderToKitchen.dishes.length; i++) {
             this.dishesPendingToKitchen.push(cloneDeep(orderToKitchen.dishes[i]))
@@ -125,26 +125,26 @@ class QueueListener extends EventEmitter {
     }
 
 
-    removeOrderFromDelivery = 
-    (orderId: string) => {
-        for (let i = 0; i < this.itemsInDelivery.length; i++) {
-            if (this.itemsInDelivery[i].orderId === orderId)
-                this.itemsInDelivery.splice(i, 1);
+    removeOrderFromDelivery =
+        (orderId: string) => {
+            for (let i = 0; i < this.itemsInDelivery.length; i++) {
+                if (this.itemsInDelivery[i].orderId === orderId)
+                    this.itemsInDelivery.splice(i, 1);
+            }
         }
-    }
 
 
     removeOrder = (orderId: string) => {
         let item = null;
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].orderId === orderId){
+            if (this.items[i].orderId === orderId) {
                 item = this.items[i]
                 this.items.splice(i, 1);
                 break;
             }
-        }       
-        if(item === null) return console.log('sss');
-        ; 
+        }
+        if (item === null) return console.log('sss');
+        ;
         this.emit(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, item);
 
     }

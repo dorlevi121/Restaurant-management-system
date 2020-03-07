@@ -7,10 +7,12 @@
   display: inline-block;
   border-radius: 5px;
   text-transform: uppercase;
+  transition: all .2s ease-in-out;
 }
 
 .notification:hover {
   background: red;
+  transition: all .2s ease-in-out;
 }
 
 .notification .badge {

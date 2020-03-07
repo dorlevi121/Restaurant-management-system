@@ -54,6 +54,9 @@
     position: absolute;
     top: 180px;
     left: 100px;
+    animation-name: notificationAnimation;
+    animation-duration: 2s;
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear;
 
     @media (max-height: 780px) {
       top: 100px;
@@ -63,6 +66,18 @@
 }
 
 @keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes notificationAnimation {
   0% {
     opacity: 0;
     transform: translate3d(0, 100%, 0);
