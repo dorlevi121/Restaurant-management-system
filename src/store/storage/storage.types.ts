@@ -1,7 +1,7 @@
 import {IngredientInterface} from "../../models/system/ingredients.model";
 
 export interface StorageState {
-    ingredientsQuantity: {[titile:string]: number}, //All ingredients were initialized with 5 pieces
+    ingredientsQuantity: {[title:string]: number}, //All ingredients were initialized with 5 pieces
     budget: number
 }
 

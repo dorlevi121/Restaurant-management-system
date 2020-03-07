@@ -1,5 +1,41 @@
 .OrderBody {
-  width: 100%;
+  width: 100vw;
+  max-height: 100vh;
+
+  .Order {
+    width: 35%;
+    margin: auto;
+    animation-name: fadeInUp;
+    animation-duration: 2s;
+  }
+
+  .Dishes {
+    margin: 20% auto;
+  }
+
+  & .Loading {
+    position: absolute;
+    background-image: linear-gradient(to bottom right, #aef3e7, #37718e);
+    width: 90%;
+    height: 100vh;
+    margin: 0 auto;
+    animation-name: loading;
+    animation-duration: 2s;
+    visibility: hidden;
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+
+    @keyframes loading {
+      from {
+        z-index: 0;
+        opacity: 0.8;
+      }
+      to {
+        visibility: visible;
+        z-index: 1000;
+        opacity: 1;
+      }
+    }
+  }
 
   .Alert {
     position: absolute;
@@ -8,7 +44,7 @@
     left: 0%;
     top: -50%;
     z-index: 1000;
-    @media (max-height: 800px){
+    @media (max-height: 800px) {
       top: -40%;
       left: 35%;
     }
@@ -24,37 +60,8 @@
       left: 60px;
     }
   }
-  .Order {
-    width: 35%;
-    margin: 10% auto;
-    animation-name: fadeInUp;
-    animation-duration: 2s;
-
-    }
-  
-
-  & .Loading {
-    width: 90%;
-    height: 100vh;
-    margin: 0 160px;
-    animation-name: loading;
-    animation-duration: 4s;
-    visibility: hidden;
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear;
-  }
 }
 
-@keyframes loading {
-  from {
-    z-index: 0;
-    opacity: .5;
-  }
-  to {
-    visibility: visible;
-    z-index: 2000;
-    opacity: 1;
-  }
-}
 @keyframes fadeInUp {
   0% {
     opacity: 0;

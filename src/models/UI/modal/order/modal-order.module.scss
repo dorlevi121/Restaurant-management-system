@@ -1,13 +1,10 @@
-/* The Boxes Of Content */
 .Boxes {
   display: flex;
-  justify-content: space-around;
-
+  justify-content: space-between;
 
   .OrderSummary {
+    margin: auto;
     width: 40%;
-    padding: 1rem;
-
     color: #000;
     text-decoration: none;
     text-transform: capitalize;
@@ -35,8 +32,10 @@
     .typesNtime {
       text-align: left;
 
-      .type {
-        margin-bottom: -10px;
+      .Duration {
+        & p {
+          display: inline;
+        }
       }
 
       .CheckBox {
@@ -79,11 +78,11 @@
   }
 
   .ToggleBox + label:before {
-    background-color: #4F5150;
+    background-color: #4f5150;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    color: #FFFFFF;
+    color: #ffffff;
     content: "+";
     display: block;
     float: left;
@@ -102,15 +101,23 @@
   .Ingredients {
     margin-top: 10%;
 
+    @media (max-height: 800px) {
+      margin-top: 20%;
+    }
     .Ingredient {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      align-items: center;
 
       & p {
-        margin: 0 auto;
+        margin: 0;
+        text-align: center;
+        & img {
+          height: 10%;
+          width: 10%;
+        }
       }
-
     }
   }
 }
@@ -124,6 +131,9 @@
   @media (max-height: 780px) {
     top: 0%;
     left: 33%;
-    }
+  }
 }
 
+.Button {
+  text-align: center;
+}

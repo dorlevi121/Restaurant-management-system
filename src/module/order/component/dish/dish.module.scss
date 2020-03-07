@@ -1,19 +1,39 @@
 .Dish {
 
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: -5vh;
+  margin-bottom: 5vh;
+  
+
+  & .TitleDish {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    color: rgb(52, 72, 90);
+}
+
   & img {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    width: 250px;
-    height: 190px;
-    opacity: .8;
-    transition: all .2s;
+    max-width: 100%;
+    display: block;
+    height: auto;
+    width: 400px;
+    background-color: rgba(255, 255, 255, .4);
+    padding: 10px;
+    cursor: pointer;
+    transition: all .2s linear;
+    border-radius: 8px;
+
+    
   }
 
   & img:hover {
+    background-color: rgba(255, 255, 255, 0.219);
     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-    transform: translateY(-2px);
-    opacity: 1;
   }
 
   Button {

@@ -1,3 +1,5 @@
+import { IngredientInterface } from "../models/system/ingredients.model";
+
 export const numberOfQueues: number = 2;
 export const numberOfCookingStands: number = 2;
 export const numberOfMessengers = 2;
@@ -5,6 +7,13 @@ export const deliveryTime = 5;
 export const initialBudget = 50;
 export const initialIngredientsQuantity: {[title:string]: number} = {};
 export const initialIngredientsPrice: {[title:string]: number} = {};
+export const initialIngredients: {[title:string]: IngredientInterface} = {};
+
+// initialIngredients['cucumber']= Cu;
+// initialIngredients['tomato']= 5;
+// initialIngredients['cheese']= 5;
+// initialIngredients['meat']= 5;
+// initialIngredients['lettuce']= 5;
 
 initialIngredientsQuantity['cucumber']= 5;
 initialIngredientsQuantity['tomato']= 5;

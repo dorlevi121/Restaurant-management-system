@@ -29,6 +29,12 @@
         margin: 8px;
       }
     }
+
+    & .ingAmount {
+      position: absolute;
+      font-size: .6rem;
+      margin-left: -13px;
+    }
   }
 
   & .Time {

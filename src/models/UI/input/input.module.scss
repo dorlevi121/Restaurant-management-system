@@ -23,6 +23,11 @@ form {
   background: #fff;
   border: 1px solid #ccc;
   border-right: none;
+
+  @media (max-height: 800px) {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .Quantity input:last-child {
@@ -30,5 +35,5 @@ form {
 }
 
 input[type="button"] {
-  cursor: pointer
+  cursor: pointer;
 }

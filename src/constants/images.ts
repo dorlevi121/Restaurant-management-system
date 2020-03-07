@@ -1,5 +1,5 @@
-import burger from '../assets/dishesImg/burger.png';
-import pizza from '../assets/dishesImg/pizza.png';
+import burger from '../assets/dishesImg/burger.jpg';
+import pizza from '../assets/dishesImg/pizza.jpg';
 import logo from "../assets/logo/logo.png";
 import tomato from '../assets/ingredients-icons/tomato.png';
 import meat from '../assets/ingredients-icons/meat.png';

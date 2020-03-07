@@ -1,26 +1,61 @@
 .App {
-  text-align: center;
+  max-height: 100vh;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 
-    .Header {
-        height: 30%;
-      img {
-        height: 40%;
+  .Welcome {
+    margin: auto;
+    text-align: center;
+    & h1,
+    & h2 {
+      font-family: Helvetica, Sans-serif;
+      margin: 0;
+      padding: 0;
+      font-weight: 300;
+    }
+
+    & h1 {
+      font-size: 80px;
+    }
+    & h2 {
+      font-size: 36px;
+    }
+
+    .AnimateReveal {
+      opacity: 0;
+      animation: reveal 1s cubic-bezier(0, 1, 0.5, 1) 1 normal forwards;
+    }
+
+    .AnimateFirst {
+      animation-delay: 0;
+    }
+
+    .AnimateSecond {
+      animation-delay: 20s;
+    }
+
+    @-webkit-keyframes reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-  & .ul {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    margin-top: 0;
-    padding: 0;
-    width: 15%;
-    background-color: #333;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-    text-transform: capitalize;
+    @keyframes reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   }
 }
-

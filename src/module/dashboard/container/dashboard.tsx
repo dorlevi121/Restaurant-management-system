@@ -69,6 +69,8 @@ class Dashboard extends Component<AllProps, State> {
     };
 
     onOrderClick = (item: ItemInterface): void => {
+        console.log(item.orderId);
+        
         if (item.orderId === null) return;
         this.setState({
             orderClicked: this.props.getAllOrders[item.orderId], showModal: true
@@ -86,9 +88,9 @@ class Dashboard extends Component<AllProps, State> {
         return orders;
     }
 
-    render() {
+    render() {        
         return (
-            <div className={dashboardStyle.dashboard}>
+            <div className={dashboardStyle.Dashboard}>
                 <Modal show={this.state.showModal} closeModal={this.changeModalView}>
                     <DashboardModal
                         order={this.state.orderClicked}

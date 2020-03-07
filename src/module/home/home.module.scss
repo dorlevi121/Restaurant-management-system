@@ -1,0 +1,31 @@
+.Home {
+    margin: 150px auto;
+
+  :hover {
+    transform: rotate(180deg);
+  }
+
+  .MainButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    border: 16px solid rgba(255, 255, 255, 0.4);
+    border-top: 16px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    transition: transform 0.2s linear;
+    cursor: pointer;
+
+    a {
+      font-family: "Raleway", sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      transition: transform 0.2s linear;
+      opacity: 0.9;
+      color: #254e70;
+      text-decoration: none;
+    }
+  }
+}

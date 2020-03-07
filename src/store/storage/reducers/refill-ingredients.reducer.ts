@@ -9,9 +9,7 @@ export const refillIngredients = (action: refillIngredientsActionType, state: St
     for (let key in action.ingredients){
         const q = Math.abs(action.ingredients[key] - ingredientsDictionary[key]);
         ingredientsDictionary[key] += q;
-        price += (initialIngredientsPrice[key] * q);
-        console.log(price);
-        
+        price += (initialIngredientsPrice[key] * q);        
     }
     return {...state, ingredientsQuantity: ingredientsDictionary, budget: state.budget - price}
 }

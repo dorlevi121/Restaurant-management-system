@@ -7,9 +7,10 @@ import {
     QueueActionsEnum, addNewItemToQueueActionType
 } from "./queue.types";
 import { cloneDeep } from "lodash";
-import {addNewOrderIdToQueue} from "./reducers/add-new-order-id-to-queue.reducer";
-import {removeOrderIdFromQueue} from "./reducers/remove-order-id-from-queue.reducer";
-import {removeOrderIdFromDelivery} from "./reducers/remove-order-id-from-delivery.reducer";
+import { addNewItemoQueue } from "./reducers/add-new-item-to-queue.reducer";
+import { removeItemFromDelivery } from "./reducers/remove-item-from-delivery.reducer";
+import { removeItemFromQueue } from "./reducers/remove-item-from-queue.reducer";
+
 
 type allQueueActionTypes = addNewItemToDeliveryActionType | removeItemFromDeliveryActionType |
 addNewItemToQueueActionType | removeItemFromQueueActionType | addNewKitchenListActionType;
@@ -18,10 +19,10 @@ export const queueReducer = (state = initialQueueState, action: allQueueActionTy
 
     switch (action.type){
         case QueueActionsEnum.ADD_NEW_ITEM_TO_QUEUE:
-            return addNewOrderIdToQueue(action, state);
+            return addNewItemoQueue(action, state);
         
         case QueueActionsEnum.REMOVE_ITEM_QUEUE:
-            return removeOrderIdFromQueue(action, state);
+            return removeItemFromQueue(action, state);
 
         case QueueActionsEnum.ADD_NEW_KITCHEN_LIST:
             const dishes = cloneDeep(action.dishes)
@@ -31,7 +32,7 @@ export const queueReducer = (state = initialQueueState, action: allQueueActionTy
             return {...state, itemsInDelivery: [...state.itemsInDelivery, action.item]}
             
         case QueueActionsEnum.REMOVE_ITEM_FROM_DELIVERY:
-            return removeOrderIdFromDelivery(action, state);
+            return removeItemFromDelivery(action, state);
 
     }
     return state;

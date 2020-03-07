@@ -1,20 +1,84 @@
-li .link {
-  display: block;
-  color: #000;
-  padding: 8px 16px;
+
+.Navbar {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.4rem;
+  font-family: 'Raleway', sans-serif;
+}
+
+.LogoBox {
+  width: 30%;
+  text-align: center;
+  transition: all .2s linear;
+}
+
+.Logo {
+  color: #254E70;
+  margin:0;
+  font-size: 1.7rem;
   text-decoration: none;
-  transition: all .3s;
-
+  font-weight: 700;
 }
 
-li .link:hover:not(.active) {
-  background-color: #555;
-  color: white;
-  transform: scale(1.1);
-
+#LogoBox:hover {
+  opacity: .8;
 }
 
-li .link:focus {
-  color: white;
-  transform: scale(1.1);
+.Fas {
+  opacity: .7;
+  padding: 5px;
+
+  :hover {
+    opacity: 1;
+  }
+}
+
+.NavLinks {
+  width: 70%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.NavLinks > li {
+  list-style-type: none;
+}
+
+.NavLink {
+  text-decoration: none;
+  color: #37718E;
+  opacity: .8;
+  font-weight: 700;
+  padding: 5px 10px;
+  transition: all .4s linear;
+  text-transform: uppercase;
+}
+
+.NavLink:hover {
+  background-color: rgba(255,255,255, .3);
+}
+
+.NavLink:focus {
+  background-color: rgba(255,255,255, .3);
+}
+
+
+@media (max-width: 755px) {
+  #Navbar {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .LogoBox {
+      width: 60%;
+  }
+
+  #NavLink {
+      justify-content: center;
+  }
 }

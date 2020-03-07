@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import queueStyle from './queue.module.scss';
 import {numberOfQueues} from "../../../../config/config";
-import {OrderInterface} from "../../../../models/system/order.model";
 import {ItemInterface} from "../../../../models/system/item.model";
 
 
@@ -55,7 +54,7 @@ class Queue extends Component <Props> {
                                     <div key={Math.random()} className={queueStyle.Order}
                                          onMouseEnter={this.onMouseHover} onMouseLeave={this.onMouseHover}
                                          onClick={()=>this.props.onOrderClick(order)}>
-                                        {order}
+                                        {order.orderId}
                                     {/*    <span className={queueStyle.DurationModal}>*/}
                                     {/*    {this.state.showDuration && <a>Duration: {order.orderId}</a>}*/}
                                     {/*</span>*/}

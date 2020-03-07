@@ -91,12 +91,13 @@ class Storage extends Component <AllProps, State> {
     render() {
         const ingTitle = Object.keys(this.state.refill);
         const ingQuantity = Object.values(this.state.refill);
-        const budgetColor = this.state.budget > 0 ? {color:'white'} : {color:'red'}
+        const budgetColor = this.state.budget > 0 ? {color:'rgb(52, 72, 90)'} : {color:'red'}
 
         return (
             <div className={storageStyle.Storage}>
-                <div style={budgetColor}>
-                {this.state.budget}
+                <div className={storageStyle.Budget} style={budgetColor}>
+                <p>Budget:</p>
+                <p> {this.state.budget}&#36;</p>
                 </div>
 
                 { this.state.showAlert && <div className={storageStyle.Alert}>
@@ -112,7 +113,7 @@ class Storage extends Component <AllProps, State> {
                         />
                     </div>
                 ))}
-                <div onClick={this.updateStore}>
+                <div className={storageStyle.Button} onClick={this.updateStore}>
                     <Button text='Order'/>
 
                 </div>

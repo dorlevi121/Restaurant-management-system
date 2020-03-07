@@ -4,17 +4,34 @@
   width: 50%;
   max-width: 50%;
   height: 100%;
-  color: white;
+  font-size: 1rem;
+  color: rgb(52, 72, 90);
+
+  .Budget {
+    text-align: center;
+    :first-child {
+      font-weight: 600;
+    }
+    p {
+      display: inline;
+    }
+  }
 
   .Content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .Alert {
     position: absolute;
     top: 0%;
     left: 35%;
+  }
+
+  .Button {
+    text-align: center;
+    margin-top: 15%;
   }
 
 }

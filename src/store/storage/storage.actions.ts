@@ -8,7 +8,7 @@ export const refillIngredients = (ingredients: {[titile:string]: number}) => {
 }
 
 export const returnIngredients = (ingredients: IngredientInterface[]) => {
-    return {type: StorageActionsEnum.REFILL_INGREDIENTS, ingredients: ingredients};
+    return {type: StorageActionsEnum.RETURN_INGREDIENTS, ingredients: ingredients};
 }
 
 export const removeIngredients = (ingredients: IngredientInterface[]) => {

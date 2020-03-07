@@ -30,7 +30,7 @@ class QueueListener extends EventEmitter {
         if (this.dishesInKitchen.length < numberOfCookingStands)
             this.pushDishesToKitchen();
         else {
-            this.emit(OrdersEvents.ADD_NEW_ITEM_TO_QUEUE, item.orderId,
+            this.emit(OrdersEvents.ADD_NEW_ITEM_TO_QUEUE, item,
                 this.items.findIndex(i => i.orderId === item.orderId))
         }
     }
@@ -125,7 +125,8 @@ class QueueListener extends EventEmitter {
     }
 
 
-    removeOrderFromDelivery = (orderId: string) => {
+    removeOrderFromDelivery = 
+    (orderId: string) => {
         for (let i = 0; i < this.itemsInDelivery.length; i++) {
             if (this.itemsInDelivery[i].orderId === orderId)
                 this.itemsInDelivery.splice(i, 1);
@@ -134,11 +135,17 @@ class QueueListener extends EventEmitter {
 
 
     removeOrder = (orderId: string) => {
+        let item = null;
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].orderId === orderId)
+            if (this.items[i].orderId === orderId){
+                item = this.items[i]
                 this.items.splice(i, 1);
-        }
-        this.emit(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, orderId)
+                break;
+            }
+        }       
+        if(item === null) return console.log('sss');
+        ; 
+        this.emit(OrdersEvents.REMOVE_ITEM_FROM_QUEUE, item);
 
     }
 

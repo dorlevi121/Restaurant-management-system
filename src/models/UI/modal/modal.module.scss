@@ -20,9 +20,8 @@
 
 /* Modal Content */
 .modalContent {
-  background-color: #fefefe;
+  background: linear-gradient(135deg, rgba(237,237,237,1) 11%, rgba(246,246,246,1) 53%, rgba(213,230,243,1) 63%, rgba(90,170,232,1) 100%);  margin: auto;
   opacity: .9;
-  margin: auto;
   padding: 10px;
   border: 1px solid #888;
   width: 40%;
@@ -31,17 +30,24 @@
   max-height: 60%;
   overflow: auto;
 
-  .border {
-    border-width: 1.5px;
-    border-style: solid;
-    border-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1;
+  .ChildrenContent {
+    margin-top: -30px;
   }
-  /* The Close Button */
+
+  // .border {
+  //   border-width: 1.5px;
+  //   border-style: solid;
+  //   border-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1;
+  // }
+  /*  Close Button */
   .close {
+    height: 5%;
+    width: 5%;
     color: #aaaaaa;
     font-size: 40px;
     font-weight: bold;
-    margin-right: 700px;
+    transition: all .3s ease-in-out;
+
   }
 
   .close:hover,
