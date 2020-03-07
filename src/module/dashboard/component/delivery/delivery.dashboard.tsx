@@ -1,9 +1,9 @@
 import React from 'react';
 import DeliveryStyle from './delivery.module.scss';
 import {OrderInterface} from "../../../../models/system/order.model";
-import deliveryIcon from '../../../../assets/delivery-icon/delivery-icon.png';
 import {deliveryTime} from "../../../../config/config";
 import Timer from "../../../shared/timer.shared";
+import { deliveryImg } from '../../../../constants/images';
 
 interface OwnProps {
     ordersIdDelivery: OrderInterface[]
@@ -26,7 +26,7 @@ const Delivery: React.FC<OwnProps> = (props) => {
                             </div>
                         </div>
                         <div className={DeliveryStyle.Icon}>
-                            <img src={deliveryIcon} alt="delivery"/>
+                            <img src={deliveryImg} alt="delivery"/>
                         </div>
                     </div>
                 )

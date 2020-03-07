@@ -1,7 +1,7 @@
 import {StorageState} from "./storage.types";
-import {initialBudget, initialIngredients} from "../../config/config";
+import {initialBudget, initialIngredientsQuantity} from "../../config/config";
 
 export const initialStorageState: StorageState = {
-    ingredientsQuantity: initialIngredients,
+    ingredientsQuantity: initialIngredientsQuantity,
     budget: initialBudget
 }

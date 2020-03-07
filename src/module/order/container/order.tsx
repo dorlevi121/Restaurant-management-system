@@ -20,6 +20,7 @@ import {getIngredientsQuantity} from "../../../store/storage/storage.selectors";
 import {StorageState} from "../../../store/storage/storage.types";
 import {IngredientInterface} from "../../../models/system/ingredients.model";
 import {removeIngredients, updateBudget} from "../../../store/storage/storage.actions";
+import Loading from "../../../models/UI/loading/loading";
 
 interface State {
     dishes: DishInterface [],
@@ -72,9 +73,9 @@ class OrderComponent extends Component<AllProps, State> {
         });
 
         this.setState({loading: true, dishes: [], orderToModal: null, showModal: false});
-        // setTimeout(() => {
-        //     this.setState({loading: false})
-        // }, 2500);
+        setTimeout(() => {
+            this.setState({loading: false})
+        }, 2500);
         this.props.addNewOrderToQueue(dishes, userType);
     };
 
@@ -146,7 +147,6 @@ class OrderComponent extends Component<AllProps, State> {
     };
 
     render() {
-        console.log(this.props.getIngredientsQuantity)
         const loading = this.state.loading;
         return (
             <div className={OrderStyle.OrderBody}>
@@ -154,9 +154,9 @@ class OrderComponent extends Component<AllProps, State> {
                     <Alert msg={this.state.msgAlert} type={"danger"} show={this.state.showAlert}/>
                 </div>
 
-                {/*{loading && <div className={orderStyle.Loading}>*/}
-                {/*    <Loading/>*/}
-                {/*</div>}*/}
+                {loading && <div className={OrderStyle.Loading}>
+                    <Loading/>
+                </div>}
                 <div
                     className={OrderStyle.Notification}
                     onClick={this.onNotificationClicked}>

@@ -1,8 +1,6 @@
-import tomato from '../../assets/ingredients-icons/tomato.png';
-import meat from '../../assets/ingredients-icons/meat.png';
-import cheese from '../../assets/ingredients-icons/cheese.png';
-import lettuce from '../../assets/ingredients-icons/lettuce.png';
-import cucumber from '../../assets/ingredients-icons/cucumber.png';
+
+import { initialIngredientsPrice } from '../../config/config';
+import { lettuceImg, cheeseImg, tomatoImg, meatImg, cucumberImg } from '../../constants/images';
 
 export type IngredientInterface = {
     title: string,
@@ -15,45 +13,45 @@ export type IngredientInterface = {
 
 export const Tomato: IngredientInterface = {
     title: 'tomato',
-    price: 1,
+    price: initialIngredientsPrice['tomato'],
     duration: 8,
-    image: tomato,
+    image: tomatoImg,
     amountInDish: 0,
     myDishId: ''
 }
 
 export const Meat: IngredientInterface = {
     title: 'meat',
-    price: 5,
+    price: initialIngredientsPrice['meat'],
     duration: 30,
-    image: meat,
+    image: meatImg,
     amountInDish: 0,
     myDishId: ''
 }
 
 export const Cheese: IngredientInterface = {
     title: 'cheese',
-    price: 3,
+    price: initialIngredientsPrice['cheese'],
     duration: 10,
-    image: cheese,
+    image: cheeseImg,
     amountInDish: 0,
     myDishId: ''
 }
 
 export const Lettuce: IngredientInterface = {
     title: 'lettuce',
-    price: 2,
+    price: initialIngredientsPrice['lettuce'],
     duration: 10,
-    image: lettuce,
+    image: lettuceImg,
     amountInDish: 0,
     myDishId: ''
 }
 
 export const Cucumber: IngredientInterface = {
     title: 'cucumber',
-    price: 2,
+    price: initialIngredientsPrice['cucumber'],
     duration: 3,
-    image: cucumber,
+    image: cucumberImg,
     amountInDish: 0,
     myDishId: ''
 }

@@ -4,13 +4,13 @@
   .Alert {
     position: absolute;
     height: 10%;
-    left: 0;
     right: 0;
+    left: 0%;
     top: -50%;
     z-index: 1000;
-
     @media (max-height: 800px){
-      top: -65%;
+      top: -40%;
+      left: 35%;
     }
   }
 
@@ -21,13 +21,14 @@
 
     @media (max-height: 780px) {
       top: 100px;
+      left: 60px;
     }
   }
   .Order {
     width: 35%;
     margin: 10% auto;
     animation-name: fadeInUp;
-    animation-duration: 3s;
+    animation-duration: 2s;
 
     }
   

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import homeStyles from "./core.module.scss";
-import logo from "../../assets/logo/logo.png";
 import Routing from "../../app.routing";
 import Navogation from "./components/navigation";
+import { logoImg } from '../../constants/images';
 
 class Core extends Component {
     render() {
@@ -10,7 +10,7 @@ class Core extends Component {
             <div className={homeStyles.App}>
                 <ul className={homeStyles.ul}>
                     <div className={homeStyles.Header}>
-                        <img src={logo} alt="Logo"/>
+                        <img src={logoImg} alt="Logo"/>
                     </div>
                     <Navogation/>
                 </ul>

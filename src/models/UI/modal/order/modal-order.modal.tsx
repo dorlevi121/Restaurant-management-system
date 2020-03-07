@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Component} from "react";
 import {DishInterface} from "../../../system/dish.model";
 import CheckBox from "../../chackbox/checkbox";
 import Button from "../../button/button";
@@ -8,55 +8,70 @@ import {IngredientInterface} from "../../../system/ingredients.model";
 import {cloneDeep} from "lodash";
 import Input from "../../input/input";
 import Alert from "../../alert/alert";
+import { render } from "@testing-library/react";
 
-interface Props {
+interface State {
+    userTypes: {id: number, value: string, isChecked: boolean}[],
+    dishes: DishInterface [],
+    showAlert: boolean,
+    msgAlert: string,
+    typeAlert: 'danger' | 'success'
+}
+
+interface OwnProps {
     dishes: DishInterface []
     onOrderClick: (userType: UserType, dishes: DishInterface[]) => void
 }
 
-const OrderModal: React.FC<Props> = (props) => {
-    const [userTypes, setUserTypes] = useState({
-        types: [
-            {id: 0, value: "Regular", isChecked: true},
-            {id: 1, value: "Member", isChecked: false},
-            {id: 2, value: "VIP", isChecked: false}
-        ]
-    });
-    const [dishes, setDishes] = useState<DishInterface[]>(props.dishes.length !== 0 ? cloneDeep(props.dishes) : []);
-    const [showAlert, setShowAlert] = useState(false);
-    const [msgAlert, setMsgAlert] = useState('');
+class OrderModal extends Component <OwnProps, State>{
+        state:State = {
+            userTypes: [
+                {id: 0, value: "Regular", isChecked: true},
+                {id: 1, value: "Member", isChecked: false},
+                {id: 2, value: "VIP", isChecked: false}
+            ],
+            dishes: [],
+            showAlert: false,
+            msgAlert: '',
+            typeAlert: 'danger'
+        }
+    
 
+    componentWillReceiveProps(nextProps: any){
+        this.setState({ dishes: nextProps.dishes })
+    }
 
-    useEffect(() => {
-        setDishes(props.dishes)
-    }, [props.dishes])
-
-    if (props.dishes.length === 0) return null;
-
-    const checkUserType = (event: any) => {
-        let types = userTypes.types;
+     checkUserType = (event: any) => {
+        let types = cloneDeep(this.state.userTypes);
         types.forEach(type => {
             if (type.isChecked) type.isChecked = false;
             if (type.value === event.target.value) type.isChecked = event.target.checked
         })
-        setUserTypes({types: types})
+        this.setState({
+            userTypes: types
+        })
     }
 
 
-    const onClickOrder = () => {
-        const typeOfUser = userTypes.types.filter(type => type.isChecked);
+     onClickOrder = () => {
+        const typeOfUser = this.state.userTypes.filter(type => type.isChecked);
         if (!typeOfUser.length) {
-            setShowAlert(true)
-            setMsgAlert('You didnt choose user type')
+            this.setState({
+                showAlert: true,
+                msgAlert: 'You didnt choose user type',
+                typeAlert: 'danger'
+            })
             setTimeout(() => {
-                setShowAlert(false)
-                setMsgAlert('')
+                this.setState({
+                    showAlert: false,
+                    msgAlert: ''
+                })
             }, 4000);
             return;
         }
 
         let ing = 0;
-        dishes.forEach(d => {
+        this.state.dishes.forEach(d => {
             d.ingredients.forEach(i => {
                 if (i.amountInDish > 0) {
                     ing++;
@@ -64,11 +79,16 @@ const OrderModal: React.FC<Props> = (props) => {
             })
         })
         if (ing === 0) {
-            setShowAlert(true)
-            setMsgAlert('You didnt choose any ingredient')
+            this.setState({
+                showAlert: true,
+                msgAlert: 'You didn\'t choose any ingredient',
+                typeAlert: 'danger'
+            })
             setTimeout(() => {
-                setShowAlert(false)
-                setMsgAlert('')
+                this.setState({
+                    showAlert: false,
+                    msgAlert: '',
+                })
             }, 4000);
             return;
         }
@@ -78,35 +98,38 @@ const OrderModal: React.FC<Props> = (props) => {
         else if (typeOfUser[0].value === 'Member') type = UserType.member;
         else type = UserType.regular;
 
-        props.onOrderClick(type, [...dishes]);
+        this.props.onOrderClick(type, cloneDeep(this.state.dishes));
 
-        setUserTypes({
-            types: [
-                {id: 0, value: "Regular", isChecked: false},
+        this.setState({
+            userTypes: [
+                {id: 0, value: "Regular", isChecked: true},
                 {id: 1, value: "Member", isChecked: false},
                 {id: 2, value: "VIP", isChecked: false}
             ]
         })
     }
 
-    const updateIngredients = (e: any, ingredient: IngredientInterface): void => {
-        const dish = cloneDeep(dishes.find(d => d.id === ingredient.myDishId));
+     updateIngredients = (e: any, ingredient: IngredientInterface): void => {
+        const dish = cloneDeep(this.state.dishes.find(d => d.id === ingredient.myDishId));
         if (dish === undefined) {
             return;
         }
+
         const newIngredient = dish.ingredients.find(i => i.title === ingredient.title);
         if (newIngredient === undefined) {
             return;
         }
-        const allDishes = [...dishes]
+
+        const allDishes = cloneDeep(this.state.dishes);
         const dishIndex = allDishes.findIndex(d => d.id === dish.id);
+
         switch (e.target.value) {
             case '+': {
                 newIngredient.amountInDish++;
                 dish.price += newIngredient.price;
                 dish.duration += newIngredient.duration;
                 allDishes.splice(dishIndex, 1, dish);
-                setDishes(allDishes);
+                this.setState({dishes: allDishes})
                 return;
             }
 
@@ -116,16 +139,16 @@ const OrderModal: React.FC<Props> = (props) => {
                 dish.price -= newIngredient.price;
                 dish.duration -= newIngredient.duration;
                 allDishes.splice(dishIndex, 1, dish);
-                setDishes(allDishes);
+                this.setState({dishes: allDishes})
                 return;
             }
         }
     }
 
-    const calculateTotalTime = () => {
+     calculateTotalTime = () => {
         let timer = 0, minutes, seconds;
-        for (let i = 0; i < dishes.length; i++) {
-            timer += dishes[i].duration
+        for (let i = 0; i < this.state.dishes.length; i++) {
+            timer += this.state.dishes[i].duration
         }
         minutes = parseInt(String(timer / 60), 10);
         seconds = parseInt(String(timer % 60), 10);
@@ -136,14 +159,17 @@ const OrderModal: React.FC<Props> = (props) => {
         return ' ' + minutes + ":" + seconds;
     }
 
-    const calculateTotalPrice = () => {
+    calculateTotalPrice = () => {
         let totalPrice = 0;
-        for (let i = 0; i < dishes.length; i++) {
-            totalPrice += dishes[i].price
+        for (let i = 0; i < this.state.dishes.length; i++) {
+            totalPrice += this.state.dishes[i].price
         }
         return totalPrice;
     }
 
+render() {
+    console.log(this.state.dishes);
+    
     return (
         <div>
             <div className={orderModalStyle.Boxes}>
@@ -151,7 +177,7 @@ const OrderModal: React.FC<Props> = (props) => {
                     <div className={orderModalStyle.PriceNdish}>
                         <p>Dish</p> <p>Price</p>
                     </div>
-                    {dishes.map((dish: DishInterface, i: number) => (
+                    {this.state.dishes.map((dish: DishInterface, i: number) => (
                         <div className={orderModalStyle.Dish} key={Math.random()}>
 
                             <input className={orderModalStyle.ToggleBox} id={i.toString()} type="checkbox"/>
@@ -163,7 +189,7 @@ const OrderModal: React.FC<Props> = (props) => {
                                     return (
                                         <div key={Math.random()} className={orderModalStyle.Ingredient}>
                                             <p>{i.title}</p>
-                                            <Input ingredient={i} onClickInput={updateIngredients}/>
+                                            <Input ingredient={i} onClickInput={this.updateIngredients}/>
                                         </div>
                                     )
                                 })}
@@ -174,7 +200,7 @@ const OrderModal: React.FC<Props> = (props) => {
 
                     <div className={orderModalStyle.TotalPrice}>
                         <p>Total Price:</p>
-                        <p>{calculateTotalPrice()}&#36;</p>
+                        <p>{this.calculateTotalPrice()}&#36;</p>
                     </div>
                 </div>
 
@@ -184,16 +210,16 @@ const OrderModal: React.FC<Props> = (props) => {
 
                         <ul className={orderModalStyle.CheckBox}>
                             {
-                                userTypes.types.map((type) => {
+                                this.state.userTypes.map((type) => {
                                     return (<CheckBox key={Math.random()}
-                                                      checkUserType={checkUserType}  {...type} />)
+                                                      checkUserType={this.checkUserType}  {...type} />)
                                 })}
                         </ul>
 
                         <div className={orderModalStyle.Duration}>
                             <p>Duration:
                                 <span>
-                                    {calculateTotalTime()}
+                                    {this.calculateTotalTime()}
                                 </span>
                             </p>
                         </div>
@@ -201,14 +227,15 @@ const OrderModal: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            <div onClick={onClickOrder} style={{marginBottom: '10px'}}>
+            <div onClick={this.onClickOrder} style={{marginBottom: '10px'}}>
                 <Button text='Order'/>
             </div>
             <div className={orderModalStyle.Alert}>
-                <Alert msg={msgAlert} type='danger' show={showAlert}/>
+                <Alert msg={this.state.msgAlert} type={this.state.typeAlert} show={this.state.showAlert}/>
             </div>
         </div>
     )
+ }
 }
 
 export default OrderModal;

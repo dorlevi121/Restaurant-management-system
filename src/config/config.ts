@@ -3,11 +3,17 @@ export const numberOfCookingStands: number = 2;
 export const numberOfMessengers = 2;
 export const deliveryTime = 5;
 export const initialBudget = 50;
-export const initialIngredients: {[title:string]: number} = {};
+export const initialIngredientsQuantity: {[title:string]: number} = {};
+export const initialIngredientsPrice: {[title:string]: number} = {};
 
-initialIngredients['cucumber']= 5;
-initialIngredients['tomato']= 5;
-initialIngredients['cheese']= 5;
-initialIngredients['meat']= 5;
-initialIngredients['lettuce']= 5;
+initialIngredientsQuantity['cucumber']= 5;
+initialIngredientsQuantity['tomato']= 5;
+initialIngredientsQuantity['cheese']= 5;
+initialIngredientsQuantity['meat']= 5;
+initialIngredientsQuantity['lettuce']= 5;
 
+initialIngredientsPrice['cucumber']= 1;
+initialIngredientsPrice['tomato']= 1;
+initialIngredientsPrice['cheese']= 2;
+initialIngredientsPrice['meat']= 3;
+initialIngredientsPrice['lettuce']= 1;

@@ -1,7 +1,6 @@
-import burgerImg from '../assets/dishesImg/burger.png';
-import pizzaImg from '../assets/dishesImg/pizza.png';
 import {DishInterface, priceCalculation, timeCalculation} from "../models/system/dish.model";
 import * as Ingredients from '../models/system/ingredients.model';
+import { burgerImg, pizzaImg } from './images';
 
 const menu: DishInterface[] = [
     {

@@ -9,11 +9,10 @@
   display: inline-block;
   border: none;
   cursor: pointer;
-  transition: all 0.4s;
 
   :hover {
     letter-spacing: 1px;
-    transition: all 0.4s;
+    transition: all 0.2s ease-in-out;
   }
 
 }
