@@ -6,8 +6,7 @@ import Queue from "../component/queue/queue.dashboard";
 import {getAllOrders} from "../../../store/orders/order.selectors";
 import {OrderState} from "../../../store/orders/order.types";
 import Kitchen from "../component/kitchen/kitchen.dashboard";
-import {getDishesInKitchen, getItemsInDelivery, getItemsInQueue
-} from "../../../store/queue/queue.selectors";
+import {getDishesInKitchen, getItemsInDelivery, getItemsInQueue} from "../../../store/queue/queue.selectors";
 import {OrderInterface} from "../../../models/system/order.model";
 import {addNewOrderToCancel} from "../../../store/orders/orders.actions";
 import {DishInterface} from "../../../models/system/dish.model";
@@ -17,13 +16,15 @@ import DashboardModal from "../../../models/UI/modal/dashboard/modal-dashboard.m
 import Delivery from "../component/delivery/delivery.dashboard";
 import {getIngredientsQuantity} from "../../../store/storage/storage.selectors";
 import {IngredientInterface} from "../../../models/system/ingredients.model";
-import {refillIngredients, returnIngredients, updateBudget} from "../../../store/storage/storage.actions";
+import {returnIngredients, updateBudget} from "../../../store/storage/storage.actions";
 import {ItemInterface} from "../../../models/system/item.model";
 import {QueueState} from "../../../store/queue/queue.types";
+import Alert from "../../../models/UI/alert/alert";
 
 interface State {
     showModal: boolean,
-    orderClicked: OrderInterface | null
+    orderClicked: OrderInterface | null,
+    showAlert: boolean
 }
 
 interface OwnProps {
@@ -50,6 +51,7 @@ type AllProps = OwnProps
 class Dashboard extends Component<AllProps, State> {
     state: State = {
         showModal: false,
+        showAlert: false,
         orderClicked: null
     }
 
@@ -61,6 +63,10 @@ class Dashboard extends Component<AllProps, State> {
             });
             this.props.updateBudget(this.props.getAllOrders[orderId].price, 'reduce');
             this.props.cancelOrder(orderId);
+            this.setState({showAlert: true});
+            setTimeout(() => {
+                this.setState({showAlert: false});
+            }, 4000);
         }
     }
 
@@ -70,7 +76,7 @@ class Dashboard extends Component<AllProps, State> {
 
     onOrderClick = (item: ItemInterface): void => {
         console.log(item.orderId);
-        
+
         if (item.orderId === null) return;
         this.setState({
             orderClicked: this.props.getAllOrders[item.orderId], showModal: true
@@ -88,9 +94,12 @@ class Dashboard extends Component<AllProps, State> {
         return orders;
     }
 
-    render() {        
+    render() {
         return (
             <div className={dashboardStyle.Dashboard}>
+                <div className={dashboardStyle.Alert}>
+                    <Alert msg={'Order Canceled'} type='success' show={this.state.showAlert}/>
+                </div>
                 <Modal show={this.state.showModal} closeModal={this.changeModalView}>
                     <DashboardModal
                         order={this.state.orderClicked}

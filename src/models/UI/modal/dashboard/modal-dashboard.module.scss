@@ -1,0 +1,21 @@
+.Main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .Content {
+    .Dishes {
+      font-weight: 600;
+
+      .Dish {
+        font-weight: 300;
+        margin-left: 5%;
+      }
+    }
+  }
+
+
+  .Button {
+    margin: auto;
+  }
+}

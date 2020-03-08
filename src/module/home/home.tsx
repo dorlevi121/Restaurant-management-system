@@ -3,9 +3,9 @@ import HomeStyle from "./home.module.scss";
 
 const Home: React.FC = () => (
   <div className={HomeStyle.Home}>
-    <div className={HomeStyle.MainButton}>
-      <a href="/order">Order Now</a>
-    </div>
+    <a href="/order" className={HomeStyle.MainButton}>
+      <p >Order Now</p>
+    </a>
   </div>
 );
 

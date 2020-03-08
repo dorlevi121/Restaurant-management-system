@@ -21,13 +21,6 @@
       justify-content: space-between;
     }
 
-    .DishTitle {
-      height: 10%;
-    }
-
-    .DishPrice {
-      height: 10%;
-    }
 
     .typesNtime {
       text-align: left;
@@ -53,6 +46,23 @@
   & .Label {
     p {
       display: inline;
+    }
+  }
+
+  .DishTitle {
+    height: 10%;
+  }
+
+  .Cancel {
+    .CancelDish {
+      height: 10%;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .DishPrice {
+      height: 10%;
+      align-self: start;
     }
   }
 
@@ -104,6 +114,7 @@
     @media (max-height: 800px) {
       margin-top: 20%;
     }
+
     .Ingredient {
       display: flex;
       flex-direction: column;
@@ -113,6 +124,7 @@
       & p {
         margin: 0;
         text-align: center;
+
         & img {
           height: 10%;
           width: 10%;

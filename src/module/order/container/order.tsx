@@ -1,34 +1,25 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import OrderStyle from "./order.module.scss";
 import Dishes from "../component/dishes/dishes.component";
 import menu from "../../../constants/allDishes";
-import { Dispatch } from "redux";
-import { OrderState } from "../../../store/orders/order.types";
-import {
-  getAllOrders,
-  getOrdersNumber
-} from "../../../store/orders/order.selectors";
-import { OrderInterface } from "../../../models/system/order.model";
-import { UserType } from "../../../models/system/user-type.enum";
-import { DishInterface } from "../../../models/system/dish.model";
-import {
-  addNewOrderToQueue,
-  removeOrderFromQueue
-} from "../../../store/orders/orders.actions";
+import {Dispatch} from "redux";
+import {OrderState} from "../../../store/orders/order.types";
+import {getAllOrders, getOrdersNumber} from "../../../store/orders/order.selectors";
+import {OrderInterface} from "../../../models/system/order.model";
+import {UserType} from "../../../models/system/user-type.enum";
+import {DishInterface} from "../../../models/system/dish.model";
+import {addNewOrderToQueue, removeOrderFromQueue} from "../../../store/orders/orders.actions";
 import Notifications from "../../../models/UI/notifications/notifications";
 import Modal from "../../../models/UI/modal/modal";
 import OrderModal from "../../../models/UI/modal/order/modal-order.modal";
 import composition from "../../../utils/composition";
-import { connect } from "react-redux";
-import { cloneDeep, uniqueId } from "lodash";
+import {connect} from "react-redux";
+import {cloneDeep, uniqueId} from "lodash";
 import Alert from "../../../models/UI/alert/alert";
-import { getIngredientsQuantity } from "../../../store/storage/storage.selectors";
-import { StorageState } from "../../../store/storage/storage.types";
-import { IngredientInterface } from "../../../models/system/ingredients.model";
-import {
-  removeIngredients,
-  updateBudget
-} from "../../../store/storage/storage.actions";
+import {getIngredientsQuantity} from "../../../store/storage/storage.selectors";
+import {StorageState} from "../../../store/storage/storage.types";
+import {IngredientInterface} from "../../../models/system/ingredients.model";
+import {removeIngredients, updateBudget} from "../../../store/storage/storage.actions";
 import Loading from "../../../models/UI/loading/loading";
 
 interface State {
@@ -40,7 +31,8 @@ interface State {
   orderToModal: OrderInterface | null;
 }
 
-interface OwnProps {}
+interface OwnProps {
+}
 
 interface PropsFromState {
   getAllOrders: any;
@@ -84,7 +76,7 @@ class OrderComponent extends Component<AllProps, State> {
       showModal: false
     });
     setTimeout(() => {
-      this.setState({ loading: false });
+      this.setState({loading: false});
     }, 2500);
     this.props.addNewOrderToQueue(dishes, userType);
   };
@@ -104,8 +96,7 @@ class OrderComponent extends Component<AllProps, State> {
             return;
           }
           ingCounter[i.title]--;
-        }
-      });
+        }});
     });
     if (!ans) return ans;
     //Check if there are more ingredients in the order than there are in the stock
@@ -126,11 +117,11 @@ class OrderComponent extends Component<AllProps, State> {
       i.amountInDish++;
       i.myDishId = dish.id;
     });
-    this.setState({ dishes: [...this.state.dishes, dish] });
+    this.setState({dishes: [...this.state.dishes, dish]});
   };
 
   changeModalView = (): void => {
-    this.setState({ showModal: !this.state.showModal });
+    this.setState({showModal: !this.state.showModal});
   };
 
   changeAlertView = (msg: string) => {
@@ -139,7 +130,7 @@ class OrderComponent extends Component<AllProps, State> {
       msgAlert: msg
     });
     setTimeout(() => {
-      this.setState({ showAlert: false });
+      this.setState({showAlert: false});
     }, 4000);
   };
 
@@ -154,43 +145,43 @@ class OrderComponent extends Component<AllProps, State> {
   render() {
     const loading = this.state.loading;
     return (
-      <div className={OrderStyle.OrderBody}>
-        <div className={OrderStyle.Alert}>
-          <Alert
-            msg={this.state.msgAlert}
-            type={"danger"}
-            show={this.state.showAlert}
-          />
-        </div>
-
-        {loading && (
-          <div className={OrderStyle.Loading}>
-            <Loading />
-          </div>
-        )}
-        <div
-          className={OrderStyle.Notification}
-          onClick={this.onNotificationClicked}
-        >
-          <Notifications
-            notificationsNumber={this.state.dishes.length}
-            title="Cart"
-          />
-        </div>
-
-        <div className={OrderStyle.Order}>
-          <Modal show={this.state.showModal} closeModal={this.changeModalView}>
-            <OrderModal
-              dishes={this.state.dishes}
-              onOrderClick={this.addOrderToQueue}
+        <div className={OrderStyle.OrderBody}>
+          <div className={OrderStyle.Alert}>
+            <Alert
+                msg={this.state.msgAlert}
+                type={"danger"}
+                show={this.state.showAlert}
             />
-          </Modal>
+          </div>
 
-          <div className={OrderStyle.Dishes}>
-            <Dishes addNewDish={this.addNewDish} />
+          {loading && (
+              <div className={OrderStyle.Loading}>
+                <Loading/>
+              </div>
+          )}
+          <div
+              className={OrderStyle.Notification}
+              onClick={this.onNotificationClicked}
+          >
+            <Notifications
+                notificationsNumber={this.state.dishes.length}
+                title="Cart"
+            />
+          </div>
+
+          <div className={OrderStyle.Order}>
+            <Modal show={this.state.showModal} closeModal={this.changeModalView}>
+              <OrderModal
+                  dishes={this.state.dishes}
+                  onOrderClick={this.addOrderToQueue}
+              />
+            </Modal>
+
+            <div className={OrderStyle.Dishes}>
+              <Dishes addNewDish={this.addNewDish}/>
+            </div>
           </div>
         </div>
-      </div>
     );
   }
 }
@@ -203,17 +194,17 @@ const mapStateToProps = (state: OrderState | StorageState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addNewOrderToQueue: (dishes: DishInterface[], userType: UserType) =>
-    dispatch(addNewOrderToQueue(dishes, userType)),
+      dispatch(addNewOrderToQueue(dishes, userType)),
   removeIngredients: (ingredients: IngredientInterface[]) =>
-    dispatch(removeIngredients(ingredients)),
+      dispatch(removeIngredients(ingredients)),
   updateBudget: (amount: number, action: "add" | "reduce") =>
-    dispatch(updateBudget(amount, action))
+      dispatch(updateBudget(amount, action))
 });
 
 const Order = composition<OwnProps>(
-  // @ts-ignore
-  OrderComponent,
-  connect(mapStateToProps, mapDispatchToProps)
+    // @ts-ignore
+    OrderComponent,
+    connect(mapStateToProps, mapDispatchToProps)
 );
 
 export default Order;

@@ -17,15 +17,15 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     transition: transform 0.2s linear;
     cursor: pointer;
+    text-decoration: none;
 
-    a {
-      font-family: "Raleway", sans-serif;
+    p {
+      font-family: sans-serif;
       font-size: 2.2rem;
       font-weight: 700;
       transition: transform 0.2s linear;
       opacity: 0.9;
       color: #254e70;
-      text-decoration: none;
     }
   }
 }

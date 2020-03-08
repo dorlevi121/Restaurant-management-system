@@ -7,21 +7,14 @@ export const deliveryTime = 60;
 export const initialBudget = 50;
 export const initialIngredientsQuantity: {[title:string]: number} = {};
 export const initialIngredientsPrice: {[title:string]: number} = {};
-export const initialIngredients: {[title:string]: IngredientInterface} = {};
 
-// initialIngredients['cucumber']= Cu;
-// initialIngredients['tomato']= 5;
-// initialIngredients['cheese']= 5;
-// initialIngredients['meat']= 5;
-// initialIngredients['lettuce']= 5;
-
-initialIngredientsQuantity['cucumber']= 5;
-initialIngredientsQuantity['tomato']= 5;
-initialIngredientsQuantity['cheese']= 5;
-initialIngredientsQuantity['meat']= 5;
-initialIngredientsQuantity['lettuce']= 5;
-initialIngredientsQuantity['rice']= 5;
-initialIngredientsQuantity['salmon']= 5;
+initialIngredientsQuantity['cucumber']= 15;
+initialIngredientsQuantity['tomato']= 15;
+initialIngredientsQuantity['cheese']= 15;
+initialIngredientsQuantity['meat']= 15;
+initialIngredientsQuantity['lettuce']= 15;
+initialIngredientsQuantity['rice']= 15;
+initialIngredientsQuantity['salmon']= 15;
 
 initialIngredientsPrice['cucumber']= 1;
 initialIngredientsPrice['tomato']= 1;

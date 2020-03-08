@@ -33,6 +33,19 @@
     max-width: 80%;
     margin: auto;
   }
+
+  .Alert {
+    position: absolute;
+    height: 10%;
+    right: 0;
+    left: 0%;
+    top: -50%;
+    z-index: 1000;
+    @media (max-height: 800px) {
+      top: -40%;
+      left: 35%;
+    }
+  }
 }
 
 .Line {
