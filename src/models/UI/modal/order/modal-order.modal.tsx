@@ -184,7 +184,7 @@ class OrderModal extends Component<OwnProps, State> {
     }
 
     render() {
-        const show = this.state.showIngredient? {display: 'block'} : {display: 'none'}
+        const show = this.state.showIngredient ? {display: 'block'} : {display: 'none'}
         return (
             <div>
                 <div className={orderModalStyle.Boxes}>
@@ -199,7 +199,8 @@ class OrderModal extends Component<OwnProps, State> {
                                     id={i.toString()}
                                     type="checkbox"
                                 />
-                                <label onClick={()=>this.keepLabelOpen()} className={orderModalStyle.Label} htmlFor={i.toString()}>
+                                <label onClick={() => this.keepLabelOpen()} className={orderModalStyle.Label}
+                                       htmlFor={i.toString()}>
                                     <p className={orderModalStyle.DishTitle}>{dish.title}</p>
                                 </label>
                                 <div style={show} className={orderModalStyle.Ingredients}>

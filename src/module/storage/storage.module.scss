@@ -21,6 +21,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .Title {
+      display: flex;
+      align-items: center;
+      & p{
+        display: inline;
+        margin-left: 2%;
+        text-transform: capitalize;
+      }
+      & img {
+        width: 5%;
+      }
+    }
   }
 
   .Alert {

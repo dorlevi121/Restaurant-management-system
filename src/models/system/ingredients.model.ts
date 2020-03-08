@@ -1,4 +1,3 @@
-
 import { initialIngredientsPrice } from '../../config/config';
 import { lettuceImg, cheeseImg, tomatoImg, meatImg, cucumberImg, riceImg, salmonImg } from '../../constants/images';
 

@@ -1,6 +1,5 @@
 .Dish {
-
-  font-family: 'Raleway', sans-serif;
+  font-family: sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,14 +7,14 @@
   height: 100%;
   margin-top: -5vh;
   margin-bottom: 5vh;
-  
+
 
   & .TitleDish {
     font-size: 1rem;
     width: 100%;
     text-align: center;
     color: rgb(52, 72, 90);
-}
+  }
 
   & img {
     max-width: 100%;
@@ -28,7 +27,7 @@
     transition: all .2s linear;
     border-radius: 8px;
 
-    
+
   }
 
   & img:hover {
