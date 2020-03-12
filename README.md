@@ -19,10 +19,13 @@ Kitchen management system - That includes end time for dish preparation, dish co
 Shipping Management System - With Multiple Dynamic messengers.
 
 - ** Restaurant Stock:**
-Displays the amount of ingredients in the stock, the possibility of ordering new ingredients and what is the current restaurant budget.
-
+Displays the amount of ingredients in the stock, the possibility of ordering new ingredients and what is the current restaurant budget.  
+  
+Order Summary:  
 ![](https://github.com/dorlevi121/Restaurant-management-system/blob/master/readme-images/3.jpg)
+   
+Orders Preparation - Production:
+![](http://i.picasion.com/pic89/f45421178d28d81a67d1cd89a7298d8d.gif)
 
-[![Orders Preparation - Production:](Orders Preparation - Production: "Orders Preparation - Production:")](http://i.picasion.com/pic89/f45421178d28d81a67d1cd89a7298d8d.gif "Orders Preparation - Production:")
-
-[![Restaurant Stock ](Restaurant Stock  "Restaurant Stock ")](https://github.com/dorlevi121/Restaurant-management-system/blob/master/readme-images/rsz_19.jpg "Restaurant Stock ")
+Restaurant Stock:
+![](https://github.com/dorlevi121/Restaurant-management-system/blob/master/readme-images/rsz_19.jpg)
