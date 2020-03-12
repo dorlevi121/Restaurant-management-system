@@ -10,12 +10,12 @@ And open http://localhost:3000/ on your favorite browser.
 
 #### Functionality:  
 - **Food Order:**
-Presenting dishes to customer and option to order several different dishes.
+Presenting dishes to customer and option to order several different dishes.  
 Order Summary- Displays all customer order , order price and preparation time.
 
 - **Orders Preparation - Production:**
-Order management system - By customer type (member, VIP, standard).
-Kitchen management system - That includes end time for dish preparation, dish components and several active (dynamic) kitchen positions.
+Order management system - By customer type (member, VIP, standard).  
+Kitchen management system - That includes end time for dish preparation, dish components and several active (dynamic) kitchen positions.  
 Shipping Management System - With Multiple Dynamic messengers.
 
 - **Restaurant Stock:**
