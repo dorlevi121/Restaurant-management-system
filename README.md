@@ -3,7 +3,7 @@
 ### Installing:
 With npm: `$ npm install `
 ### Running:
-Simply run: `$ npm start `
+Simply run: `$ npm start `  
 And open http://localhost:3000/ on your favorite browser.
 ## About The Project
 **The purpose of the project was to build a restaurant management system.**
