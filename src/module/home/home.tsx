@@ -1,11 +1,12 @@
 import React from "react";
 import HomeStyle from "./home.module.scss";
+import { Link } from "react-router-dom";
 
 const Home: React.FC = () => (
   <div className={HomeStyle.Home}>
-    <a href="/order" className={HomeStyle.MainButton}>
+    <Link to="/order" className={HomeStyle.MainButton}>
       <p >Order Now</p>
-    </a>
+    </Link>
   </div>
 );
 
